@@ -1,0 +1,17 @@
+TRUNCATE `Alliance_quest`;
+INSERT INTO `Alliance_quest` (`id`,`country_id`,`step_id`,`name`,`desc1`,`alliance_quest_type`,`num_value`,`alliance_quest_reward`) VALUES ('1','0','1','640001','联盟成员参加城战%{num}次','1','25','1532001');
+INSERT INTO `Alliance_quest` (`id`,`country_id`,`step_id`,`name`,`desc1`,`alliance_quest_type`,`num_value`,`alliance_quest_reward`) VALUES ('2','0','2','640002','联盟成员为国家科技捐献资源%{num}次','2','2000','1532002');
+INSERT INTO `Alliance_quest` (`id`,`country_id`,`step_id`,`name`,`desc1`,`alliance_quest_type`,`num_value`,`alliance_quest_reward`) VALUES ('3','1','3','640003','本方阵营攻占洛阳','3','2001','1532003');
+INSERT INTO `Alliance_quest` (`id`,`country_id`,`step_id`,`name`,`desc1`,`alliance_quest_type`,`num_value`,`alliance_quest_reward`) VALUES ('4','2','3','640004','本方阵营攻占成都','3','2002','1532004');
+INSERT INTO `Alliance_quest` (`id`,`country_id`,`step_id`,`name`,`desc1`,`alliance_quest_type`,`num_value`,`alliance_quest_reward`) VALUES ('5','3','3','640005','本方阵营攻占建业','3','2003','1532005');
+INSERT INTO `Alliance_quest` (`id`,`country_id`,`step_id`,`name`,`desc1`,`alliance_quest_type`,`num_value`,`alliance_quest_reward`) VALUES ('6','0','4','640006','联盟成员参加城战并获胜%{num}次','4','10','1532006');
+INSERT INTO `Alliance_quest` (`id`,`country_id`,`step_id`,`name`,`desc1`,`alliance_quest_type`,`num_value`,`alliance_quest_reward`) VALUES ('7','0','5','640007','联盟成员在城战中参与击破城门%{num}次','5','15','1532007');
+INSERT INTO `Alliance_quest` (`id`,`country_id`,`step_id`,`name`,`desc1`,`alliance_quest_type`,`num_value`,`alliance_quest_reward`) VALUES ('8','0','6','640008','联盟成员在城战中使用主动技能%{num}次','6','20','1532008');
+INSERT INTO `Alliance_quest` (`id`,`country_id`,`step_id`,`name`,`desc1`,`alliance_quest_type`,`num_value`,`alliance_quest_reward`) VALUES ('9','0','7','640009','联盟成员在城战中击破敌方城池%{num}次','7','10','1532009');
+INSERT INTO `Alliance_quest` (`id`,`country_id`,`step_id`,`name`,`desc1`,`alliance_quest_type`,`num_value`,`alliance_quest_reward`) VALUES ('10','1','8','640010','本方阵营攻占襄阳','3','2004','1532010');
+INSERT INTO `Alliance_quest` (`id`,`country_id`,`step_id`,`name`,`desc1`,`alliance_quest_type`,`num_value`,`alliance_quest_reward`) VALUES ('11','2','8','640011','本方阵营攻占襄阳','3','2004','1532011');
+INSERT INTO `Alliance_quest` (`id`,`country_id`,`step_id`,`name`,`desc1`,`alliance_quest_type`,`num_value`,`alliance_quest_reward`) VALUES ('12','3','8','640012','本方阵营攻占襄阳','3','2004','1532012');
+INSERT INTO `Alliance_quest` (`id`,`country_id`,`step_id`,`name`,`desc1`,`alliance_quest_type`,`num_value`,`alliance_quest_reward`) VALUES ('13','0','9','640013','联盟成员参加城战并获胜%{num}次','4','15','1532013');
+INSERT INTO `Alliance_quest` (`id`,`country_id`,`step_id`,`name`,`desc1`,`alliance_quest_type`,`num_value`,`alliance_quest_reward`) VALUES ('14','0','10','640014','联盟成员在城战中参与击破城门%{num}次','5','20','1532014');
+INSERT INTO `Alliance_quest` (`id`,`country_id`,`step_id`,`name`,`desc1`,`alliance_quest_type`,`num_value`,`alliance_quest_reward`) VALUES ('15','0','11','640015','联盟成员在城战中使用主动技能%{num}次','6','25','1532015');
+INSERT INTO `Alliance_quest` (`id`,`country_id`,`step_id`,`name`,`desc1`,`alliance_quest_type`,`num_value`,`alliance_quest_reward`) VALUES ('16','0','12','640016','联盟成员在城战中击破敌方城池%{num}次','7','15','1532016');

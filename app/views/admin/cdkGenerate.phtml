@@ -1,0 +1,133 @@
+<style>
+.Wdate{
+	height:30px;
+	width:250px;
+}
+</style>
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">激活码生成</h1>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+
+<div class="row" id="orderFilterForm">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading"> 生成条件 </div>
+			<div class="panel-body">
+				<form method="POST">
+					<div class="form-group">
+						<label>语言版本</label>
+						<select class="form-control" id="cdkLang" style="width:250px;" defaultVal="">
+						<?php foreach($lang as $_k => $_lang){?>
+							<option value="<?php echo $_k?>"><?php echo $_lang?></option>
+						<?php }?>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>渠道</label>
+						<select class="form-control" id="cdkChannel" style="width:250px;" defaultVal="">
+						<?php foreach($channel as $_k => $_lang){?>
+							<option value="<?php echo $_k?>"><?php echo $_lang?></option>
+						<?php }?>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>类型</label>
+						<select class="form-control" id="cdkType" style="width:250px;" defaultVal="0">
+						<?php foreach($type as $_k => $_lang){?>
+							<option value="<?php echo $_k?>"><?php echo $_lang?></option>
+						<?php }?>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>礼包</label>
+						<select class="form-control" id="cdkDrop" style="width:250px;" defaultVal="0">
+						<?php foreach($drop as $_drop){?>
+							<option value="<?php echo $_drop['id']?>" ><?php echo $_drop['name']?></option>
+						<?php }?>
+						</select>
+						<?php foreach($drop as $_drop){?>
+						<div class="alert alert-success" id="cdkDropMemo_<?php echo $_drop['id']?>" style="display:none"><?php echo str_replace("\n", '<Br>', $_drop['memo'])?></div>
+						<?php }?>
+						<button onclick="window.open('/admin/cdkDropGenerate')" type="button" class="btn btn-danger">添加礼包</button>
+						<button onclick="window.open('/admin/cdkDropShow')" type="button" class="btn btn-primary">编辑礼包</button>
+					</div>
+					<div id="block_begintime" class="form-group">
+						<label>开始时间</label>
+						<input id="beginTime" placeholder="" class="form-control Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" defaultVal=""/>
+					</div>
+					<div id="block_endtime" class="form-group">
+						<label>结束时间</label>
+						<input id="endTime" placeholder="" class="form-control Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" defaultVal=""/>
+					</div>
+					<div class="form-group">
+						<label>兑换码前缀</label>
+						<input class="form-control" rows="3" placeholder="" id="cdkPre" maxlength="2" onKeyUp="value=value.replace(/[^a-zA-Z0-9]/g,'')"/>
+					</div>
+					<div class="form-group">
+						<label>生成数量</label>
+						<input class="form-control" rows="3" placeholder="" id="cdkNum"  onKeyUp="value=value.replace(/[^0-9]/g,'')"/>
+					</div>
+					<div class="form-group">
+						<label>备注</label>
+						<textarea class="form-control" rows="3" placeholder="" id="cdkMemo"></textarea>
+					</div>
+					<div class="col-lg-2">
+						<button onclick="cdkGenerateSubmit()" type="button" class="btn btn-primary btn-lg">生成</button>
+					</div>
+					<div class="col-lg-2">
+						<button onclick="resetForm()" type="button" class="btn btn-warning btn-lg">清空</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+
+<?php echo \Phalcon\Tag::javascriptInclude("js/My97DatePicker/WdatePicker.js"); ?>
+<script>
+$(document).ready(function(){
+	$("#cdkDrop").change(function(){
+		var v = $(this).val();
+		$("#cdkDrop").siblings('.alert').hide();
+		$("#cdkDropMemo_"+v).show();
+	}).change();
+	
+});
+
+
+function resetForm(){
+	$("#orderFilterForm").find('input,select,textarea').each(function(){
+		$(this).val($(this).attr('defaultVal'));
+	});
+}
+
+function cdkGenerateSubmit(){
+	showLoading();
+	send_request_json('/admin/ajaxCdkGenerate', 
+	{
+		cdkLang: $("#cdkLang").val(),
+		cdkChannel: $("#cdkChannel").val(),
+		cdkType: $("#cdkType").val(),
+		cdkDrop: $("#cdkDrop").val(),
+		beginTime: $("#beginTime").val(),
+		endTime: $("#endTime").val(),
+		cdkPre: $("#cdkPre").val(),
+		cdkNum: $("#cdkNum").val(),
+		cdkMemo: $("#cdkMemo").val()
+	}, 
+	function(ret){
+		if(ret.err == 'ok'){
+			alertOk('完成');
+			hideLoading();
+		}else{
+			alertErr(ret.err);
+			hideLoading();
+		}
+	});
+}
+
+</script>

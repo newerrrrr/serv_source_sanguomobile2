@@ -1,0 +1,302 @@
+<?php include APP_PATH . "/app/config/apilist.php";?>
+<?php
+//处理Interface-》addItem
+if(@$gApiList['post']['Interface']['addItem']){
+	$gApiList['post']['Interface']['addItem']['param']['itemId']['select'] = (new Item)->sqlGet('select id,desc1 as name from item where item_type>1');
+}
+//处理Interface-》addEquipMasterItem
+if(@$gApiList['post']['Interface']['addEquipMasterItem']){
+	$gApiList['post']['Interface']['addEquipMasterItem']['param']['itemId']['select'] = (new Item)->sqlGet('select id,desc1 as name from equip_master;');
+}
+
+?>
+<style>
+body *{font-family:微软雅黑;}
+#left{width:49%;position:absolute;top:55px;left:0}
+#right{width:50%;height:100%;position:absolute;top:50px;left:49%}
+#rightiframe{width:100%;height:100%;}
+.func{color:brown}
+.functitle{color:red}
+.param{width:75px;}
+.longtext {width: 190px !important;}
+.hrtitle{background:#555555;color:#eeeeee;padding:5px 0 5px 0;cursor:pointer;font-weight:bold;}
+.blockTitle{background:#333355;color:#eeeeee;padding:5px 0 5px 0;cursor:pointer;font-weight:bold;}
+.postformHighlight{background:#dddddd}
+</style>
+<?php echo \Phalcon\Tag::javascriptInclude("js/jquery/jquery-2.1.4.min.js"); ?>
+<script>
+var gHost = 'http://<?php echo $_SERVER['HTTP_HOST']?>';
+var gUrlData = gHost+'/data/index/';
+	function getData(obj){
+		getPlayerUuid(function(ret){
+			var uuid = ret.uuid;
+			var hashCode = ret.hashCode;
+			var func = obj.find(".func").html();
+			var d = {uuid: uuid, hashCode: hashCode, name: [func], param: {}};
+			d.param[func] = {};
+			obj.find(".param").each(function(v){
+				v = $(this);
+				d.param[func][v.attr('_name')] = v.val();
+			});
+			//console.log(d);
+			d = JSON.stringify(d);
+			var _url = gUrlData+'?json='+urlencode(d);
+			var url = gHost+'/interface/debugurl/?url='+urlencode(_url);
+			$("#righturl").html(_url);
+			//$("#righturl0").html(unescape(_url));
+			$("#rightiframe")[0].src = url;
+
+			$("#debugurl").val(_url.replace(gHost, ''));
+		});
+	}
+	
+	function getPost(obj){
+		getPlayerUuid(function(ret){
+			var uuid = ret.uuid;
+			var hashCode = ret.hashCode;
+			var func = obj.find(".func").html();
+			var d = {uuid: uuid, hashCode: hashCode};
+			obj.find(".param").each(function(v){
+				v = $(this);
+				//vv = escape(v.val());
+				vv = v.val();
+				if(vv != '' && -1 != $.inArray(vv.substr(0, 1), ['[', '{'])){
+					try{
+						d[v.attr('_name')] = JSON.parse(vv);
+						if(d[v.attr('_name')] == 'Infinity'){
+							throw exception;
+						}
+					}catch(e){
+						d[v.attr('_name')] = vv;
+					}
+				}else{
+					d[v.attr('_name')] = vv;
+				}
+			});
+			//console.log(d);
+			d = JSON.stringify(d);
+			var _url0 = gHost+'/'+func+'?json='+d;
+			var _url = gHost+'/'+func+'?json='+urlencode(d);
+			var url = gHost+'/interface/debugurl/?url='+urlencode(_url);
+			$("#righturl").html(_url0);
+			//$("#righturl0").html(unescape(_url));
+			$("#rightiframe")[0].src = url;
+			//$("#iframeform input[name='url']").val(_url);
+			//$("#iframeform").submit();
+			$("#debugurl").val(_url0.replace(gHost, ''));
+		});
+	}
+	
+	function goUrl(){
+		var v = $("#debugurl").val().replace(gHost, '');
+		var _url = gHost+v;
+		var url = gHost+'/interface/debugurl/?url='+urlencode(_url);
+		//$("#righturl0").html(unescape(_url));
+		$("#righturl").html(_url);
+		$("#rightiframe")[0].src = url;
+		$("#debugurl").val(_url.replace(gHost, ''));
+	}
+	
+	function getPlayerUuid(cb){
+		var puuid = 0;
+		var ptype = $("#playerType").val();
+		/*if(ptype == 2){
+			puuid = $("#playerValue").val();
+			_getPlayerUuid(puuid, cb);
+		}else if(ptype == 1){*/
+			var pid = $("#playerValue").val();
+			$.getJSON("/interface/getHashCode/"+ptype+'/'+pid, function(data){
+				if(data.err != ''){
+					alert(data.err);
+					return;
+				}
+				_getPlayerUuid(data, cb);
+			});
+		//}
+	}
+	
+	function _getPlayerUuid(data, cb){
+		cb(data);
+	}
+	
+	function clearCache(){
+		$("#rightiframe")[0].src = '/interface/clearCache';
+	}
+	
+	function toolClearPayStudyNum(){
+		$("#rightiframe")[0].src = '/interface/toolClearPayStudyNum/'+$("#playerType").val()+'/'+$("#playerValue").val();
+	}
+	function toolShowAppIni(){
+		$("#rightiframe")[0].src = '/interface/toolShowAppIni/';
+	}
+	
+	function clientSend(type){
+		$("#rightiframe")[0].src = '/interface/clientSend/'+$("#playerType").val()+'/'+$("#playerValue").val()+'/'+type;
+	}
+	
+	function jsonparse(data){
+		data = JSON.parse(data);
+		return _jsonparse(data);
+	}
+
+	function _jsonparse(data){
+		for(i in data){
+			if(typeof(data[i]) == 'array'){
+				data[i] = _jsonparse(data[i]);
+			}else{
+				data[i] = escape(data[i]);
+			}
+		}
+		return data;
+	}
+	
+	$(document).ready(function(){
+		$(".dataform .button").click(function(){
+			getData($(this).parent('.dataform'));
+			$(".postformHighlight").removeClass('postformHighlight');
+			$(this).closest(".dataform").addClass('postformHighlight');
+		});
+		$(".postform .button").click(function(){
+			getPost($(this).parent('.postform'));
+			$(this).closest('.block').siblings('.block').find('.blockContent').hide();
+			$("#block1").hide();
+			$(this).closest('.block').prependTo("#block2");
+			$(".postformHighlight").removeClass('postformHighlight');
+			$(this).closest(".postform").addClass('postformHighlight');
+		});
+	});
+
+	
+	function http_build_query(formdata, numeric_prefix, arg_separator) {
+	  var value, key, tmp = [],
+		that = this;
+
+	  var _http_build_query_helper = function(key, val, arg_separator) {
+		var k, tmp = [];
+		if (val === true) {
+		  val = '1';
+		} else if (val === false) {
+		  val = '0';
+		}
+		if (val != null) {
+		  if (typeof val === 'object') {
+			for (k in val) {
+			  if (val[k] != null) {
+				tmp.push(_http_build_query_helper(key + '[' + k + ']', val[k], arg_separator));
+			  }
+			}
+			return tmp.join(arg_separator);
+		  } else if (typeof val !== 'function') {
+			return that.urlencode(key) + '=' + that.urlencode(val);
+		  } else {
+			throw new Error('There was an error processing for http_build_query().');
+		  }
+		} else {
+		  return '';
+		}
+	  };
+
+	  if (!arg_separator) {
+		arg_separator = '&';
+	  }
+	  for (key in formdata) {
+		value = formdata[key];
+		if (numeric_prefix && !isNaN(key)) {
+		  key = String(numeric_prefix) + key;
+		}
+		var query = _http_build_query_helper(key, value, arg_separator);
+		if (query !== '') {
+		  tmp.push(query);
+		}
+	  }
+
+	  return tmp.join(arg_separator);
+}
+
+	function urlencode(str) {
+	  str = (str + '')
+		.toString();
+	  return encodeURIComponent(str)
+		.replace(/!/g, '%21')
+		.replace(/'/g, '%27')
+		.replace(/\(/g, '%28')
+		.
+	  replace(/\)/g, '%29')
+		.replace(/\*/g, '%2A')
+		.replace(/%20/g, '+');
+	}
+</script>
+<select id="playerType">
+	<option value="1">playerId</option>
+	<option value="2">playerUuid</option>
+	<option value="3">playerNick</option>
+	<option value="4">userCode</option>
+</select>
+<input id="playerValue" value=""/><br>
+url:<input id="debugurl" value="" style="width:40%"/><button onclick="goUrl()">go</button>
+<div id="left">
+	<button onclick="clearCache()">刷新缓存</button>
+	<button onclick="toolClearPayStudyNum()">学习栏位置零</button>
+	<button onclick="toolShowAppIni()">Show app.ini</button>
+	<hr>
+	客户端推送<br>
+	<button onclick="clientSend('newMail')">新邮件</button>
+	
+	<hr>
+	<div class="hrtitle" onclick="$('#block1').slideToggle();">数据包</div><br>
+	<div id="block1">
+	<?php foreach($gApiList['data'] as $_name => $_data){?>
+	<div class="dataform">
+		[<span class="func"><?php echo $_name?></span>]<span class="functitle"><?php echo $_data['name']?></span>
+		<?php if(@$_data['param']){?>
+		<?php foreach($_data['param'] as $_key => $_param){?>
+		<?php echo $_key?>=<input id="xinput_<?php echo $_name?>_<?php echo $_data['name']?>_<?php echo $_key?>" class="param" _name="<?php echo $_key?>" title="<?php echo $_param['title']?>" value="<?php echo $_param['default']?>"/>
+		<?php }?>
+		<?php }?>
+		<button class="button">提交</button>
+	</div>
+	<?php }?>
+	</div>
+	<hr>
+	<div class="hrtitle" onclick="$('#block2').slideToggle();">接口</div><br>
+	<div id="block2">
+	<?php foreach($gApiList['post'] as $_k => $_v){?>
+		<div class="block">
+			<div class="blockTitle" onclick="$(this).next('.blockContent').slideToggle();"><?php echo $_k?><?php echo ($_k=='Interface' ? '<font color=red>（仅用于线下调试）</font>' : '')?></div>
+			<div class="blockContent">
+			<?php foreach($_v as $_name => $_data){?>
+			<div class="postform">
+				[<span class="func"><?php echo $_k.'/'.$_name?></span>]<span class="functitle"><?php echo $_data['name']?></span>
+				<?php if(@$_data['param']){?>
+				<?php foreach($_data['param'] as $_key => $_param){?>
+					<?php echo $_key?>=
+					<?php if(@$_param['select']){?>
+					<select id="xinput_<?php echo $_k?>_<?php echo $_name?>_<?php echo $_key?>" class="param longtext" _name="<?php echo $_key?>" title="<?php echo $_param['title']?>">
+						<?php foreach($_param['select'] as $_s){?>
+						<option value="<?php echo $_s['id']?>" <?php echo ($_s['id'] == $_param['default'] ? 'selected' : '')?>><?php echo ('['.$_s['id'].']'.$_s['name'])?></option>
+						<?php }?>
+					</select>
+					<?php }elseif(@$_param['type'] == 'textarea'){?>
+					<textarea id="xinput_<?php echo $_k?>_<?php echo $_name?>_<?php echo $_key?>" class="param" _name="<?php echo $_key?>" title="<?php echo $_param['title']?>" ><?php echo $_param['default']?></textarea>
+					<?php }else{?>
+					<input id="xinput_<?php echo $_k?>_<?php echo $_name?>_<?php echo $_key?>" class="param" _name="<?php echo $_key?>" title="<?php echo $_param['title']?>" value="<?php echo $_param['default']?>"/>
+					<?php }?>
+				<?php }?>
+				<?php }?>
+				<button class="button">提交</button>
+			</div>
+			<?php }?>
+			</div>
+		<br>
+		</div>
+	<?php }?>
+	</div>
+</div>
+<div id="right">
+	<!--<div id="righturl0" style="border:1px solid black"></div>-->
+	<div id="righturl" style="border:1px solid black"></div>
+	<iframe name="rightiframe" id="rightiframe"></iframe>
+</div>
+<!--<form name="iframeform" id="iframeform" action="/interface/debugurl/" target="rightiframe" style="display:none" method="post">
+	<input name="url" />
+</form>-->

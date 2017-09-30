@@ -1,0 +1,11 @@
+TRUNCATE `Quick_money`;
+INSERT INTO `Quick_money` (`id`,`drop`,`cost_id`) VALUES ('1','1100001','501');
+INSERT INTO `Quick_money` (`id`,`drop`,`cost_id`) VALUES ('2','1100002','501');
+INSERT INTO `Quick_money` (`id`,`drop`,`cost_id`) VALUES ('3','1100003','501');
+INSERT INTO `Quick_money` (`id`,`drop`,`cost_id`) VALUES ('4','1100004','501');
+INSERT INTO `Quick_money` (`id`,`drop`,`cost_id`) VALUES ('5','1100005','501');
+INSERT INTO `Quick_money` (`id`,`drop`,`cost_id`) VALUES ('6','1100006','501');
+INSERT INTO `Quick_money` (`id`,`drop`,`cost_id`) VALUES ('7','1100007','501');
+INSERT INTO `Quick_money` (`id`,`drop`,`cost_id`) VALUES ('8','1100008','501');
+INSERT INTO `Quick_money` (`id`,`drop`,`cost_id`) VALUES ('9','1100009','501');
+INSERT INTO `Quick_money` (`id`,`drop`,`cost_id`) VALUES ('10','1100010','501');

@@ -1,0 +1,1 @@
+-- INSERT UPDATE sql for 'Alliance_starting';

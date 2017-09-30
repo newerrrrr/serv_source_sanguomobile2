@@ -1,0 +1,16 @@
+-- INSERT UPDATE sql for 'Alliance_Match_chest_drop';
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('1','1','52106','3') ON DUPLICATE KEY UPDATE `id` = '1',`rank` = '1',`item_id` = '52106',`max_count` = '3';
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('2','1','52107','3') ON DUPLICATE KEY UPDATE `id` = '2',`rank` = '1',`item_id` = '52107',`max_count` = '3';
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('3','1','52108','3') ON DUPLICATE KEY UPDATE `id` = '3',`rank` = '1',`item_id` = '52108',`max_count` = '3';
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('4','2','52106','2') ON DUPLICATE KEY UPDATE `id` = '4',`rank` = '2',`item_id` = '52106',`max_count` = '2';
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('5','2','52107','3') ON DUPLICATE KEY UPDATE `id` = '5',`rank` = '2',`item_id` = '52107',`max_count` = '3';
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('6','2','52108','4') ON DUPLICATE KEY UPDATE `id` = '6',`rank` = '2',`item_id` = '52108',`max_count` = '4';
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('7','3','52106','1') ON DUPLICATE KEY UPDATE `id` = '7',`rank` = '3',`item_id` = '52106',`max_count` = '1';
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('8','3','52107','4') ON DUPLICATE KEY UPDATE `id` = '8',`rank` = '3',`item_id` = '52107',`max_count` = '4';
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('9','3','52108','4') ON DUPLICATE KEY UPDATE `id` = '9',`rank` = '3',`item_id` = '52108',`max_count` = '4';
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('10','4','52106','1') ON DUPLICATE KEY UPDATE `id` = '10',`rank` = '4',`item_id` = '52106',`max_count` = '1';
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('11','4','52107','3') ON DUPLICATE KEY UPDATE `id` = '11',`rank` = '4',`item_id` = '52107',`max_count` = '3';
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('12','4','52108','3') ON DUPLICATE KEY UPDATE `id` = '12',`rank` = '4',`item_id` = '52108',`max_count` = '3';
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('13','5','52106','1') ON DUPLICATE KEY UPDATE `id` = '13',`rank` = '5',`item_id` = '52106',`max_count` = '1';
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('14','5','52107','2') ON DUPLICATE KEY UPDATE `id` = '14',`rank` = '5',`item_id` = '52107',`max_count` = '2';
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('15','5','52108','2') ON DUPLICATE KEY UPDATE `id` = '15',`rank` = '5',`item_id` = '52108',`max_count` = '2';

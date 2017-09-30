@@ -1,0 +1,1 @@
+TRUNCATE `Alliance_build`;

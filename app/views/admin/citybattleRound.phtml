@@ -1,0 +1,109 @@
+<style>
+#dataTable1{
+	background:white;
+}
+#dataTable1 th{
+	width:150px;
+}
+#dataTable1 td{
+	/*word-wrap:break-word;
+	word-break:break-all;*/
+}
+#detailInfoModal .form-control{
+	word-wrap:break-word;
+	word-break:break-all;
+	height:auto;
+}
+
+.Wdate{
+	height:30px;
+	width:250px;
+}
+#dataTable1_filter{
+	display:none;
+}
+</style>
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">届列表</h1>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+
+<div class="row" id="orderFilterForm">
+	<div class="col-lg-12">
+		<div class="panel panel-danger">
+			<div class="panel-heading"> 筛选 </div>
+			<div class="panel-body">
+				<form method="POST">
+					<div class="form-group">
+						<label>类型</label>
+						<select class="form-control" id="cbStatus" style="width:250px;" defaultVal="0">
+							<option value="0">所有</option>
+							<option value="1">进行中</option>
+							<option value="2">历史</option>
+						</select>
+					</div>
+					<div class="col-lg-2">
+						<button onclick="findSubmit()" type="button" class="btn btn-primary btn-lg">查找</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading"> 列表 </div>
+			<div class="panel-body">
+				<table width="100%" class="table table-striped table-bordered table-hover" id="dataTable1">
+					<thead>
+					<tr>
+						<th>编号</th>
+						<th>状态</th>
+						<th>创建时间</th>
+						<th>操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<?php echo \Phalcon\Tag::javascriptInclude("js/My97DatePicker/WdatePicker.js"); ?>
+<script>
+var gTable1;
+$(document).ready(function(){
+    gTable1 = $('#dataTable1').DataTable({
+		"autoWidth": false,
+		"processing": true,
+        "serverSide": true,
+        "ajax": {
+            "url": "/admin/ajaxCitybattleRound",
+			"type": "POST",
+            "data": function ( d ) {
+				d.status = $("#cbStatus").val();
+            }
+        },
+		"columns": [
+            { "data": "id" },
+			{ "data": "status" },
+			{ "data": "create_time" },
+			{ "data": "operation" },
+        ],
+		"pageLength": 25
+	});
+});
+
+
+function findSubmit(){
+	gTable1.draw();
+}
+</script>

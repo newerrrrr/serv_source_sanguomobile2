@@ -1,0 +1,2 @@
+-- INSERT UPDATE sql for 'Duel_initdata';
+INSERT INTO `Duel_initdata` (`id`,`default_num`,`battle_cost`,`base_rank_point`,`season_time`,`duel_close_time`,`protect_score`,`robot_count`) VALUES ('1','5','128','60','10','2','3000','2') ON DUPLICATE KEY UPDATE `id` = '1',`default_num` = '5',`battle_cost` = '128',`base_rank_point` = '60',`season_time` = '10',`duel_close_time` = '2',`protect_score` = '3000',`robot_count` = '2';

@@ -1,0 +1,131 @@
+<style>
+.Wdate{
+	height:30px;
+	width:250px;
+}
+</style>
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">清redis缓存</h1>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+<div class="row">
+	<?php
+	?>
+</div>
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="well">
+					<label onclick="L.change();">
+						<input type="radio" name="selectAll" value="1"> 全选
+						</label>
+					<label onclick="L.change();">
+						<input type="radio" name="selectAll" value="2"> 反选
+					</label>
+					<br>
+					<?php
+					foreach($serverList as $v):
+					?>
+					<label>
+						<input type="checkbox" value="<?=$v['id']?>" class="checkbox1"> <?=$v['areaName'].'|'.$v['name']?>
+					</label>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<?php
+					endforeach;
+					?>
+				</div>
+				<div class="well">
+				<?php
+				foreach($redisIndex as $k=>$v):
+					$kk = $k . '|';
+					switch($k) {
+						case 'cache':
+							$kk .= '玩家相关';
+							break;
+						case 'static':
+							$kk .= '静态数据，字典表';
+							break;
+						case 'server':
+							$kk .= '长连接里的缓存';
+							break;
+						case 'bufftemp':
+							$kk .= 'buff_temp表缓存';
+							break;
+						case 'chat':
+							$kk .= '聊天信息';
+							break;
+						case 'dispatcher':
+							$kk .= 'dispatcher脚本';
+							break;
+						case 'map':
+							$kk .= '地图数据相关';
+							break;
+
+					}
+				?>
+				<label>
+					<input type="checkbox" value="<?=$k?>" class="checkbox2"> <?=$kk?>
+				</label>
+				<br>
+				<?php
+				endforeach;
+				?>
+				</div>
+				<br>
+				<button type="button" class="btn btn-danger" onclick="L.clear()">清除</button>
+			</div>
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<script>
+	var L = {};
+	L.server = [];
+	L.index = [];
+	L.change = function(){
+		var val = $("input:radio[name=selectAll]:checked").val();
+		if(val==1) {
+			$('.checkbox1').each(function (k, v) {
+				v.checked = 'checked';
+			});
+		}
+		else if(val==2) {
+			$('.checkbox1').each(function (k, v) {
+				if(v.checked) {
+					v.checked = '';
+				} else {
+					v.checked = 'checked';
+				}
+			});
+		}
+	};
+	L.clear = function(){
+		L.server = [];
+		$('.checkbox1').each(function (k, v) {
+			if(v.checked) {
+				L.server.push(v.value);
+			}
+		});
+		L.index = [];
+		$('.checkbox2').each(function (k, v) {
+			if(v.checked) {
+				L.index.push(v.value);
+			}
+		});
+		if(L.server && L.index) {
+			$.post('/admin/ajaxClearServerCache', {"server":L.server,"index":L.index}, function(o){
+				alertOk('清除成功');
+			});
+		}
+	};
+    function flushPage(){
+        location.reload();
+    }
+</script>

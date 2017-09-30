@@ -1,0 +1,7 @@
+1 脚本配置文件
+/usr/local/php/bin/php /opt/htdocs/sanguomobile2/app/cli.php
+
+2 php.ini 
+允许的变量最大长度
+max_input_vars = 10000
+

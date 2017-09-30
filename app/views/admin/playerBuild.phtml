@@ -1,0 +1,78 @@
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">建筑信息</h1>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading"> 操作 </div>
+			<div class="panel-body">
+				<button class="btn btn-warning btn-xs" type="button" onclick="quickBuildLvup()">一键升级</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading"> 建筑 </div>
+			<div class="panel-body">
+				<table width="100%" class="table table-striped table-bordered table-hover" id="dataTable1">
+					<thead>
+					<tr>
+						<th>建筑名称</th>
+						<th>等级</th>
+						<th>位置</th>
+						<th>状态</th>
+						<th>驻守武将</th>
+					</tr>
+					</thead>
+					<tbody>
+					<?php foreach($pb as $_pb){
+						?>
+					<tr>
+						<td><?php echo $build[$_pb['build_id']]['desc1']?>(<?php echo $_pb['build_id']?>)</td>
+						<td><?php echo $_pb['build_level']?></td>
+						<td><?php echo $_pb['position']?></td>
+						<td><?php echo [1=>'正常', 2=>'升级中', 3=>'使用中'][$_pb['status']]?></td>
+						<td><?php echo ($_pb['general_id_1'] ? $general[$_pb['general_id_1']]['desc1'].'('.$_pb['general_id_1'].')' : '')?></td>
+					</tr>
+					<?php }?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+
+<script>
+$(document).ready(function(){
+    $('#dataTable1').DataTable({
+		"pageLength": 50
+	});
+});
+
+function quickBuildLvup(){
+	var playerId = '<?php echo $playerId?>';
+	var lv = prompt('请输入目标等级', 50);
+	if(null != lv && '' != lv){
+		if(confirm('确认一键将所有建筑升至'+lv+'级？')){
+			send_request_json('/admin/ajaxQuickBuildLvup', 
+				{'playerId': playerId, 'lv': lv}, 
+				function(ret){
+				if(ret.err == 'ok'){
+					alertOk('升级成功', function(){
+						location.reload();
+					});
+				}else{
+					alertErr(ret.err);
+				}
+			});
+		}
+	}
+}
+</script>

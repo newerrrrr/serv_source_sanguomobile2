@@ -1,0 +1,112 @@
+<style>
+.Wdate{
+	height:30px;
+	width:250px;
+}
+</style>
+
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">元宝消耗日志</h1>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+
+<div class="row" id="orderFilterForm">
+	<div class="col-lg-6">
+		<div class="panel panel-danger">
+			<div class="panel-heading"> 筛选 </div>
+			<div class="panel-body">
+				<div id="block_begintime" class="form-group">
+					<label>开始时间</label>
+					<input id="beginTime" placeholder="" class="form-control Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" defaultVal=""/>
+				</div>
+				<div id="block_endtime" class="form-group">
+					<label>结束时间</label>
+					<input id="endTime" placeholder="" class="form-control Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" defaultVal=""/>
+				</div>
+				<div id="block_type" class="form-group">
+					<label>类型</label>
+					<select class="form-control" id="logType" style="width:250px;" defaultVal="0">
+						<option value="0">所有</option>
+						<?php foreach($cost as $_k => $_t){?>
+						<option value="<?php echo $_t['id']?>"><?php echo $_t['id']?> - <?php echo $_t['desc1']?></option>
+						<?php }?>
+					</select>
+				</div>
+				<div class="col-lg-2">
+					<button onclick="findSubmit()" type="button" class="btn btn-primary btn-lg">筛选</button>
+				</div>
+				<div class="col-lg-2">
+					<button onclick="resetForm()" type="button" class="btn btn-warning btn-lg">清空</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading"> 元宝消耗日志 </div>
+			<div class="panel-body">
+				<table width="100%" class="table table-striped table-bordered table-hover" id="dataTable1">
+					<thead>
+					<tr>
+						<th>编号</th>
+						<th>消耗类型</th>
+						<th>收费元宝</th>
+						<th>免费元宝</th>
+						<th>备注</th>
+						<th>时间</th>
+					</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<?php echo \Phalcon\Tag::javascriptInclude("js/My97DatePicker/WdatePicker.js"); ?>
+<script>
+var gTable1;
+$(document).ready(function(){
+    gTable1 = $('#dataTable1').DataTable({
+		"processing": true,
+        "serverSide": true,
+        "ajax": {
+            "url": "/admin/ajaxLogGemConsume",
+			"type": "POST",
+            "data": function ( d ) {
+                d.playerId = "<?php echo $playerId?>";
+				d.beginTime = $("#beginTime").val();
+				d.endTime = $("#endTime").val();
+				d.type = $("#logType").val();
+            }
+        },
+		"columns": [
+            { "data": "id" },
+            { "data": "cost_id" },
+            { "data": "rmb_gem" },
+            { "data": "gift_gem" },
+            { "data": "memo" },
+            { "data": "create_time" }
+        ],
+		"pageLength": 25
+	});
+	$("#dataTable1_filter input[type=search]").attr('title', '（）中内容不支持搜索');
+});
+
+function resetForm(){
+	$("#orderFilterForm").find('input,select,textarea').each(function(){
+		$(this).val($(this).attr('defaultVal'));
+	});
+}
+
+function findSubmit(){
+	gTable1.draw();
+}
+</script>

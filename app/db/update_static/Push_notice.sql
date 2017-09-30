@@ -1,0 +1,14 @@
+-- INSERT UPDATE sql for 'Push_notice';
+INSERT INTO `Push_notice` (`id`,`title`,`desc`) VALUES ('1','1','400001') ON DUPLICATE KEY UPDATE `id` = '1',`title` = '1',`desc` = '400001';
+INSERT INTO `Push_notice` (`id`,`title`,`desc`) VALUES ('2','1','400002') ON DUPLICATE KEY UPDATE `id` = '2',`title` = '1',`desc` = '400002';
+INSERT INTO `Push_notice` (`id`,`title`,`desc`) VALUES ('3','1','400003') ON DUPLICATE KEY UPDATE `id` = '3',`title` = '1',`desc` = '400003';
+INSERT INTO `Push_notice` (`id`,`title`,`desc`) VALUES ('4','1','400004') ON DUPLICATE KEY UPDATE `id` = '4',`title` = '1',`desc` = '400004';
+INSERT INTO `Push_notice` (`id`,`title`,`desc`) VALUES ('5','1','400005') ON DUPLICATE KEY UPDATE `id` = '5',`title` = '1',`desc` = '400005';
+INSERT INTO `Push_notice` (`id`,`title`,`desc`) VALUES ('6','2','400006') ON DUPLICATE KEY UPDATE `id` = '6',`title` = '2',`desc` = '400006';
+INSERT INTO `Push_notice` (`id`,`title`,`desc`) VALUES ('7','2','400007') ON DUPLICATE KEY UPDATE `id` = '7',`title` = '2',`desc` = '400007';
+INSERT INTO `Push_notice` (`id`,`title`,`desc`) VALUES ('8','3','400008') ON DUPLICATE KEY UPDATE `id` = '8',`title` = '3',`desc` = '400008';
+INSERT INTO `Push_notice` (`id`,`title`,`desc`) VALUES ('9','3','400009') ON DUPLICATE KEY UPDATE `id` = '9',`title` = '3',`desc` = '400009';
+INSERT INTO `Push_notice` (`id`,`title`,`desc`) VALUES ('10','4','400010') ON DUPLICATE KEY UPDATE `id` = '10',`title` = '4',`desc` = '400010';
+INSERT INTO `Push_notice` (`id`,`title`,`desc`) VALUES ('11','5','400011') ON DUPLICATE KEY UPDATE `id` = '11',`title` = '5',`desc` = '400011';
+INSERT INTO `Push_notice` (`id`,`title`,`desc`) VALUES ('12','5','400012') ON DUPLICATE KEY UPDATE `id` = '12',`title` = '5',`desc` = '400012';
+INSERT INTO `Push_notice` (`id`,`title`,`desc`) VALUES ('13','5','400013') ON DUPLICATE KEY UPDATE `id` = '13',`title` = '5',`desc` = '400013';

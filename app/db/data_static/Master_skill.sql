@@ -1,0 +1,10 @@
+TRUNCATE `Master_skill`;
+INSERT INTO `Master_skill` (`id`,`talent_id`,`icon`,`talent_text`,`desc1`,`cd`,`cdhour`,`duration`) VALUES ('100401','100401','','41007','|<#253,208,110#>（主动）|1小时内，所有军团速度+100%%，8小时冷却时间（集结时对盟友无效）。','28800','8','1');
+INSERT INTO `Master_skill` (`id`,`talent_id`,`icon`,`talent_text`,`desc1`,`cd`,`cdhour`,`duration`) VALUES ('101601','101601','','41030','|<#253,208,110#>（主动）|使用后，下次主动攻击时，己方阵亡士兵中的25%%转换为伤兵，20小时冷却时间。','72000','20','0');
+INSERT INTO `Master_skill` (`id`,`talent_id`,`icon`,`talent_text`,`desc1`,`cd`,`cdhour`,`duration`) VALUES ('102801','102801','','41053','|<#253,208,110#>（主动）|1小时内，所有军团士兵攻击+25%%，20小时冷却时间。','72000','20','1');
+INSERT INTO `Master_skill` (`id`,`talent_id`,`icon`,`talent_text`,`desc1`,`cd`,`cdhour`,`duration`) VALUES ('203301','203301','','41062','|<#253,208,110#>（主动）|使你的所有资源田立即获得3小时的产出，8小时冷却时间。','28800','8','0');
+INSERT INTO `Master_skill` (`id`,`talent_id`,`icon`,`talent_text`,`desc1`,`cd`,`cdhour`,`duration`) VALUES ('203901','203901','','41073','|<#253,208,110#>（主动）|使用后的2小时内，受到攻击时不会损失资源，20小时冷却时间。','72000','20','0');
+INSERT INTO `Master_skill` (`id`,`talent_id`,`icon`,`talent_text`,`desc1`,`cd`,`cdhour`,`duration`) VALUES ('205001','205001','','41094','|<#253,208,110#>（主动）|2小时内，所有采集速度+100%%，20小时冷却时间。','72000','20','1');
+INSERT INTO `Master_skill` (`id`,`talent_id`,`icon`,`talent_text`,`desc1`,`cd`,`cdhour`,`duration`) VALUES ('305501','305501','','41103','|<#253,208,110#>（主动）|一次性将所有外出部队召回自己主城，8小时冷却时间。','28800','8','0');
+INSERT INTO `Master_skill` (`id`,`talent_id`,`icon`,`talent_text`,`desc1`,`cd`,`cdhour`,`duration`) VALUES ('306301','306301','','41117','|<#253,208,110#>（主动）|立即恢复50行动力，20小时冷却时间。','72000','20','0');
+INSERT INTO `Master_skill` (`id`,`talent_id`,`icon`,`talent_text`,`desc1`,`cd`,`cdhour`,`duration`) VALUES ('307001','307001','','41130','|<#253,208,110#>（主动）|1小时内，我军防御/生命+20%%，20小时冷却时间。','72000','20','1');

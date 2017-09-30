@@ -1,0 +1,3 @@
+TRUNCATE `Marching_troops_menu`;
+INSERT INTO `Marching_troops_menu` (`id`,`desc1`,`build_menu_1`,`build_menu_2`,`build_menu_3`,`build_menu_4`,`build_menu_5`,`build_menu_6`,`build_menu_7`,`build_menu_8`,`build_menu_9`,`build_menu_10`,`build_menu_11`,`build_menu_12`,`build_menu_13`) VALUES ('1','普通地块','133','133,137,157','','','','','','','','','','','');
+INSERT INTO `Marching_troops_menu` (`id`,`desc1`,`build_menu_1`,`build_menu_2`,`build_menu_3`,`build_menu_4`,`build_menu_5`,`build_menu_6`,`build_menu_7`,`build_menu_8`,`build_menu_9`,`build_menu_10`,`build_menu_11`,`build_menu_12`,`build_menu_13`) VALUES ('2','部队','134,136,135','134,136','135,136','','134,136,153','153','134,136,153','135','136','134,136','134,136','134,136','136');

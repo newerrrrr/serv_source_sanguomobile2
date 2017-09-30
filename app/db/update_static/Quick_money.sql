@@ -1,0 +1,11 @@
+-- INSERT UPDATE sql for 'Quick_money';
+INSERT INTO `Quick_money` (`id`,`drop`,`cost_id`) VALUES ('1','1100001','501') ON DUPLICATE KEY UPDATE `id` = '1',`drop` = '1100001',`cost_id` = '501';
+INSERT INTO `Quick_money` (`id`,`drop`,`cost_id`) VALUES ('2','1100002','501') ON DUPLICATE KEY UPDATE `id` = '2',`drop` = '1100002',`cost_id` = '501';
+INSERT INTO `Quick_money` (`id`,`drop`,`cost_id`) VALUES ('3','1100003','501') ON DUPLICATE KEY UPDATE `id` = '3',`drop` = '1100003',`cost_id` = '501';
+INSERT INTO `Quick_money` (`id`,`drop`,`cost_id`) VALUES ('4','1100004','501') ON DUPLICATE KEY UPDATE `id` = '4',`drop` = '1100004',`cost_id` = '501';
+INSERT INTO `Quick_money` (`id`,`drop`,`cost_id`) VALUES ('5','1100005','501') ON DUPLICATE KEY UPDATE `id` = '5',`drop` = '1100005',`cost_id` = '501';
+INSERT INTO `Quick_money` (`id`,`drop`,`cost_id`) VALUES ('6','1100006','501') ON DUPLICATE KEY UPDATE `id` = '6',`drop` = '1100006',`cost_id` = '501';
+INSERT INTO `Quick_money` (`id`,`drop`,`cost_id`) VALUES ('7','1100007','501') ON DUPLICATE KEY UPDATE `id` = '7',`drop` = '1100007',`cost_id` = '501';
+INSERT INTO `Quick_money` (`id`,`drop`,`cost_id`) VALUES ('8','1100008','501') ON DUPLICATE KEY UPDATE `id` = '8',`drop` = '1100008',`cost_id` = '501';
+INSERT INTO `Quick_money` (`id`,`drop`,`cost_id`) VALUES ('9','1100009','501') ON DUPLICATE KEY UPDATE `id` = '9',`drop` = '1100009',`cost_id` = '501';
+INSERT INTO `Quick_money` (`id`,`drop`,`cost_id`) VALUES ('10','1100010','501') ON DUPLICATE KEY UPDATE `id` = '10',`drop` = '1100010',`cost_id` = '501';

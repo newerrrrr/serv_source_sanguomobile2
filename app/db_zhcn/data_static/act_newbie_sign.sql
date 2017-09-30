@@ -1,0 +1,15 @@
+TRUNCATE `act_newbie_sign`;
+INSERT INTO `act_newbie_sign` (`id`,`drop`) VALUES ('1','1500001');
+INSERT INTO `act_newbie_sign` (`id`,`drop`) VALUES ('2','1500002');
+INSERT INTO `act_newbie_sign` (`id`,`drop`) VALUES ('3','1500003');
+INSERT INTO `act_newbie_sign` (`id`,`drop`) VALUES ('4','1500004');
+INSERT INTO `act_newbie_sign` (`id`,`drop`) VALUES ('5','1500005');
+INSERT INTO `act_newbie_sign` (`id`,`drop`) VALUES ('6','1500006');
+INSERT INTO `act_newbie_sign` (`id`,`drop`) VALUES ('7','1500007');
+INSERT INTO `act_newbie_sign` (`id`,`drop`) VALUES ('8','1500008');
+INSERT INTO `act_newbie_sign` (`id`,`drop`) VALUES ('9','1500009');
+INSERT INTO `act_newbie_sign` (`id`,`drop`) VALUES ('10','1500010');
+INSERT INTO `act_newbie_sign` (`id`,`drop`) VALUES ('11','1500011');
+INSERT INTO `act_newbie_sign` (`id`,`drop`) VALUES ('12','1500012');
+INSERT INTO `act_newbie_sign` (`id`,`drop`) VALUES ('13','1500013');
+INSERT INTO `act_newbie_sign` (`id`,`drop`) VALUES ('14','1500014');

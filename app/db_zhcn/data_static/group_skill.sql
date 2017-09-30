@@ -1,0 +1,11 @@
+TRUNCATE `group_skill`;
+INSERT INTO `group_skill` (`id`,`general_original_id`,`number`,`min_general_level`,`group_skill_type`,`buff`,`skill_name`,`desc1`) VALUES ('1','10095,10105,10106','2','1','1','212,100','','');
+INSERT INTO `group_skill` (`id`,`general_original_id`,`number`,`min_general_level`,`group_skill_type`,`buff`,`skill_name`,`desc1`) VALUES ('2','10095,10105,10106','2','10','1','212,100','','');
+INSERT INTO `group_skill` (`id`,`general_original_id`,`number`,`min_general_level`,`group_skill_type`,`buff`,`skill_name`,`desc1`) VALUES ('3','10095,10105,10106','2','20','1','212,100','','');
+INSERT INTO `group_skill` (`id`,`general_original_id`,`number`,`min_general_level`,`group_skill_type`,`buff`,`skill_name`,`desc1`) VALUES ('4','10095,10105,10106','2','30','1','212,100','','');
+INSERT INTO `group_skill` (`id`,`general_original_id`,`number`,`min_general_level`,`group_skill_type`,`buff`,`skill_name`,`desc1`) VALUES ('5','10095,10105,10106','2','40','1','212,100','','');
+INSERT INTO `group_skill` (`id`,`general_original_id`,`number`,`min_general_level`,`group_skill_type`,`buff`,`skill_name`,`desc1`) VALUES ('6','10095,10105,10106','3','1','2','212,100','','');
+INSERT INTO `group_skill` (`id`,`general_original_id`,`number`,`min_general_level`,`group_skill_type`,`buff`,`skill_name`,`desc1`) VALUES ('7','10095,10105,10106','3','10','2','212,100','','');
+INSERT INTO `group_skill` (`id`,`general_original_id`,`number`,`min_general_level`,`group_skill_type`,`buff`,`skill_name`,`desc1`) VALUES ('8','10095,10105,10106','3','20','2','212,100','','');
+INSERT INTO `group_skill` (`id`,`general_original_id`,`number`,`min_general_level`,`group_skill_type`,`buff`,`skill_name`,`desc1`) VALUES ('9','10095,10105,10106','3','30','2','212,100','','');
+INSERT INTO `group_skill` (`id`,`general_original_id`,`number`,`min_general_level`,`group_skill_type`,`buff`,`skill_name`,`desc1`) VALUES ('10','10095,10105,10106','3','40','2','212,100','','');

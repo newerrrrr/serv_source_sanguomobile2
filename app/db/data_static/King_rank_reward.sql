@@ -1,0 +1,11 @@
+TRUNCATE `King_rank_reward`;
+INSERT INTO `King_rank_reward` (`id`,`min_rank`,`max_rank`,`bonus`) VALUES ('1','1','1','471001');
+INSERT INTO `King_rank_reward` (`id`,`min_rank`,`max_rank`,`bonus`) VALUES ('2','2','2','471002');
+INSERT INTO `King_rank_reward` (`id`,`min_rank`,`max_rank`,`bonus`) VALUES ('3','3','3','471003');
+INSERT INTO `King_rank_reward` (`id`,`min_rank`,`max_rank`,`bonus`) VALUES ('4','4','4','471004');
+INSERT INTO `King_rank_reward` (`id`,`min_rank`,`max_rank`,`bonus`) VALUES ('5','5','5','471005');
+INSERT INTO `King_rank_reward` (`id`,`min_rank`,`max_rank`,`bonus`) VALUES ('6','6','6','471006');
+INSERT INTO `King_rank_reward` (`id`,`min_rank`,`max_rank`,`bonus`) VALUES ('7','7','7','471007');
+INSERT INTO `King_rank_reward` (`id`,`min_rank`,`max_rank`,`bonus`) VALUES ('8','8','8','471008');
+INSERT INTO `King_rank_reward` (`id`,`min_rank`,`max_rank`,`bonus`) VALUES ('9','9','9','471009');
+INSERT INTO `King_rank_reward` (`id`,`min_rank`,`max_rank`,`bonus`) VALUES ('10','10','9999','471010');

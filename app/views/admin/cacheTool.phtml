@@ -1,0 +1,263 @@
+<style>
+.authdiv label{font-weight:normal;}
+.dispLockXy{
+	width:100px;
+	border:1px dotted gray;
+	text-align:center;
+	margin:5px;
+	float:left;
+}
+</style>
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">缓存工具</h1>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+
+<div class="row">
+	<div class="col-lg-6">
+		<div class="panel panel-yellow">
+			<div class="panel-heading"> 清除缓存库 </div>
+			<div class="panel-body">
+				<div class="form-group">
+					<div class="authdiv">
+					<?php foreach($cacheArr as $_k => $_arr){?>
+						<div class="col-lg-2" style="color:blue">
+					<?php if($_k)	{
+						echo $_k.'：';
+					}else{
+						echo '当前服：';
+					}
+						?>
+						</div>
+						<div style="clear:both"></div>
+					<?php foreach($_arr as $_key => $_index){?>
+						<div class="col-lg-3">
+							<input type="checkbox" name="cacheKey" id="cacheKey_<?php echo $_k?>_<?php echo $_index?>" value="<?php echo $_k.' '.$_key?>"> <label for="cacheKey_<?php echo $_k?>_<?php echo $_index?>"><?php echo $_key?></label>
+						</div>
+					<?php }?>
+					<div style="clear:both"></div>
+					<br>
+					<?php }?>
+				</div>
+				<div class="col-lg-2">
+					<button class="btn btn-danger btn-lg" type="button" onclick="cacheClear()">清除</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div style="clear:both"></div>
+<div class="row">
+	<div class="col-lg-2">
+		<div class="panel panel-yellow">
+			<div class="panel-heading"> 删除玩家缓存 </div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label>玩家id</label>
+					<input id="cachePlayerId" placeholder="" class="form-control"/>
+				</div>
+				<div class="col-lg-2">
+					<button class="btn btn-danger btn-lg" type="button" onclick="cacheClearPlayer()">清除</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-2">
+		<div class="panel panel-yellow">
+			<div class="panel-heading"> 删除联盟缓存 </div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label>联盟id</label>
+					<input id="cacheGuildId" placeholder="" class="form-control"/>
+				</div>
+				<div class="col-lg-2">
+					<button class="btn btn-danger btn-lg" type="button" onclick="cacheClearGuild()">清除</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-2">
+		<div class="panel panel-yellow">
+			<div class="panel-heading"> 删除disp坐标锁 </div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label>x</label>
+					<input id="dispx" placeholder="" class="form-control"/>
+				</div>
+				<div class="form-group">
+					<label>y</label>
+					<input id="dispy" placeholder="" class="form-control"/>
+				</div>
+				<div class="col-lg-12">
+					<button class="btn btn-danger btn-lg" type="button" onclick="cacheClearDispLock()">清除</button>
+					<button class="btn btn-primary btn-lg" type="button" onclick="getDispLock()">查看</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-lg-2">
+		<div class="panel panel-yellow">
+			<div class="panel-heading"> 删除跨服disp坐标锁 </div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label>battleId</label>
+					<input id="crossdispbattleid" placeholder="" class="form-control"/>
+				</div>
+				<div class="form-group">
+					<label>x</label>
+					<input id="crossdispx" placeholder="" class="form-control"/>
+				</div>
+				<div class="form-group">
+					<label>y</label>
+					<input id="crossdispy" placeholder="" class="form-control"/>
+				</div>
+				<div class="col-lg-12">
+					<button class="btn btn-danger btn-lg" type="button" onclick="cacheClearCrossDispLock()">清除</button>
+					<button class="btn btn-primary btn-lg" type="button" onclick="getCrossDispLock()">查看</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-lg-2">
+		<div class="panel panel-yellow">
+			<div class="panel-heading"> 删除城战disp坐标锁 </div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label>battleId</label>
+					<input id="citybattledispbattleid" placeholder="" class="form-control"/>
+				</div>
+				<div class="form-group">
+					<label>x</label>
+					<input id="cbdispx" placeholder="" class="form-control"/>
+				</div>
+				<div class="form-group">
+					<label>y</label>
+					<input id="cbdispy" placeholder="" class="form-control"/>
+				</div>
+				<div class="col-lg-12">
+					<button class="btn btn-danger btn-lg" type="button" onclick="cacheClearCitybattleDispLock()">清除</button>
+					<button class="btn btn-primary btn-lg" type="button" onclick="getCitybattleDispLock()">查看</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="col-lg-12">
+	<div class="panel panel-default">
+		<div class="panel-heading"> disp坐标锁 </div>
+		<div class="panel-body" id="dispLockXyBlock">
+		</div>
+	</div>
+</div>
+
+<div class="col-lg-12">
+	<div class="panel panel-default">
+		<div class="panel-heading"> 跨服disp坐标锁 </div>
+		<div class="panel-body" id="dispCrossLockXyBlock">
+		</div>
+	</div>
+</div>
+
+<div class="col-lg-12">
+	<div class="panel panel-default">
+		<div class="panel-heading"> 城战disp坐标锁 </div>
+		<div class="panel-body" id="dispCitybattleLockXyBlock">
+		</div>
+	</div>
+</div>
+
+<script>
+var gControlFlag = true;
+var gControlFlag2 = true;
+$(document).ready(function(){
+	getDispLock();
+	getCrossDispLock();
+});
+
+
+function cacheClear(){
+	var cacheKeys = [];
+	$("input[name=cacheKey]:checked").each(function(){
+		cacheKeys.push($(this).val());
+	});
+	commonSend('ajaxClearCache',{cacheKeys: cacheKeys}, '清除成功');
+}
+
+function cacheClearPlayer(){
+	var cachePlayerId = $("#cachePlayerId").val();
+	commonSend('ajaxClearCachePlayer',{playerId: cachePlayerId}, '清除成功');
+}
+
+function cacheClearGuild(){
+	var cacheGuildId = $("#cacheGuildId").val();
+	commonSend('ajaxClearCacheGuild',{guildId: cacheGuildId}, '清除成功');
+}
+
+function cacheClearDispLock(){
+	var x = $("#dispx").val();
+	var y = $("#dispy").val();
+	commonSend('ajaxClearCacheDispLock',{x: x, y: y}, '清除成功');
+}
+
+function cacheClearCrossDispLock(){
+	var battleId = $("#crossdispbattleid").val();
+	var x = $("#crossdispx").val();
+	var y = $("#crossdispy").val();
+	commonSend('ajaxClearCacheCrossDispLock',{battleId:battleId, x: x, y: y}, '清除成功');
+}
+
+function cacheClearCitybattleDispLock(){
+	var battleId = $("#citybattledispbattleid").val();
+	var x = $("#cbdispx").val();
+	var y = $("#cbdispy").val();
+	commonSend('ajaxClearCacheCitybattleDispLock',{battleId:battleId, x: x, y: y}, '清除成功');
+}
+
+function getDispLock(){
+	if(!gControlFlag)
+		return;
+	gControlFlag = false;
+	$("#dispLockXyBlock *").remove();
+	commonSend('ajaxGetDispLock', [], '', false, function(d){
+		for(i in d.data){
+			var xy = d.data[i].substr(4).split('_');
+			$("#dispLockXyBlock").append('<div class="dispLockXy">'+xy[0]+','+xy[1]+'</div>')
+		}
+		gControlFlag = true;
+	});
+}
+
+function getCrossDispLock(){
+	if(!gControlFlag2)
+		return;
+	gControlFlag2 = false;
+	$("#dispCrossLockXyBlock *").remove();
+	commonSend('ajaxGetCrossDispLock', [], '', false, function(d){
+		for(i in d.data){
+			var xy = d.data[i].substr(3).split('_');
+			$("#dispCrossLockXyBlock").append('<div class="dispLockXy">'+xy[0]+','+xy[1]+','+xy[2]+'</div>')
+		}
+		gControlFlag2 = true;
+	});
+}
+
+function getCitybattleDispLock(){
+	if(!gControlFlag2)
+		return;
+	gControlFlag2 = false;
+	$("#dispCitybattleLockXyBlock *").remove();
+	commonSend('ajaxGetCitybattleDispLock', [], '', false, function(d){
+		for(i in d.data){
+			var xy = d.data[i].substr(3).split('_');
+			$("#dispCitybattleLockXyBlock").append('<div class="dispLockXy">'+xy[0]+','+xy[1]+','+xy[2]+'</div>')
+		}
+		gControlFlag2 = true;
+	});
+}
+
+</script>

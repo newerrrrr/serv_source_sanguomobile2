@@ -1,0 +1,1 @@
+ALTER TABLE `server_list` CHANGE `status` `status` INT(11) DEFAULT 0 NULL COMMENT '1:维护状态,不能进游戏', CHANGE `isNew` `isNew` INT(11) DEFAULT 0 NULL, CHANGE `maintain_notice` `maintain_notice` VARCHAR(500) CHARSET utf8 COLLATE utf8_unicode_ci DEFAULT '' NULL COMMENT '维护公告:status=1的时候,前端显示该内容';

@@ -1,0 +1,17 @@
+TRUNCATE `War_info`;
+INSERT INTO `War_info` (`id`,`type_name`,`info_desc`,`info_desc1`,`info_desc2`,`info_type`,`desc1`) VALUES ('1','hammerTaken','610001','','','','%nick占领了%map_id');
+INSERT INTO `War_info` (`id`,`type_name`,`info_desc`,`info_desc1`,`info_desc2`,`info_type`,`desc1`) VALUES ('2','hammerBroken','610002','610018','','1','%map_id被守军破坏');
+INSERT INTO `War_info` (`id`,`type_name`,`info_desc`,`info_desc1`,`info_desc2`,`info_type`,`desc1`) VALUES ('4','ladderTaken','610004','','','','%nick占领了%map_id');
+INSERT INTO `War_info` (`id`,`type_name`,`info_desc`,`info_desc1`,`info_desc2`,`info_type`,`desc1`) VALUES ('5','ladderBroken','610005','610019','','1','%map_id被守军破坏');
+INSERT INTO `War_info` (`id`,`type_name`,`info_desc`,`info_desc1`,`info_desc2`,`info_type`,`desc1`) VALUES ('7','ladderDone','610007','610020','','1','%map_id已经搭建完成');
+INSERT INTO `War_info` (`id`,`type_name`,`info_desc`,`info_desc1`,`info_desc2`,`info_type`,`desc1`) VALUES ('8','catapultTaken','610008','','','','%nick占领了%map_id');
+INSERT INTO `War_info` (`id`,`type_name`,`info_desc`,`info_desc1`,`info_desc2`,`info_type`,`desc1`) VALUES ('9','catapultBroken','610009','','','','%nick击退了%map_id的驻守军团');
+INSERT INTO `War_info` (`id`,`type_name`,`info_desc`,`info_desc1`,`info_desc2`,`info_type`,`desc1`) VALUES ('11','crossbowTaken','610011','','','','%nick占领了%map_id');
+INSERT INTO `War_info` (`id`,`type_name`,`info_desc`,`info_desc1`,`info_desc2`,`info_type`,`desc1`) VALUES ('12','playerDead','610012','','','','%fromNick攻破了%toNick的城池');
+INSERT INTO `War_info` (`id`,`type_name`,`info_desc`,`info_desc1`,`info_desc2`,`info_type`,`desc1`) VALUES ('13','doorBroken','610013','610021','','1','%map_id已被攻陷！');
+INSERT INTO `War_info` (`id`,`type_name`,`info_desc`,`info_desc1`,`info_desc2`,`info_type`,`desc1`) VALUES ('16','baseBroken','610016','610022','','1','%nick击破了%map_id');
+INSERT INTO `War_info` (`id`,`type_name`,`info_desc`,`info_desc1`,`info_desc2`,`info_type`,`desc1`) VALUES ('17','skill_10110','','610023','611023','2','');
+INSERT INTO `War_info` (`id`,`type_name`,`info_desc`,`info_desc1`,`info_desc2`,`info_type`,`desc1`) VALUES ('18','skill_10098','','610024','610024','1','');
+INSERT INTO `War_info` (`id`,`type_name`,`info_desc`,`info_desc1`,`info_desc2`,`info_type`,`desc1`) VALUES ('19','skill_10105','','610025','611025','2','');
+INSERT INTO `War_info` (`id`,`type_name`,`info_desc`,`info_desc1`,`info_desc2`,`info_type`,`desc1`) VALUES ('20','skill_10111','','610026','611026','2','');
+INSERT INTO `War_info` (`id`,`type_name`,`info_desc`,`info_desc1`,`info_desc2`,`info_type`,`desc1`) VALUES ('21','skil_10054','','610027','610027','2','');

@@ -1,0 +1,109 @@
+<style>
+.checkbox-list * {font-weight: 100 !important;}
+</style>
+<?php echo \Phalcon\Tag::javascriptInclude("js/My97DatePicker/WdatePicker.js");
+$serverList = (new ServerList)->dicGetAll();
+$serverListMap = Set::combine($serverList, '{n}.id', '{n}');
+$pkGroup    = (new PkGroup)->getAllGroup();
+$initData  = (new DuelInitdata)->get();
+$closeTime = intval($initData['duel_close_time']);
+$isRead     = time()<(strtotime($one['next_round_start_time'])-$closeTime*60*60) && time()>strtotime($one['current_round_start_time']);
+?>
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">修改当前服务器组</h1>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+<div>服务器时间：<?=date('Y-m-d H:i:s')?></div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div class="form-group">
+						<label style="font-size:20px;font-family:bold;">名称：</label><input style="width:200px;" id="name" value="<?=$one['name']?>">
+					</div>
+					<label style="font-size:20px;font-family:bold;">勾选所选服务器</label><br>
+					<?php if($isRead):?>
+						<?php
+						foreach($one['server_ids'] as $sid) {
+							$s = $serverListMap[$sid];
+							echo ($s['areaName'] . '|' . $s['name']) . '&nbsp;&nbsp;&nbsp;&nbsp;';
+						}
+						?>
+					<?php else: ?>
+					<div class="form-group checkbox-list">
+						<?php
+						foreach($serverList as $v):
+							foreach($pkGroup as $vv) {
+								$checked = '';
+								if(in_array($v['id'], $one['server_ids'])) {
+									$checked = ' checked="checked"';
+								} elseif(in_array($v['id'], $vv['server_ids'])) {
+									continue 2;
+								}
+							}
+						?>
+						<label><input type="checkbox" name="serverList" value="<?=$v['id']?>"<?=$checked?>/><?=$v['areaName'].'|'.$v['name']?></label>&nbsp;&nbsp;&nbsp;&nbsp;
+						<?php
+						endforeach;
+						?>
+						<?php endif;?>
+						<br><br>
+						本赛季开始时间：<?=$one['current_round_start_time']?>
+						<br><br>
+						下赛季开始时间：<input class="Wdate" type="text" id="nextRoundStartTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd', minDate:'<?=date('Y-m-d', time()+24*60*60)?>'})" value="<?=date('Y-m-d', strtotime($one['next_round_start_time']))?>"/> <?=PkGroup::START_TIME?>
+					</div>
+					<div class="form-group">
+						<button type="button" onclick="G.doModify()" style="margin-right:50px;">修 改</button>
+						<button type="button" onclick="G.cancel()">取 消</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<script>
+	var G = {};
+	G.doModify = function(){
+		var name = $('#name').val();
+		if(!$.trim(name)) {
+			alert('请输入名称');
+			$('#name').focus();
+			return;
+		}
+		var serverIds = [];
+		$('input:checkbox').each(function(k, v){
+			if(v.checked) {
+				serverIds.push(v.value)
+			}
+		});
+
+		<?php if(!$isRead):?>
+		if(serverIds.length<1) {
+			alert('服务器修改不能为空');
+			return;
+		}
+		<?php endif;?>
+
+		var nextRoundStartTime = $('#nextRoundStartTime').val();
+		if(!nextRoundStartTime) alert('选择下一赛季开始日期（即本赛季结束时间）');
+		$.post('/admin/ajaxPkConfigModify/', {"id":<?=$one['id']?>,"serverId":serverIds, "name":name, "nextRoundStartTime":nextRoundStartTime}, function(o){
+			var o = $.trim(o);
+			if(o=='ok') {
+				alertOk('修改成功', flushPage);
+			}
+			else if(o=='time') {
+				alertErr('赛季时间未结束，不能改区');
+			}
+		});
+	};
+	G.cancel = function (){
+		linkPage('admin/pkConfig');
+	};
+	function flushPage(){
+		G.cancel();
+	}
+	(function(){
+		$('#name').focus();
+	})();
+</script>

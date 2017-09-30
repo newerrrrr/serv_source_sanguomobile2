@@ -1,0 +1,566 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>手机三国2管理端</title>
+    <!-- Bootstrap Core CSS -->
+	<?php echo Phalcon\Tag::stylesheetLink("sbadmin/bower_components/bootstrap/dist/css/bootstrap.min.css");?>
+
+    <!-- MetisMenu CSS -->
+	<?php echo Phalcon\Tag::stylesheetLink("sbadmin/bower_components/metisMenu/dist/metisMenu.min.css");?>
+
+    <!-- Timeline CSS -->
+	<?php echo Phalcon\Tag::stylesheetLink("sbadmin/dist/css/timeline.css");?>
+
+    <!-- Custom CSS -->
+	<?php echo Phalcon\Tag::stylesheetLink("sbadmin/dist/css/sb-admin-2.css");?>
+
+    <!-- Morris Charts CSS -->
+	<?php echo Phalcon\Tag::stylesheetLink("sbadmin/bower_components/morrisjs/morris.css");?>
+
+	<!-- DataTables Responsive CSS -->
+	<?php echo Phalcon\Tag::stylesheetLink("sbadmin/bower_components/datatables-responsive/css/dataTables.responsive.css");?>
+	
+    <!-- Custom Fonts -->
+	<?php echo Phalcon\Tag::stylesheetLink("sbadmin/bower_components/font-awesome/css/font-awesome.min.css");?>
+	
+	<style>
+	body.black{
+		background-color:#222222;
+	}
+	body.black .navbar-default{
+		background-color:#222222;
+		border-color:#222222;
+	}
+	body.black .navbar-default .navbar-collapse,
+	body.black .navbar-default .navbar-form{
+		border-color:#222222;
+	}
+	body.black .navbar-default .navbar-brand{
+		color:#9d9d9d;
+	}
+	body.black .sidebar ul li{
+		border-bottom:1px solid #222222;
+	}
+	body.black .nav .open > a,
+	body.black .nav .open > a:focus,
+	body.black .nav .open > a:hover,
+	body.black .nav > li > a:hover,
+	body.black .nav > li > a:focus,
+	body.black .sidebar ul li a.active	{
+	  text-decoration: none;
+	  background-color: #080808;
+	  color: #ffffff;
+	}
+	body.black .nav > li > a{
+		color:#9d9d9d;
+	}
+	body.black .sidebar .dropdown-menu li{
+		border-bottom:1px solid #e7e7e7;
+	}
+	.clear{
+		clear:both;
+	}
+	#loading_mask{
+		position:fixed;
+		top:0;
+		left:0;
+		width:100%;
+		height:100%;
+		z-index:99999;
+		background:rgba(0, 0, 0, 0.5);
+		display:none;
+	}
+	</style>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- jQuery -->
+	<?php echo \Phalcon\Tag::javascriptInclude("sbadmin/bower_components/jquery/dist/jquery.min.js"); ?>
+	
+
+    <!-- Bootstrap Core JavaScript -->
+	<?php echo \Phalcon\Tag::javascriptInclude("sbadmin/bower_components/bootstrap/dist/js/bootstrap.min.js"); ?>
+
+    <!-- Metis Menu Plugin JavaScript -->
+	<?php echo \Phalcon\Tag::javascriptInclude("sbadmin/bower_components/metisMenu/dist/metisMenu.min.js"); ?>
+
+    <!-- Morris Charts JavaScript -->
+	<?php echo \Phalcon\Tag::javascriptInclude("sbadmin/bower_components/raphael/raphael-min.js"); ?>
+	<?php echo \Phalcon\Tag::javascriptInclude("sbadmin/bower_components/morrisjs/morris.min.js"); ?>
+    <!--<script src="../js/morris-data.js"></script>-->
+
+	<?php echo \Phalcon\Tag::javascriptInclude("sbadmin/bower_components/datatables/media/js/jquery.dataTables.min.js"); ?>
+	<?php echo \Phalcon\Tag::javascriptInclude("sbadmin/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"); ?>
+	<?php echo \Phalcon\Tag::javascriptInclude("sbadmin/bower_components/datatables-responsive/js/dataTables.responsive.js"); ?>
+	
+    <?php echo \Phalcon\Tag::javascriptInclude("js/jquery/jquery-cookie.js"); ?>
+
+	<script>
+	$(document).ready(function(){
+		
+		<?php if(@$treeact){?>
+		$("li[treeact=<?php echo $treeact?>]").addClass('active');
+		<?php }?>
+		
+		<?php if(@$actionName){?>
+		$("li a[href=\"javascript:linkPage('admin/<?php echo $actionName?>')\"]").addClass('active');
+		<?php }?>
+		
+		showskin();
+		
+		<?php if(@$pleaseChangePwd){?>
+		alertOk('请修改初始密码', function(){
+			$("#modifyPwdModal").modal();
+		});
+		<?php }?>
+		
+	});
+
+	</script>
+    <!-- Custom Theme JavaScript -->
+	<?php echo \Phalcon\Tag::javascriptInclude("sbadmin/dist/js/sb-admin-2.js"); ?>
+	<script>
+        <?php if(QA): ?>
+            var Sys = {};
+            var ua = navigator.userAgent.toLowerCase();
+            var s;
+            (s = ua.match(/rv:([\d.]+)\) like gecko/)) ? Sys.ie = s[1] :
+            (s = ua.match(/msie ([\d.]+)/)) ? Sys.ie = s[1] : 0;
+            if (parseInt(Sys.ie)<10){
+                alert('IE'+Sys.ie+'已经被请出了太阳系，请使用火狐浏览器或谷歌浏览器！');
+                location.href = 'http://www.firefox.com.cn/download/';
+            }
+        <?php else:?>
+		checkBrowser();
+		<?php endif;?>
+	</script>
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <!--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>-->
+                <a class="navbar-brand" href="/admin/">手机三国2管理端</a>
+            </div>
+            <!-- /.navbar-header -->
+
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-hdd-o fa-fw"></i><span id="sg_server_id">[<?php echo $currentServerId?>]<?php echo $currentServer?></span>  <i class="fa fa-caret-down"></i>
+                    </a>
+					<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+						<?php foreach($serverList as $_l){?>
+						<li><a tabindex="-1" href="/admin/redirectServer?url=<?php echo urlencode($_l['gameServerHost'])?>">[<?php echo $_l['id']?>]<?php echo $_l['name']?></a></li>
+						<?php }?>
+					</ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i><span id="sg_adminname"><?php echo $_COOKIE['sg2admin_name']?></span>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#" data-toggle="modal" data-target="#modifyPwdModal" ><i class="fa fa-gear fa-fw"></i> 修改密码</a>
+                        </li>
+						<li><a href="#" onclick="changeSkin()"><i class="fa fa-diamond fa-fw"></i> 切换皮肤</a>
+                        </li>
+						<?php if($isRoot){?>
+						<li><a href="javascript:linkPage('admin/adminManager')"><i class="fa fa-user fa-fw"></i> 管理员编辑</a>
+                        </li>
+						<li><a href="javascript:linkPage('admin/adminauthManager')"><i class="fa fa-magic fa-fw"></i> 权限编辑</a>
+                        </li>
+						<?php }?>
+                        <li class="divider"></li>
+                        <li><a href="/admin/logout"><i class="fa fa-sign-out fa-fw"></i> 登出</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+            <!-- /.navbar-top-links -->
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li class="sidebar-search">
+							<div class="input-group">
+								<div class="input-group-btn">
+									<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span id="sg_player_type" value="1"></span> <span class="caret"></span></button>
+									<ul class="dropdown-menu">
+										<li><a value="1" href="javascript:changePlayerType(1)">PLAYERID</a></li>
+										<li><a value="2" href="javascript:changePlayerType(2)">UUID</a></li>
+										<li><a value="3" href="javascript:changePlayerType(3)">NICK</a></li>
+										<li><a value="4" href="javascript:changePlayerType(4)">USERCODE</a></li>
+									</ul>
+								</div><!-- /btn-group -->
+								<input type="text" class="form-control" aria-label="..." id="sg_player_id" value="<?php echo @$_REQUEST['_playerId']?>">
+							</div>
+                        </li>
+                        <li>
+							<a href="javascript:linkPage('admin/dashboard')"><i class="fa fa-dashboard fa-fw"></i> 总览</a>
+                        </li>
+                        <li treeact="player">
+                            <a href="javascript:void(0)"><i class="fa fa-user fa-fw"></i> 查看玩家信息<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+									<a href="javascript:linkPage('admin/playerInfo')">玩家信息</a>
+                                </li>
+								<li>
+									<a href="javascript:linkPage('admin/playerBuild')">建筑信息</a>
+                                </li>
+								<li>
+									<a href="javascript:linkPage('admin/playerGeneral')">武将信息</a>
+                                </li>
+								<li>
+									<a href="javascript:linkPage('admin/playerItem')">背包信息</a>
+                                </li>
+								<li>
+									<a href="javascript:linkPage('admin/playerArmy')">军团信息</a>
+                                </li>
+								<li>
+									<a href="javascript:linkPage('admin/playerBuff')">增益信息</a>
+                                </li>
+								<li>
+									<a href="javascript:linkPage('admin/playerScience')">研究所信息</a>
+                                </li>
+								<li>
+									<a href="javascript:linkPage('admin/playerTalent')">天赋信息</a>
+                                </li>
+								<li>
+									<a href="javascript:linkPage('admin/playerOrder')">充值订单</a>
+                                </li>
+								<li>
+									<a href="javascript:linkPage('admin/playerMail')">玩家邮件</a>
+                                </li>
+                            </ul>
+                        </li>
+						<li treeact="playerdo">
+                            <a href="javascript:void(0)"><i class="fa fa-user-md fa-fw"></i> 操作玩家<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="javascript:linkPage('admin/banAccount')">封号-当前玩家</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:linkPage('admin/banMultiAccount')">批量封号</a>
+                                </li>
+                                <li>
+									<a href="javascript:linkPage('admin/playerdoItem')">发送道具</a>
+                                </li>
+								<li>
+									<a href="javascript:linkPage('admin/playerResetPwd')">修改密码</a>
+                                </li>
+								<li>
+									<a href="javascript:linkPage('admin/playerdoSendGift')">发送礼包</a>
+                                </li>
+                            </ul>
+                        </li>
+						<li treeact="log">
+                            <a href="javascript:void(0)"><i class="fa fa-comment fa-fw"></i> 日志<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+									<a href="javascript:linkPage('admin/logGemConsume')">元宝消耗日志</a>
+                                </li>
+								<li>
+									<a href="javascript:linkPage('admin/logGemGain')">元宝获得日志</a>
+                                </li>
+								<li>
+									<a href="javascript:linkPage('admin/logGuildShop')">联盟商店日志</a>
+                                </li>
+								<li>
+									<a href="javascript:linkPage('admin/logCommon')">玩家常规日志</a>
+                                </li>
+                                <li>
+									<a href="javascript:linkPage('admin/logPlayerOnline')">监控假量</a>
+                                </li>
+								<li>
+									<a href="javascript:linkPage('admin/logAdmin')">管理端操作日志</a>
+                                </li>
+                            </ul>
+                        </li>
+						<li treeact="mail">
+                            <a href="javascript:void(0)"><i class="fa fa-envelope fa-fw"></i> 邮件<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+									<a href="javascript:linkPage('admin/sendAllMail')">全服邮件</a>
+                                </li>
+                            </ul>
+                        </li>
+						<li treeact="guild">
+                            <a href="javascript:void(0)"><i class="fa fa-university fa-fw"></i> 联盟<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+									<a href="javascript:linkPage('admin/guildInfo')">联盟信息</a>
+                                </li>
+                            </ul>
+                        </li>
+						<li treeact="other">
+                            <a href="javascript:void(0)"><i class="fa fa-ellipsis-h fa-fw"></i> 其他<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+									<a href="javascript:linkPage('admin/sendRoundMsg')">发送走马灯公告</a>
+                                </li>
+								<li>
+									<a href="javascript:linkPage('admin/dispOperation')">队列脚本控制</a>
+                                </li>
+								<li>
+									<a href="javascript:linkPage('admin/cdkGenerate')">激活码生成</a>
+                                </li>
+								<li>
+									<a href="javascript:linkPage('admin/cdkSearch')">激活码管理</a>
+                                </li>
+								<li>
+									<a href="javascript:linkPage('admin/createRobot')">创建机器人</a>
+                                </li>
+								<li>
+									<a href="javascript:linkPage('admin/cacheTool')">缓存工具</a>
+                                </li>
+								<li>
+									<a href="javascript:linkPage('admin/addPush')">增加推送</a>
+                                </li>
+								<li>
+									<a href="javascript:linkPage('admin/pkConfig')">武斗跨服配置</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li treeact="notice">
+                            <a href="javascript:void(0)"><i class="fa fa-bullhorn fa-fw"></i> 公告<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="javascript:linkPage('admin/addNotice')">写公告</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:linkPage('admin/viewNotice')">看公告</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <script>
+                            var linkCampChatPage = function (){//选择阵营
+                                var campId = prompt('填写阵营 1：魏 2：蜀 3：吴');
+                                if(campId != null) {
+                                    campId = parseInt(campId);
+                                    if ([1, 2, 3].indexOf(campId) != -1) {
+                                        linkPage('admin/campChatList', {'camp_id': campId})
+                                    } else {
+                                        alert('请填写1,2,3');
+                                        return;
+                                    }
+                                }
+                            };
+                        </script>
+                        <li treeact="chat">
+                            <a href="javascript:void(0)"><i class="fa fa-comments-o fa-fw"></i> 聊天<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="javascript:linkPage('admin/banPlayerChat')">禁言玩家</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:linkPage('admin/worldChatList', {'type':1})">世界聊天-玩家聊天</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:linkPage('admin/worldChatList', {'type':0})">世界聊天-系统信息</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" onclick="linkCampChatPage();">阵营聊天</a>
+                                </li>
+                            </ul>
+                        </li>
+						<li treeact="activity">
+                            <a href="javascript:void(0)"><i class="fa fa-soccer-ball-o fa-fw"></i> 活动<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+								<li>
+                                    <a href="javascript:linkPage('admin/activityShow')">活动配置</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:linkPage('admin/addActivityLogin')">累计登陆配置</a>
+                                </li>
+								<li>
+                                    <a href="javascript:linkPage('admin/addActivityCharge')">累计充值配置</a>
+                                </li>
+								<li>
+                                    <a href="javascript:linkPage('admin/addActivityConsume')">累计消耗配置</a>
+                                </li>
+								<li>
+                                    <a href="javascript:linkPage('admin/addActivityNpcDrop')">打怪掉落配置</a>
+                                </li>
+								<li>
+                                    <a href="javascript:linkPage('admin/addActivityWheel')">大转盘配置</a>
+                                </li>
+								<li>
+                                    <a href="javascript:linkPage('admin/addActivityExchange')">兑换配置</a>
+                                </li>
+								<li>
+                                    <a href="javascript:linkPage('admin/addActivityPanicBuy')">抢购配置</a>
+                                </li>
+								<li>
+                                    <a href="javascript:linkPage('admin/addActivitySacrifice')">祭天配置</a>
+                                </li>
+                            </ul>
+                        </li>
+						<li treeact="cross">
+                            <a href="javascript:void(0)"><i class="fa fa-soccer-ball-o fa-fw"></i> 跨服<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+								<li>
+                                    <a href="javascript:linkPage('admin/crossRound')">赛届总览</a>
+                                </li>
+								<li>
+                                    <a href="javascript:linkPage('admin/crossBattle')">单届详情</a>
+                                </li>
+								<li>
+                                    <a href="javascript:linkPage('admin/crossGuild')">公会信息</a>
+                                </li>
+								<li>
+                                    <a href="javascript:linkPage('admin/crossLog')">赛场日志</a>
+                                </li>
+                            </ul>
+                        </li>
+						<li treeact="citybattle">
+                            <a href="javascript:void(0)"><i class="fa fa-soccer-ball-o fa-fw"></i> 城战<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+								<li>
+                                    <a href="javascript:linkPage('admin/citybattleRound')">赛届总览</a>
+                                </li>
+								<li>
+                                    <a href="javascript:linkPage('admin/cityBattle')">单届详情</a>
+                                </li>
+								<li>
+                                    <a href="javascript:linkPage('admin/citybattleCamp')">阵营信息</a>
+                                </li>
+								<li>
+                                    <a href="javascript:linkPage('admin/citybattleLog')">赛场日志</a>
+                                </li>
+                            </ul>
+                        </li>
+						<li treeact="maintain">
+                            <a href="javascript:void(0)"><i class="glyphicon glyphicon-cog"></i> 维护相关<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+								<li>
+                                    <a href="javascript:linkPage('admin/clearServerCache')">清缓存</a>
+                                </li>
+								<li>
+                                    <a href="javascript:linkPage('admin/alterGameVersion')">更改客户端版本号</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:linkPage('admin/alterServerListField')">更改服务器状态</a>
+                                </li>
+								<li>
+                                    <a href="javascript:linkPage('admin/alterMaintainNotice')">更改维护文字</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:linkPage('admin/ipLimit')">限制ip访问白名单</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+		<div id="page-wrapper">
+			<?php if(@$errmsg){?>
+			<br>
+			<div class="row">
+				<div class="col-lg-12">
+					<div role="alert" class="alert alert-danger alert-dismissible fade in">
+					  <button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span></button>
+					  <h4>Error!</h4>
+					  <p><?php echo $errmsg?></p>
+					</div>
+				</div>
+			</div>
+			<?php }else{?>
+			<?php echo $this->getContent(); ?>
+			<?php }?>
+		</div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+	
+	<div class="modal fade" id="modifyPwdModal" tabindex="-1" role="dialog" aria-labelledby="modifyPwdModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="modifyPwdModalLabel">修改密码</h4>
+				</div>
+				<div class="modal-body">
+					<div class="alert alert-danger" id="modifyPwdModalErr" style="display:none">
+						
+					</div>
+					<form>
+						<div class="form-group">
+							<label for="modifypwd_oldpassword" class="control-label">旧密码:</label>
+							<input type="password" class="form-control" id="modifypwd_oldpassword">
+						</div>
+						<div class="form-group">
+							<label for="modifypwd_password" class="control-label">新密码:</label>
+							<input type="password" class="form-control" id="modifypwd_password">
+						</div>
+						<div class="form-group">
+							<label for="modifypwd_password2" class="control-label">重复新密码:</label>
+							<input type="password" class="form-control" id="modifypwd_password2">
+						</div>
+						
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary" onclick="modifyPwd()">确定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 通用弹框 -->
+	<div class="modal fade" id="commonModal" tabindex="-1" role="dialog" aria-labelledby="commonModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<!--<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="modifyPwdModalLabel">修改密码</h4>
+				</div>-->
+				<div class="modal-body">
+					<div class="alert alert-success" id="commonModalOk" style="display:none">
+						
+					</div>
+					<div class="alert alert-danger" id="commonModalErr" style="display:none">
+						
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="loading_mask">
+		<div style="position:absolute;top:50%;left:50%;width:0;height:0;">
+			<div style="position:absolute;top:-50%;left:-50%;padding:20px 25px;background:rgba(0, 0, 0, 0.5);color:white;-moz-border-radius:1em; -webkit-border-radius:1em; border-radius:1em;text-align:center;width:200px;">正在处理请求。。。</div>
+		</div>
+	</div>
+</body>
+
+</html>

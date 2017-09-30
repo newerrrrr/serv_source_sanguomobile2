@@ -1,0 +1,33 @@
+<style>
+</style>
+<div class="row">
+    <div class="col-lg-12">
+    <h1 class="page-header">封号</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+    <div class="form-group" id="block_usercode">
+        <label>玩家userCode</label>
+        <textarea class="form-control" rows="3" placeholder="输入玩家userCode，英文逗号分隔" id="playerToUserCode"></textarea>
+    </div>
+
+    <div class="form-group">
+        <input class="Wdate" type="text" id="banDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+    </div>
+    <button type="button" class="btn btn-danger" onclick="banIt();" style="margin:20px auto 0;">封号</button>
+
+
+    <?php echo \Phalcon\Tag::javascriptInclude("js/My97DatePicker/WdatePicker.js"); ?>
+
+
+    <script type="text/javascript">
+    function banIt(){
+        var banDate = $('#banDate').val();
+        var playerToUserCode = $("#playerToUserCode").val();
+        if(banDate && confirm('确认封号到 '+banDate+'?')){
+            $.post('/admin/doBanMultiAccount', {"userCode":playerToUserCode, "banDate":banDate}, function(o){
+                location.reload();
+            });
+        }
+    }
+    </script>

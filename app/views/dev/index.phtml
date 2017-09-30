@@ -1,0 +1,198 @@
+<!doctype html>
+<html>
+<meta charset="utf-8">
+<?php echo \Phalcon\Tag::javascriptInclude("js/jquery/jquery-2.1.4.min.js"); ?>
+<?php echo Phalcon\Tag::stylesheetLink("sbadmin/bower_components/bootstrap/dist/css/bootstrap.min.css");?>
+<link rel="stylesheet" href="/css/dev.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>开发测试后台</title>
+<head>
+<!-- view -->
+<ul id="list1" class="container box-collection column">
+    <div class="displayArea" id="displayArea">
+    </div>
+    <li><a href="javascript:;" onclick="G.clearCache();" target="_blank">清除所有cache</a></li>
+    <li><a href="javascript:;" onclick="G.showPlayer();" target="_blank">查看玩家</a></li>
+    <!-- <li><a href="javascript:;" onclick="G.genJsonPlayer();" target="_blank">生成带uuid hashCode的url数据</a></li> -->
+    <li><a href="javascript:;" onclick="G.fishPlayer();" target="_blank">生成玩家</a></li>
+    <!-- <li><a href="javascript:;" onclick="G.delPlayer();" target="_blank">删除玩家</a></li> -->
+    <!-- <li><a href="javascript:;" onclick="G.clearPlayerCache();" target="_blank">清除<font color=red>玩家</font>所有cache</a></li> -->
+    <li><a href="javascript:;" onclick="G.clearServerCache();" target="_blank">清除server所有cache</a></li>
+    <li><a href="javascript:;" onclick="G.clearChatCache();" target="_blank">清除chat所有cache</a></li>
+    <li><a href="javascript:;" onclick="G.clearDispatcherCache();" target="_blank">清除dispatcher所有cache</a></li>
+    <!-- <li><a href="javascript:;" onclick="G.clearGeneralExp();" target="_blank">武将经验全归零</a></li> -->
+    <!-- <li><a href="javascript:;" onclick="G.deletePlayerGuild();" target="_blank">删玩家联盟</a></li> -->
+    <li><a href="/dev/generatePlayerBuff" target="_blank" title="根据buff表生成player_buff的sql">生成player_buff的sql</a></li>
+    <li><a href="javascript:;" onclick="G.searchPlayerPopup()" target="_blank" title="根据条件搜索玩家">搜索玩家</a></li>
+    <li><a href="/dev/getAllConn" target="_blank" title="查看在线玩家连接信息">在线玩家</a></li>
+    <!-- <li>
+    <a href="javascript:;" target="_blank" onclick="G.changeFirstMainMission();">更改第一个主线任务id(清空后重置)</a>
+    </li> -->
+</ul>
+
+<div class="shade" id="shade">
+</div>
+<!-- 搜索玩家弹框 -->
+<div id="searchPlayerPopup" style="display:none;position:absolute; left:300px; top:40px; background-color:#abc; width:300px; height:200px;z-index:10;">
+    <div style="text-align:center;margin:5px;">查找玩家</div>
+    <div style="margin-left:10px;margin-top:10px;">等级大于 <input type="text" id="level"></div>
+    <div style="text-align:center;margin:10px;"><input type="button" value="查找玩家" onclick="G.searchPlayer()"></div>
+</div>
+<!-- 查找玩家list显示 -->
+<div id="listArea" style="display:none;">
+    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTable1">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>nick</th>
+            <th>level</th>
+            <th>guild_id</th>
+            <th>查看数据</th>
+        </tr>
+        </thead>
+        <tbody id="listAreaTbody">
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+    </table>
+    <div style="text-align:center;margin:10px;"><input type="button" value="隐藏查找" onclick="$('#listArea').hide()"></div>
+</div>
+<!--  model  -->
+<script>
+
+var G = {};
+G.showShade = function(opacity){
+    var opacity = opacity || 0;
+    if(opacity==1) {
+        $('#shade').css('opacity', 1);
+    }
+    document.getElementById('shade').style.display = 'block';
+};
+G.hideShade = function(opacity){
+    var opacity = opacity || 0;
+    if(opacity==1) {
+        $('#shade').css('opacity', 0.1);
+    }
+    document.getElementById('shade').style.display = 'none';
+};
+G.showHint = function(str) {
+    G.showShade();
+    var displayArea = document.getElementById('displayArea');
+    displayArea.style.display = 'block';
+    displayArea.innerHTML = str;
+    setTimeout(function(){
+        displayArea.style.display = 'none';
+        displayArea.innerHTML = '';
+        G.hideShade();
+    }, 1500);
+};
+G.searchPlayerPopup = function() {
+    G.showShade(1);
+    $('#searchPlayerPopup').show();
+    $('#level').focus();
+};
+G.searchPlayer = function(){
+    var level = $("#level").val();
+    if(level) {
+        $('#listAreaTbody').load('/dev/searchPlayer/'+level, function(o){
+            $('#listArea').show();
+            $("#searchPlayerPopup").hide();
+            G.hideShade(1);
+        });
+    }
+};
+G.showPlayer = function(playerId){
+    if(!playerId)
+    	var playerId = prompt('请输入玩家id');
+	if(playerId) {
+		var url = '/dev/showPlayer/'+playerId;
+        window.open(url);
+	}
+};
+G.changeFirstMainMission = function(){
+        location = 'dev/changeFirstMainMission/';
+};
+G.genJsonPlayer = function(){
+    var playerId = prompt('请输入玩家id或者uuid');
+    if(playerId) {
+        location = '/dev/genJson/'+playerId;
+    }
+};
+G.fishPlayer = function(){//生成玩家
+	if(confirm('确定生成个新号?')){
+		location = '/dev/fishPlayer/';
+	}
+};
+G.delPlayer = function(){ //删除玩家
+	var id = prompt('请输入玩家id');
+	if(id) {
+		location = '/dev/delPlayer/'+id;
+	}
+};
+G.clearCache = function(){
+    if(confirm('清除所有cache?')){
+        $.post('/dev/clearAllCache/', {}, function(o){
+            G.showHint(o);
+            // alert(o);           
+        });
+    }
+
+};
+G.clearServerCache = function(){
+    if(confirm('清除所有servercache?')){
+        $.post('/dev/clearServerCache/', {}, function(o){
+            G.showHint(o);
+            // alert(o);           
+        });
+    }
+
+};
+G.clearChatCache = function(){
+    if(confirm('清除所有chat cache?')){
+        $.post('/dev/clearChatCache/', {}, function(o){
+            G.showHint(o);
+            // alert(o);           
+        });
+    }
+
+};
+G.clearDispatcherCache = function(){
+    if(confirm('清除所有dispatcher cache?')){
+        $.post('/dev/clearDispatcherCache/', {}, function(o){
+            G.showHint(o);
+			// alert(o);			
+		});
+	}
+
+};
+G.clearPlayerCache = function(){
+	var id = prompt('请输入玩家id');
+	if(id) {
+		$.post('/dev/clearPlayerCache/', {id:id}, function(o){
+			alert(o);
+		});
+	}
+};
+G.clearCookies = function(){
+	$.post('/dev/clearCookies/', function(o){
+		alert('done');
+	});
+};
+G.clearGeneralExp = function(){//武将经验归0
+	if(confirm('是否将所有武将经验置为 0 ?')){
+		$.post('/dev/clearGeneralExp/', function(o){
+            G.showHint(o);
+			// alert(o);
+		});
+	}
+};
+
+G.deletePlayerGuild = function(){//删除玩家联盟
+    var id = prompt('请输入玩家id');
+    if(id) {
+        $.post('/dev/testDelGuild/', {"id":id}, function(o){
+            G.showHint(o);
+            // alert(o);           
+        });
+    }
+}
+</script>

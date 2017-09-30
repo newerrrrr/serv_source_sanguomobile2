@@ -1,0 +1,128 @@
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">武将信息</h1>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+<?php
+function equipmentColor($desc, $quality=1){
+	$color = [
+		1 => 'white',
+		2 => 'green',
+		3 => 'blue',
+		4 => 'purple',
+		5 => 'orange',
+		7 => 'red',
+	];
+	if(!isset($color[$quality]))
+		$quality = 1;
+	return '<font color="'.$color[$quality].'">'.$desc.'</font>';
+}
+?>
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading"> 武将 </div>
+			<div class="panel-body">
+				<table width="100%" class="table table-striped table-bordered table-hover" id="generalTable">
+					<thead>
+					<tr>
+						<th>武将名称</th>
+						<th>等级</th>
+						<th>经验</th>
+						<th>星级</th>
+						<th>技能等级</th>
+						<th>武将武器</th>
+						<th>武将护甲</th>
+						<th>武将宝物</th>
+						<th>武将坐骑</th>
+						<th>状态</th>
+						<th>隶属</th>
+						<th>城战技能</th>
+					</tr>
+					</thead>
+					<tbody>
+					<?php foreach($pg as $_pg){
+						$_weapon = $equipment[$_pg['weapon_id']];
+						if($_pg['armor_id']){
+							$_armor = $equipment[$_pg['armor_id']];
+						}else{
+							$_armor = 0;
+						}
+						if($_pg['horse_id']){
+							$_horse = $equipment[$_pg['horse_id']];
+						}else{
+							$_horse = 0;
+						}
+						if($_pg['zuoji_id']){
+							$_zuoji = $equipment[$_pg['zuoji_id']];
+						}else{
+							$_zuoji = 0;
+						}
+						?>
+					<tr>
+						<td><?php echo $_pg['general']['desc1'] . '('.$_pg['general_id'].')'?></td>
+						<td><?php echo $_pg['lv']?></td>
+						<td><?php echo $_pg['exp']?></td>
+						<td><?php echo $_pg['star_lv']?></td>
+						<td><?php echo $_pg['skill_lv']?></td>
+						<td><?php echo equipmentColor($_weapon['desc1'] . 'lv' . $_weapon['star_level'] . '('.$_pg['weapon_id'].')', $_weapon['quality_id'])?></td>
+						<td><?php echo equipmentColor((@$_armor ? ($_armor['desc1'] . 'lv' . $_armor['star_level'] . '('.$_pg['armor_id'].')' ) : ''), $_armor['quality_id'])?></td>
+						<td><?php echo equipmentColor((@$_horse ? ($_horse['desc1'] . 'lv' . $_horse['star_level'] . '('.$_pg['horse_id'].')') : ''), $_horse['quality_id']) ?></td>
+						<td><?php echo equipmentColor((@$_zuoji ? ($_zuoji['desc1'] . 'lv' . $_zuoji['star_level'] . '('.$_pg['zuoji_id'].')') : ''), $_zuoji['quality_id']) ?></td>
+						<td><?php echo ($_pg['status'] ? '出征' : '空闲')?></td>
+						<td><?php echo ($_pg['army'] ? '军团'.$_pg['army']['position'] : '')?></td>
+						<td><?php
+							echo $battleSkill[$_pg['cross_skill_id_1']]['skill_name1'] . '('.$_pg['cross_skill_lv_1'].')<br>';
+							echo $battleSkill[$_pg['cross_skill_id_2']]['skill_name1'] . '('.$_pg['cross_skill_lv_2'].')<br>';
+							echo $battleSkill[$_pg['cross_skill_id_3']]['skill_name1'] . '('.$_pg['cross_skill_lv_3'].')';
+						?>
+						</td>
+					</tr>
+					<?php }?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading"> 信物 </div>
+			<div class="panel-body">
+				<table width="100%" class="table table-striped table-bordered table-hover" id="generalTable2">
+					<thead>
+					<tr>
+						<th>信物名称</th>
+						<th>数量(持有/需要)</th>
+					</tr>
+					</thead>
+					<tbody>
+					<?php foreach($piece as $_piece){
+						$General = new General;
+						$_g = $General->findFirst(['piece_item_id='.$_piece['item_id']]);
+						?>
+					<tr>
+						<td><?php echo $item[$_piece['item_id']]['desc1'] . '('.$_piece['item_id'].')'?></td>
+						<td><?php echo $_piece['num'] .'/'. $_g->piece_required?></td>
+					</tr>
+					<?php }?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+
+<script>
+$(document).ready(function(){
+    $('#generalTable').DataTable({
+		//"pageLength": 50
+	});
+});
+</script>

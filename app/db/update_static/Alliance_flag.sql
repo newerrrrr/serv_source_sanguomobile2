@@ -1,0 +1,13 @@
+-- INSERT UPDATE sql for 'Alliance_flag';
+INSERT INTO `Alliance_flag` (`id`,`type`,`res_flag`,`desc1`) VALUES ('1001','1','1019001','') ON DUPLICATE KEY UPDATE `id` = '1001',`type` = '1',`res_flag` = '1019001',`desc1` = '';
+INSERT INTO `Alliance_flag` (`id`,`type`,`res_flag`,`desc1`) VALUES ('1002','1','1019002','') ON DUPLICATE KEY UPDATE `id` = '1002',`type` = '1',`res_flag` = '1019002',`desc1` = '';
+INSERT INTO `Alliance_flag` (`id`,`type`,`res_flag`,`desc1`) VALUES ('1003','1','1019003','') ON DUPLICATE KEY UPDATE `id` = '1003',`type` = '1',`res_flag` = '1019003',`desc1` = '';
+INSERT INTO `Alliance_flag` (`id`,`type`,`res_flag`,`desc1`) VALUES ('1004','1','1019004','') ON DUPLICATE KEY UPDATE `id` = '1004',`type` = '1',`res_flag` = '1019004',`desc1` = '';
+INSERT INTO `Alliance_flag` (`id`,`type`,`res_flag`,`desc1`) VALUES ('1005','1','1019005','') ON DUPLICATE KEY UPDATE `id` = '1005',`type` = '1',`res_flag` = '1019005',`desc1` = '';
+INSERT INTO `Alliance_flag` (`id`,`type`,`res_flag`,`desc1`) VALUES ('1006','1','1019006','') ON DUPLICATE KEY UPDATE `id` = '1006',`type` = '1',`res_flag` = '1019006',`desc1` = '';
+INSERT INTO `Alliance_flag` (`id`,`type`,`res_flag`,`desc1`) VALUES ('1007','1','1019007','') ON DUPLICATE KEY UPDATE `id` = '1007',`type` = '1',`res_flag` = '1019007',`desc1` = '';
+INSERT INTO `Alliance_flag` (`id`,`type`,`res_flag`,`desc1`) VALUES ('1008','1','1019008','') ON DUPLICATE KEY UPDATE `id` = '1008',`type` = '1',`res_flag` = '1019008',`desc1` = '';
+INSERT INTO `Alliance_flag` (`id`,`type`,`res_flag`,`desc1`) VALUES ('1009','1','1019009','') ON DUPLICATE KEY UPDATE `id` = '1009',`type` = '1',`res_flag` = '1019009',`desc1` = '';
+INSERT INTO `Alliance_flag` (`id`,`type`,`res_flag`,`desc1`) VALUES ('1010','1','1019010','') ON DUPLICATE KEY UPDATE `id` = '1010',`type` = '1',`res_flag` = '1019010',`desc1` = '';
+INSERT INTO `Alliance_flag` (`id`,`type`,`res_flag`,`desc1`) VALUES ('1011','1','1019011','') ON DUPLICATE KEY UPDATE `id` = '1011',`type` = '1',`res_flag` = '1019011',`desc1` = '';
+INSERT INTO `Alliance_flag` (`id`,`type`,`res_flag`,`desc1`) VALUES ('1012','1','1019012','') ON DUPLICATE KEY UPDATE `id` = '1012',`type` = '1',`res_flag` = '1019012',`desc1` = '';

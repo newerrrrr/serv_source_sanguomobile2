@@ -1,0 +1,11 @@
+-- INSERT UPDATE sql for 'BuffAnims';
+INSERT INTO `BuffAnims` (`id`,`path`,`desc`) VALUES ('4100001','WD_Skill_QuanYiZHiJi_DeBuff','定身_孙权debuff') ON DUPLICATE KEY UPDATE `id` = '4100001',`path` = 'WD_Skill_QuanYiZHiJi_DeBuff',`desc` = '定身_孙权debuff';
+INSERT INTO `BuffAnims` (`id`,`path`,`desc`) VALUES ('4100002','WD_Skill_XuanYun_DeBuff','晕眩效果_张辽debuff') ON DUPLICATE KEY UPDATE `id` = '4100002',`path` = 'WD_Skill_XuanYun_DeBuff',`desc` = '晕眩效果_张辽debuff';
+INSERT INTO `BuffAnims` (`id`,`path`,`desc`) VALUES ('4100003','WD_Skill_HeiFengHou_DeBuff','黑风吼_张飞debuff') ON DUPLICATE KEY UPDATE `id` = '4100003',`path` = 'WD_Skill_HeiFengHou_DeBuff',`desc` = '黑风吼_张飞debuff';
+INSERT INTO `BuffAnims` (`id`,`path`,`desc`) VALUES ('4100004','WD_Skill_KuRou_Buff','苦肉_黄盖buff') ON DUPLICATE KEY UPDATE `id` = '4100004',`path` = 'WD_Skill_KuRou_Buff',`desc` = '苦肉_黄盖buff';
+INSERT INTO `BuffAnims` (`id`,`path`,`desc`) VALUES ('4100005','WD_Skill_BaWangNu_Buff','霸王怒_孙策buff') ON DUPLICATE KEY UPDATE `id` = '4100005',`path` = 'WD_Skill_BaWangNu_Buff',`desc` = '霸王怒_孙策buff';
+INSERT INTO `BuffAnims` (`id`,`path`,`desc`) VALUES ('4100006','WD_Skill_QingLongZhan_Buff','青龙斩_关羽buff') ON DUPLICATE KEY UPDATE `id` = '4100006',`path` = 'WD_Skill_QingLongZhan_Buff',`desc` = '青龙斩_关羽buff';
+INSERT INTO `BuffAnims` (`id`,`path`,`desc`) VALUES ('4100007','WD_Skill_JianXiong_Buff','奸雄_曹操buff') ON DUPLICATE KEY UPDATE `id` = '4100007',`path` = 'WD_Skill_JianXiong_Buff',`desc` = '奸雄_曹操buff';
+INSERT INTO `BuffAnims` (`id`,`path`,`desc`) VALUES ('4100008','WD_Skill_touming_buff','透明通用') ON DUPLICATE KEY UPDATE `id` = '4100008',`path` = 'WD_Skill_touming_buff',`desc` = '透明通用';
+INSERT INTO `BuffAnims` (`id`,`path`,`desc`) VALUES ('4200001','Effect_ZhuangTaiWenZiTiShi','tips_眩晕') ON DUPLICATE KEY UPDATE `id` = '4200001',`path` = 'Effect_ZhuangTaiWenZiTiShi',`desc` = 'tips_眩晕';
+INSERT INTO `BuffAnims` (`id`,`path`,`desc`) VALUES ('4200002','Effect_ZhuangTaiWenZiTiShi_DingShen','tips_定身') ON DUPLICATE KEY UPDATE `id` = '4200002',`path` = 'Effect_ZhuangTaiWenZiTiShi_DingShen',`desc` = 'tips_定身';

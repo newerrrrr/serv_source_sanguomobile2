@@ -1,0 +1,13 @@
+TRUNCATE `Map_build_menu_build_menu_5`;
+INSERT INTO `build_menu_5` (`id`,`build_menu_5_id`,`build_menu_5`) VALUES (NULL,'1,'109','110','126');
+INSERT INTO `build_menu_5` (`id`,`build_menu_5_id`,`build_menu_5`) VALUES (NULL,'3,'110');
+INSERT INTO `build_menu_5` (`id`,`build_menu_5_id`,`build_menu_5`) VALUES (NULL,'4,'110');
+INSERT INTO `build_menu_5` (`id`,`build_menu_5_id`,`build_menu_5`) VALUES (NULL,'5,'110');
+INSERT INTO `build_menu_5` (`id`,`build_menu_5_id`,`build_menu_5`) VALUES (NULL,'6,'110');
+INSERT INTO `build_menu_5` (`id`,`build_menu_5_id`,`build_menu_5`) VALUES (NULL,'7,'110');
+INSERT INTO `build_menu_5` (`id`,`build_menu_5_id`,`build_menu_5`) VALUES (NULL,'15,'112','125');
+INSERT INTO `build_menu_5` (`id`,`build_menu_5_id`,`build_menu_5`) VALUES (NULL,'16,'154','155','167');
+INSERT INTO `build_menu_5` (`id`,`build_menu_5_id`,`build_menu_5`) VALUES (NULL,'18,'148','152','166');
+INSERT INTO `build_menu_5` (`id`,`build_menu_5_id`,`build_menu_5`) VALUES (NULL,'19,'142','146','165');
+INSERT INTO `build_menu_5` (`id`,`build_menu_5_id`,`build_menu_5`) VALUES (NULL,'305,'185','186','183');
+INSERT INTO `build_menu_5` (`id`,`build_menu_5_id`,`build_menu_5`) VALUES (NULL,'99999,'190');

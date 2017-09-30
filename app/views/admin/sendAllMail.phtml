@@ -1,0 +1,90 @@
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">全服邮件</h1>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading"> 发送邮件 </div>
+			<div class="panel-body">
+				<form action="/admin/sendAllMail" method="POST">
+					<div class="form-group">
+						<label>发送对象</label>
+						<div class="btn-group" data-toggle="buttons" style="display:block">
+							<label class="btn btn-primary active">
+								<input type="radio" name="sendAllMailToType" id="sendAllMailToType1" autocomplete="off" value="1" checked> 全体玩家
+							</label>
+							<label class="btn btn-primary">
+								<input type="radio" name="sendAllMailToType" id="sendAllMailToType2" autocomplete="off" value="2"> 指定玩家
+							</label>
+						</div>
+						<div style="clear:both"></div>
+					</div>
+					<div class="form-group" id="block_usercode">
+						<label>玩家userCode</label>
+						<textarea class="form-control" rows="3" placeholder="输入玩家userCode，英文逗号分隔" id="sendAllMailUserCode"></textarea>
+					</div>
+					<div class="form-group">
+						<label>邮件内容</label>
+						<textarea class="form-control" rows="3" placeholder="输入邮件内容" id="sendAllMailMsg"></textarea>
+					</div>
+					<div class="form-group">
+						<label>道具</label>
+						<textarea class="form-control" rows="3" placeholder="输入道具代码（type1,id1,num1;type2,id2,num2;）" id="sendAllMailDrop"></textarea>
+					</div>
+				  <button type="button" class="btn btn-primary" onclick="sendAllMailSubmit()">发送</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+
+<?php $this->partial("shared/dropCreate", array('dropInputId' => 'sendAllMailDrop', 'memoInputId'=>'')); ?>
+
+<script>
+$(document).ready(function(){
+	$("input[name=sendAllMailToType]").change(function(){
+		selectToType($("input[name=sendAllMailToType]:checked").val());
+	}).click();
+	
+});
+
+function selectToType(type){
+	if(type == '1'){
+		//$("#block_usercode").hide();
+		$("#block_usercode textarea").val('').attr('disabled', '');
+	}else{
+		//$("#block_usercode").show();
+		$("#block_usercode textarea").removeAttr('disabled');
+	}
+}
+
+function sendAllMailSubmit(){
+	var ar = {1: '全体', 2: '指定'};
+	if(!confirm('是否给<?php echo $currentServerId?>服'+ar[$("input[name=sendAllMailToType]:checked").val()*1]+'玩家发送邮件？'))
+		return;
+	
+	showLoading();
+	send_request_json('/admin/ajaxSendAllMail', 
+	{
+		sendAllMailToType: $("input[name=sendAllMailToType]:checked").val(),
+		sendAllMailUserCode: $("#sendAllMailUserCode").val(),
+		sendAllMailMsg: $("#sendAllMailMsg").val(),
+		sendAllMailDrop: $("#sendAllMailDrop").val()
+	}, 
+	function(ret){
+		hideLoading();
+		if(ret.err == 'ok' && ret.failPlayer.length == 0){
+			alertOk('发送完成');
+		}else if(ret.err == 'ok'){
+			alertOk('发送完成，以下玩家未找到<br>'+ret.failPlayer.join(','));
+		}else{
+			alertErr(ret.err);
+		}
+	});
+}
+</script>

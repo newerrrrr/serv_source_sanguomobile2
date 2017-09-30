@@ -1,0 +1,2 @@
+# 限时比赛 每14天执行一次
+0 0 * * * /usr/local/php/bin/php /opt/htdocs/sanguomobile2/app/cli.php time_limit_match_list start

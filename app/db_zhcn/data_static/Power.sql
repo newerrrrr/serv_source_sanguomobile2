@@ -1,0 +1,13 @@
+TRUNCATE `Power`;
+INSERT INTO `Power` (`id`,`level`,`power`) VALUES ('1','9','302718');
+INSERT INTO `Power` (`id`,`level`,`power`) VALUES ('2','10','462586');
+INSERT INTO `Power` (`id`,`level`,`power`) VALUES ('3','11','504498');
+INSERT INTO `Power` (`id`,`level`,`power`) VALUES ('4','12','561919');
+INSERT INTO `Power` (`id`,`level`,`power`) VALUES ('5','13','636756');
+INSERT INTO `Power` (`id`,`level`,`power`) VALUES ('6','14','731060');
+INSERT INTO `Power` (`id`,`level`,`power`) VALUES ('7','15','851355');
+INSERT INTO `Power` (`id`,`level`,`power`) VALUES ('8','16','996418');
+INSERT INTO `Power` (`id`,`level`,`power`) VALUES ('9','17','1168664');
+INSERT INTO `Power` (`id`,`level`,`power`) VALUES ('10','18','1370586');
+INSERT INTO `Power` (`id`,`level`,`power`) VALUES ('11','19','1604751');
+INSERT INTO `Power` (`id`,`level`,`power`) VALUES ('12','20','1883581');

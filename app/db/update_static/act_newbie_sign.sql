@@ -1,0 +1,15 @@
+-- INSERT UPDATE sql for 'act_newbie_sign';
+INSERT INTO `act_newbie_sign` (`id`,`drop`) VALUES ('1','1500001') ON DUPLICATE KEY UPDATE `id` = '1',`drop` = '1500001';
+INSERT INTO `act_newbie_sign` (`id`,`drop`) VALUES ('2','1500002') ON DUPLICATE KEY UPDATE `id` = '2',`drop` = '1500002';
+INSERT INTO `act_newbie_sign` (`id`,`drop`) VALUES ('3','1500003') ON DUPLICATE KEY UPDATE `id` = '3',`drop` = '1500003';
+INSERT INTO `act_newbie_sign` (`id`,`drop`) VALUES ('4','1500004') ON DUPLICATE KEY UPDATE `id` = '4',`drop` = '1500004';
+INSERT INTO `act_newbie_sign` (`id`,`drop`) VALUES ('5','1500005') ON DUPLICATE KEY UPDATE `id` = '5',`drop` = '1500005';
+INSERT INTO `act_newbie_sign` (`id`,`drop`) VALUES ('6','1500006') ON DUPLICATE KEY UPDATE `id` = '6',`drop` = '1500006';
+INSERT INTO `act_newbie_sign` (`id`,`drop`) VALUES ('7','1500007') ON DUPLICATE KEY UPDATE `id` = '7',`drop` = '1500007';
+INSERT INTO `act_newbie_sign` (`id`,`drop`) VALUES ('8','1500008') ON DUPLICATE KEY UPDATE `id` = '8',`drop` = '1500008';
+INSERT INTO `act_newbie_sign` (`id`,`drop`) VALUES ('9','1500009') ON DUPLICATE KEY UPDATE `id` = '9',`drop` = '1500009';
+INSERT INTO `act_newbie_sign` (`id`,`drop`) VALUES ('10','1500010') ON DUPLICATE KEY UPDATE `id` = '10',`drop` = '1500010';
+INSERT INTO `act_newbie_sign` (`id`,`drop`) VALUES ('11','1500011') ON DUPLICATE KEY UPDATE `id` = '11',`drop` = '1500011';
+INSERT INTO `act_newbie_sign` (`id`,`drop`) VALUES ('12','1500012') ON DUPLICATE KEY UPDATE `id` = '12',`drop` = '1500012';
+INSERT INTO `act_newbie_sign` (`id`,`drop`) VALUES ('13','1500013') ON DUPLICATE KEY UPDATE `id` = '13',`drop` = '1500013';
+INSERT INTO `act_newbie_sign` (`id`,`drop`) VALUES ('14','1500014') ON DUPLICATE KEY UPDATE `id` = '14',`drop` = '1500014';

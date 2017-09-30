@@ -1,0 +1,46 @@
+<style>
+</style>
+<div class="row">
+    <div class="col-lg-12">
+    <h1 class="page-header">封号</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+        <?php if($banTime):?>
+        <div class="well">
+        <div>当前玩家封号截止时间为:<span style="color:red;"><?=$banTime?></span><span style="margin-left:20px; display:none;">剩余：<?=strtotime($banTime)-time()>0? strtotime($banTime)-time(): 0?>分钟</span></div>
+        <button type="button" class="btn btn-primary" onclick="notBanIt();" style="margin:20px auto 0;">解封</button>
+        </div>
+        <?php else: ?>
+        <div class="well">当前玩家状态正常</div>
+        <?php endif;?>
+
+    <div class="form-group">
+        <input class="Wdate" type="text" id="banDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+    </div>
+    <button type="button" class="btn btn-danger" onclick="banIt();" style="margin:20px auto 0;">封号</button>
+
+
+    <?php echo \Phalcon\Tag::javascriptInclude("js/My97DatePicker/WdatePicker.js"); ?>
+
+
+    <script type="text/javascript">
+    function banIt(){
+        var playerId = <?=$playerId?>;
+        var banDate = $('#banDate').val();
+        if(banDate && confirm('确认封号到 '+banDate+'?')){
+            // alert(banDate);
+            $.post('/admin/doBanAccount', {"playerId":playerId, "banDate":banDate}, function(o){
+                location.reload();
+            });
+        }
+    }
+    function notBanIt(){
+        var playerId = <?=$playerId?>;
+        if(confirm('解封?')){
+            $.post('/admin/doNotBanAccount', {"playerId":playerId}, function(o){
+                location.reload();
+            });
+        }
+    }
+    </script>

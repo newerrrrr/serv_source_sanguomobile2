@@ -1,0 +1,122 @@
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">军团信息</h1>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+
+<div class="alert alert-success">最大军团数：<?php echo $maxArmyNum?></div>
+<button class="btn btn-danger btn-s" type="button" onclick="doFixArmy(<?php echo $playerId?>)">修复消失的出征军团</button>
+<br><br>
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-primary">
+			<div class="panel-heading"> 军团 </div>
+			<div class="panel-body">
+			<?php foreach($pa as $_pa){?>
+				<div class="col-lg-3">军团 <span class="text-warning"><?php echo $_pa['position']?></span></div>
+				<div class="col-lg-3">军团长：<span class="text-warning"><?php echo $general[$_pa['leader_general_id']]['desc1']?></span></div>
+				<div class="col-lg-3">状态：<span class="text-warning"><?php echo [0=>'无', 1=>'行军'][$_pa['status']]?></span></div>
+				<table width="100%" class="table table-striped table-bordered table-hover" id="dataTable1">
+					<thead>
+					<tr>
+						<th>武将</th>
+						<th>士兵</th>
+						<th>数量</th>
+					</tr>
+					</thead>
+					<tbody>
+					<?php foreach($_pa['unit'] as $_unit){
+						?>
+					<tr>
+						<td><?php echo $general[$_unit['general_id']]['desc1']?>(<?php echo $_unit['general_id']?>)</td>
+						<td><?php echo ($_unit['soldier_id'] ? $soldier[$_unit['soldier_id']]['desc1'].'('.$_unit['soldier_id'].')' : '')?></td>
+						<td><?php echo $_unit['soldier_num']?></td>
+					</tr>
+					<?php }?>
+					</tbody>
+				</table>
+			<?php }?>
+			</div>
+		</div>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+
+<div class="row">
+	<div class="col-lg-6">
+		<div class="panel panel-success">
+			<div class="panel-heading"> 闲置士兵 </div>
+			<div class="panel-body">
+				<table width="100%" class="table table-striped table-bordered table-hover" id="dataTable2">
+					<thead>
+					<tr>
+						<th>士兵</th>
+						<th>数量</th>
+					</tr>
+					</thead>
+					<tbody>
+					<?php foreach($ps as $_ps){
+						?>
+					<tr>
+						<td><?php echo $soldier[$_ps['soldier_id']]['desc1'].'('.$_ps['soldier_id'].')'?></td>
+						<td><?php echo $_ps['num']?></td>
+					</tr>
+					<?php }?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-6">
+		<div class="panel panel-danger">
+			<div class="panel-heading"> 伤兵 </div>
+			<div class="panel-body">
+				<table width="100%" class="table table-striped table-bordered table-hover" id="dataTable2">
+					<thead>
+					<tr>
+						<th>士兵</th>
+						<th>数量</th>
+					</tr>
+					</thead>
+					<tbody>
+					<?php foreach($psi as $_psi){
+						?>
+					<tr>
+						<td><?php echo $soldier[$_psi['soldier_id']]['desc1'].'('.$_psi['soldier_id'].')'?></td>
+						<td><?php echo $_psi['num']?></td>
+					</tr>
+					<?php }?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+
+<script>
+$(document).ready(function(){
+    $('#dataTable2').DataTable({
+		//"pageLength": 50
+	});
+});
+
+function doFixArmy(playerId){
+	send_request_json('/admin/ajaxPlayerFixArmy', 
+		{playerId: playerId}, 
+		function(ret){
+		if(ret.err == 'ok'){
+			if(ret.num == 0){
+				alertOk('没有需要修复的军团');
+			}else{
+				alertOk('已修复'+ret.num+'个军团', function(){
+					location.reload();
+				});
+			}
+		}else{
+			alertErr(ret.err);
+		}
+	});
+}
+</script>

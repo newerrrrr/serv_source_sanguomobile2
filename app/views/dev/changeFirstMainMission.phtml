@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<meta charset="utf-8">
+<?php echo \Phalcon\Tag::javascriptInclude("js/jquery/jquery-2.1.4.min.js"); ?>
+<link rel="stylesheet" href="/css/dev.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>更改主线任务初始id</title>
+<head>
+
+<style>
+/*ul li {margin-bottom: 5px;}*/
+</style>
+<!-- view -->
+
+
+<!--  model  -->
+<script>
+
+function changeMainMission () {
+    var playerId = $('#playerId').val();
+    var mainId = $('#mainId').val();
+    $.post('/dev/changeFirstMainMission', {'playerId':playerId, 'mainId':mainId}, function(o){
+        alert(o);
+    });
+}
+
+</script>
+</head>
+<body>
+玩家id <input type="text" id="playerId"><br>
+主线任务id <input  type="text" id="mainId"><br>
+<input type="button" value="提交" onclick="changeMainMission()">
+
+</body>
+</html>

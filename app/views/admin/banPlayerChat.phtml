@@ -1,0 +1,46 @@
+<style>
+</style>
+<div class="row">
+    <div class="col-lg-12">
+    <h1 class="page-header">禁言</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+        <?php if($banMsgTime):?>
+        <div class="well">
+        <div>当前玩家禁言截止时间为:<span style="color:red;"><?=$banMsgTime?></span><span style="margin-left:20px; display:none;">剩余：<?=strtotime($banMsgTime)-time()>0? strtotime($banMsgTime)-time(): 0?>分钟</span></div>
+        <button type="button" class="btn btn-primary" onclick="notBanIt();" style="margin:20px auto 0;">解禁</button>
+        </div>
+        <?php else: ?>
+        <div class="well">当前玩家无禁言</div>
+        <?php endif;?>
+
+    <div class="form-group">
+        <input class="Wdate" type="text" id="banDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+    </div>
+    <button type="button" class="btn btn-danger" onclick="banIt();" style="margin:20px auto 0;">禁言</button>
+
+
+    <?php echo \Phalcon\Tag::javascriptInclude("js/My97DatePicker/WdatePicker.js"); ?>
+
+
+    <script type="text/javascript">
+    function banIt(){
+        var playerId = <?=$playerId?>;
+        var banDate = $('#banDate').val();
+        if(banDate && confirm('确认禁言到 '+banDate+'?')){
+            // alert(banDate);
+            $.post('/admin/doBanPlayerChat', {"playerId":playerId, "banDate":banDate}, function(o){
+                location.reload();
+            });
+        }
+    }
+    function notBanIt(){
+        var playerId = <?=$playerId?>;
+        if(confirm('解禁?')){
+            $.post('/admin/doNotBanPlayerChat', {"playerId":playerId}, function(o){
+                location.reload();
+            });
+        }
+    }
+    </script>

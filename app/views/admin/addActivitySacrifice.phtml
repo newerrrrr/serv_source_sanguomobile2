@@ -1,0 +1,250 @@
+<style>
+.Wdate{
+	height:30px;
+	width:250px;
+}
+.dayblock{
+	border:1px dotted red;
+	padding:10px 10px 30px 10px;
+}
+#itemDropCreater{
+	display:none
+}
+</style>
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">编辑祭天活动</h1>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading"> <?php echo ($add ? '新增':'编辑')?> </div>
+			<div class="panel-body">
+				<?php if($add){?>
+				<?php $this->partial("shared/serverList", array('dropInputId' => 'actDrop', 'memoInputId'=>'actDropMemo', 'callback'=>'addtoDropCb')); ?>
+				<?php }?>
+				<form method="POST">
+					<div class="form-group">
+						<label>活动名称</label>
+						<input class="form-control" rows="3" placeholder="" id="actName" value="<?php echo @$act['activity_para']['name']?>"/>
+					</div>
+					<div id="block_begintime" class="form-group">
+						<label>开始时间</label>
+						<input id="beginTime" placeholder="" class="form-control Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" defaultVal="" value="<?php echo @$act['start_time']?>"/>
+					</div>
+					<div id="block_endtime" class="form-group">
+						<label>结束时间</label>
+						<input id="endTime" placeholder="" class="form-control Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" defaultVal="" value="<?php echo @$act['end_time']?>"/>
+					</div>
+					<div class="form-group">
+						<label>消耗道具id</label>
+						<input id="itemId" placeholder="" class="form-control"  value="<?php echo @$act['activity_para']['itemId']?>"/>
+					</div>
+					<div class="form-group">
+						<label>消耗元宝（单次）</label>
+						<input id="gem" placeholder="" class="form-control"  value="<?php echo @$act['activity_para']['gem']?>"/>
+					</div>
+					<div class="form-group">
+						<label>消耗元宝（10次）</label>
+						<input id="gemMulti" placeholder="" class="form-control"  value="<?php echo @$act['activity_para']['gemMulti']?>"/>
+					</div>
+					<div class="form-group">
+						<label>x次数</label>
+						<input id="xcounter" placeholder="" class="form-control"  value="<?php echo @$act['activity_para']['xcounter']?>"/>
+					</div>
+					<div class="form-group">
+						<label>规则说明</label>
+						<textarea id="memo" placeholder="" class="form-control" ><?php echo @$act['activity_para']['memo']?></textarea>
+					</div>
+					<div class="wheelblocks">
+						<label>奖励</label>
+					</div>
+					<div class="form-group">
+						<button type="button" class="btn btn-success btn-xs" onclick="addWheel()" style="float:left;margin-bottom:30px;">新增档</button>
+						<div style="clear:both"></div>
+					</div>
+					<button type="button" class="btn btn-primary" onclick="actSubmit()">提交</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+
+<div class="dayblockExample" style="display:none">
+	<div class="form-group">
+		<label>累计<input class="form-control day" value="" style="width:100px;display:inline-block"/>次</label>
+	</div>
+	<div class="form-group">
+		<label>奖励</label>
+		<textarea class="form-control drop" rows="3" placeholder="点击开始编辑，输入道具代码（type1,id1,num1;type2,id2,num2;）"></textarea>
+		<textarea class="form-control memo" rows="3" placeholder="" disabled="true"></textarea>
+	</div>
+	<button type="button" class="btn btn-danger btn-xs" onclick="deleteDay(this)" style="float:left;">删除档</button>
+</div>
+
+<div class="wheelblockExample" style="display:none">
+	<div class="form-group">
+		<label>x次前权重：<input class="form-control day" value="" style="width:100px;display:inline-block"/></label>
+	</div>
+	<div class="form-group">
+		<label>x次后（包含x）权重：<input class="form-control day2" value="" style="width:100px;display:inline-block"/></label>
+	</div>
+	<div class="form-group">
+		<label>奖励</label>
+		<textarea class="form-control drop" rows="3" placeholder="点击开始编辑，输入道具代码（type1,id1,num1;type2,id2,num2;）"></textarea>
+		<textarea class="form-control memo" rows="3" placeholder="" disabled="true"></textarea>
+	</div>
+	<button type="button" class="btn btn-danger btn-xs" onclick="deleteDay(this)" style="float:left;">删除档</button>
+</div>
+
+<?php $this->partial("shared/dropCreate", array('dropInputId' => 'actDrop', 'memoInputId'=>'actDropMemo', 'callback'=>'addtoDropCb')); ?>
+
+<?php echo \Phalcon\Tag::javascriptInclude("js/My97DatePicker/WdatePicker.js"); ?>
+<script>
+var gCtrlFlag = true;
+var gAddMode = <?php echo ($add ? 1 : 0)?>;
+$(document).ready(function(){
+	$(".dayblocks, .wheelblocks").on('click', '.drop', function(){
+		$("#actDrop,#actDropMemo").removeAttr('id');
+		$(this).attr('id', 'actDrop');
+		$(this).next('.memo').attr('id', 'actDropMemo');
+		generateBeautyFromStr($(this).val());
+		$("#itemDropCreater").show();
+		location.href = '#itemDropCreateTitle';
+		$(this).select();
+	}).on('blur', '.drop', function(){
+		var obj = $(this);
+		getItemTranslate(obj.val(), function(data){
+			var str = [];
+			$.each(data, function(i, v){
+				str.push(v.name+'('+v.id+')x'+v.num);
+			});
+			str = str.join("\r\n");
+			obj.siblings('.memo').val(str);
+		});
+	});
+	
+	//编辑显示
+	<?php 
+	if(@$act['activity_para']['wheel']){
+		foreach($act['activity_para']['wheel'] as $_k => $_r){?>
+			addWheel();
+			$(".wheelblocks .day:last").val('<?php echo $_r['rate']?>');
+			$(".wheelblocks .day2:last").val('<?php echo @$_r['rate2']?>');
+			$(".wheelblocks .drop:last").val('<?php echo $_r['drop']?>').blur();
+		<?php 
+		}
+	}
+	?>
+});
+function actSubmit(){
+	if(!gCtrlFlag)
+		gCtrlFlag = false;
+	var reward = [];
+	$(".dayblocks .dayblock").each(function(i, d){
+		var r = {};
+		r.day = $.trim($(d).find('.day').val());
+		r.drop = $.trim($(d).find('.drop').val());
+		reward.push(r);
+	});
+	var wheel = [];
+	$(".wheelblocks .dayblock").each(function(i, d){
+		var r = {};
+		r.rate = $.trim($(d).find('.day').val());
+		r.rate2 = $.trim($(d).find('.day2').val());
+		r.drop = $.trim($(d).find('.drop').val());
+		wheel.push(r);
+	});
+	
+	var data = {
+		actName: $("#actName").val(),
+		beginTime: $("#beginTime").val(),
+		endTime: $("#endTime").val(),
+		gem: $("#gem").val(),
+		gemMulti: $("#gemMulti").val(),
+		itemId: $("#itemId").val(),
+		memo: $("#memo").val(),
+		xcounter: $("#xcounter").val(),
+		addMode: gAddMode,
+		reward: reward,
+		wheel: wheel,
+		actConfigId: <?php echo @$act['id']*1?>
+	};
+	if(gAddMode){
+		send_request_json('/admin/ajaxAddActivitySacrifice', 
+		data, 
+		function(ret){
+			if(ret.err == 'ok'){
+				alertOk('完成', function(){
+					location.href = '/admin/addActivitySacrifice/'+ret.actConfigId;
+				});
+			}else{
+				alertErr(ret.err);
+			}
+			gCtrlFlag = true;
+		});
+		return;
+		var server = SERVERLIST.getServer();
+		if(!server.length){
+			alertErr('请选择服务器');
+			return;
+		}
+		send_request_json('/admin/ajaxMultiServerHandle', {
+			action: 'ajaxAddActivitySacrifice',
+			server: server,
+			data: data
+		}, function(ret){
+			var str = [];
+			var allright = true;
+			for(i in ret){
+				if(ret[i].err == 'ok'){
+					$('input[name=serverChoose][value='+i+']').removeAttr('checked');
+				}else{
+					allright = false;
+				}
+				str.push(i+'服：'+ret[i].err);
+			}
+			if(allright){
+				alertOk('完成', function(){
+					location.href = '/admin/activityShow/';
+				});
+			}else{
+				alertErr(str.join('<br>'));
+			}
+			gCtrlFlag = true;
+		});
+	}else{
+		send_request_json('/admin/ajaxAddActivitySacrifice', 
+		data, 
+		function(ret){
+			if(ret.err == 'ok'){
+				alertOk('完成', function(){
+					location.href = '/admin/addActivitySacrifice/'+ret.actConfigId;
+				});
+			}else{
+				alertErr(ret.err);
+			}
+			gCtrlFlag = true;
+		});
+	}
+}
+
+function addWheel(){
+	if(!gCtrlFlag)
+		gCtrlFlag = false;
+	
+	$(".wheelblocks").append('<div class="dayblock"></div>');
+	$(".wheelblocks .dayblock:last").html($(".wheelblockExample").html());
+	
+	gCtrlFlag = true;
+}
+
+
+function addtoDropCb(){
+	$("#itemDropCreater").hide();
+}
+</script>

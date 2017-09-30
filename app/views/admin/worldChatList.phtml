@@ -1,0 +1,80 @@
+<style>
+</style>
+<div class="row">
+    <div class="col-lg-12">
+    <h1 class="page-header">世界聊天</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<span id="notice"></span>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading"> 世界聊天 </div>
+            <div class="panel-body">
+                <table width="100%" class="table table-striped table-bordered table-hover" id="chatTable">
+                    <thead>
+                    <tr>
+                        <th>玩家id</th>
+                        <th>昵称</th>
+                        <th>联盟短名称</th>
+                        <th>内容</th>
+                        <th>时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($worldMsg as $k=>$v):
+                        $content = $v['content'];
+                        if(isset($_REQUEST['type'])) {
+                            $type = $_REQUEST['type'];
+                            if($type==1) {//玩家聊天信息
+                                if(empty($content)) continue;
+                            } elseif($type==0) {//系统信息
+                                if(empty($content)) {
+                                    $content = json_encode($v['data']);
+                                } else continue;
+                            }
+                        }
+                        ?>
+                        <tr>
+                            <td><?=$v['player_id']?></td>
+                            <td><?=$v['nick']?></td>
+                            <td><?=$v['guild_short_name']?></td>
+                            <td><?=$content?></td>
+                            <td><?=$v['date']?></td>
+                            <td>
+                            <a class="btn btn-danger" href="javascript:;" onclick="delSingle(<?=$k?>);">删除</a>
+                            </td>
+                        </tr>
+                    <?php endforeach;?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<button type="button" class="btn btn-primary" onclick="flushAll();" style="margin:20px auto 0;">全清</button>
+
+<script>
+function flushAll(){
+    if(confirm('全部清除世界聊天?')) {
+        $.post('/admin/ajaxFlushAllWorldChat', {}, function(o){
+            location.reload();
+        });
+    }
+}
+function delSingle(id){
+    if(confirm('删除当前条目?')) {
+        $.post('/admin/delSingleWorldChat', {"id":id}, function(o){
+            location.reload();
+        });
+    }
+}
+$(document).ready(function(){
+    $('#chatTable').DataTable({
+        "pageLength": 100,
+        "aaSorting": [[ 4, "desc" ]]
+    });
+});
+</script>

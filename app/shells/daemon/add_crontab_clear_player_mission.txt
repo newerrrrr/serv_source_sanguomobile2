@@ -1,0 +1,2 @@
+# 清理player_mission
+0 12 * * * /usr/local/php/bin/php /opt/htdocs/sanguomobile2/app/cli.php clear mission

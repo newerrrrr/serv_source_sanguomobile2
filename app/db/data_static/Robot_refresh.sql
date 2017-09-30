@@ -1,0 +1,12 @@
+TRUNCATE `Robot_refresh`;
+INSERT INTO `Robot_refresh` (`id`,`build_level`,`troop`,`day_start`,`day_end`) VALUES ('1','5','20106,10001;20022,30001','1','15');
+INSERT INTO `Robot_refresh` (`id`,`build_level`,`troop`,`day_start`,`day_end`) VALUES ('2','6','20106,10001;20022,30001','1','15');
+INSERT INTO `Robot_refresh` (`id`,`build_level`,`troop`,`day_start`,`day_end`) VALUES ('3','6','20106,10001;20022,30001;20026,20001','1','15');
+INSERT INTO `Robot_refresh` (`id`,`build_level`,`troop`,`day_start`,`day_end`) VALUES ('4','7','20106,10001;20022,30001;20026,20001','2','15');
+INSERT INTO `Robot_refresh` (`id`,`build_level`,`troop`,`day_start`,`day_end`) VALUES ('5','7','20106,10001;20022,30001;20026,20001;20008,20002','2','15');
+INSERT INTO `Robot_refresh` (`id`,`build_level`,`troop`,`day_start`,`day_end`) VALUES ('6','8','20106,10001;20022,30001;20026,20001','3','15');
+INSERT INTO `Robot_refresh` (`id`,`build_level`,`troop`,`day_start`,`day_end`) VALUES ('7','8','20106,10001;20022,30001;20026,20001;20008,20002','3','15');
+INSERT INTO `Robot_refresh` (`id`,`build_level`,`troop`,`day_start`,`day_end`) VALUES ('9','9','20106,10001;20022,30001;20026,20001','4','15');
+INSERT INTO `Robot_refresh` (`id`,`build_level`,`troop`,`day_start`,`day_end`) VALUES ('10','9','20106,10001;20022,30001;20026,20001;20008,20002','4','15');
+INSERT INTO `Robot_refresh` (`id`,`build_level`,`troop`,`day_start`,`day_end`) VALUES ('11','10','20106,10003;20022,30003;20026,20003;20008,20004','5','15');
+INSERT INTO `Robot_refresh` (`id`,`build_level`,`troop`,`day_start`,`day_end`) VALUES ('12','10','20106,10003;20022,30003;20026,20003;20008,20004;20021,40004','5','15');

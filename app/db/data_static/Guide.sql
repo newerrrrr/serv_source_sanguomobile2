@@ -1,0 +1,11 @@
+TRUNCATE `Guide`;
+INSERT INTO `Guide` (`id`,`steps`,`need_level`,`close_type`,`build_ids`,`science_ids`) VALUES ('100101','100102,100201,100202,100203,100204','0','0','','');
+INSERT INTO `Guide` (`id`,`steps`,`need_level`,`close_type`,`build_ids`,`science_ids`) VALUES ('100201','101702,101703,101704,101705','0','0','','');
+INSERT INTO `Guide` (`id`,`steps`,`need_level`,`close_type`,`build_ids`,`science_ids`) VALUES ('100301','101801,101802,101803,101804,101805,101806,101807,101808','0','0','','');
+INSERT INTO `Guide` (`id`,`steps`,`need_level`,`close_type`,`build_ids`,`science_ids`) VALUES ('100401','101901,101902,101903,101904,101905,101906','0','0','','');
+INSERT INTO `Guide` (`id`,`steps`,`need_level`,`close_type`,`build_ids`,`science_ids`) VALUES ('100501','101901,101902,101903,101907,101908,101909','0','0','','');
+INSERT INTO `Guide` (`id`,`steps`,`need_level`,`close_type`,`build_ids`,`science_ids`) VALUES ('100601','100401,100402,100403,100404,100405,100406,100407,100501','0','0','','');
+INSERT INTO `Guide` (`id`,`steps`,`need_level`,`close_type`,`build_ids`,`science_ids`) VALUES ('100701','100502,100503,100504,100505','0','0','','');
+INSERT INTO `Guide` (`id`,`steps`,`need_level`,`close_type`,`build_ids`,`science_ids`) VALUES ('100801','100601,100602,100603,100604,100605','0','0','','');
+INSERT INTO `Guide` (`id`,`steps`,`need_level`,`close_type`,`build_ids`,`science_ids`) VALUES ('100901','100701,100702,100703,100704,100705','0','0','','');
+INSERT INTO `Guide` (`id`,`steps`,`need_level`,`close_type`,`build_ids`,`science_ids`) VALUES ('101001','100801,100802','0','0','','');

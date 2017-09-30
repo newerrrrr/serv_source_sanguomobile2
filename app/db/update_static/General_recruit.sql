@@ -1,0 +1,11 @@
+-- INSERT UPDATE sql for 'General_recruit';
+INSERT INTO `General_recruit` (`id`,`desc1`) VALUES ('100101','吕布') ON DUPLICATE KEY UPDATE `id` = '100101',`desc1` = '吕布';
+INSERT INTO `General_recruit` (`id`,`desc1`) VALUES ('100201','关羽') ON DUPLICATE KEY UPDATE `id` = '100201',`desc1` = '关羽';
+INSERT INTO `General_recruit` (`id`,`desc1`) VALUES ('100301','张飞') ON DUPLICATE KEY UPDATE `id` = '100301',`desc1` = '张飞';
+INSERT INTO `General_recruit` (`id`,`desc1`) VALUES ('100401','刘备') ON DUPLICATE KEY UPDATE `id` = '100401',`desc1` = '刘备';
+INSERT INTO `General_recruit` (`id`,`desc1`) VALUES ('100501','赵云') ON DUPLICATE KEY UPDATE `id` = '100501',`desc1` = '赵云';
+INSERT INTO `General_recruit` (`id`,`desc1`) VALUES ('100601','马超') ON DUPLICATE KEY UPDATE `id` = '100601',`desc1` = '马超';
+INSERT INTO `General_recruit` (`id`,`desc1`) VALUES ('100701','诸葛亮') ON DUPLICATE KEY UPDATE `id` = '100701',`desc1` = '诸葛亮';
+INSERT INTO `General_recruit` (`id`,`desc1`) VALUES ('100801','司马懿') ON DUPLICATE KEY UPDATE `id` = '100801',`desc1` = '司马懿';
+INSERT INTO `General_recruit` (`id`,`desc1`) VALUES ('100901','周瑜') ON DUPLICATE KEY UPDATE `id` = '100901',`desc1` = '周瑜';
+INSERT INTO `General_recruit` (`id`,`desc1`) VALUES ('101001','黄忠') ON DUPLICATE KEY UPDATE `id` = '101001',`desc1` = '黄忠';

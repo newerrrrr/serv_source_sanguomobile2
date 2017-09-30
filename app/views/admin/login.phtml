@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>手机三国2管理端</title>
+
+    <!-- Bootstrap Core CSS -->
+	<?php echo Phalcon\Tag::stylesheetLink("sbadmin/bower_components/bootstrap/dist/css/bootstrap.min.css");?>
+
+    <!-- MetisMenu CSS -->
+	<?php echo Phalcon\Tag::stylesheetLink("sbadmin/bower_components/metisMenu/dist/metisMenu.min.css");?>
+
+    <!-- Timeline CSS -->
+	<?php echo Phalcon\Tag::stylesheetLink("sbadmin/dist/css/timeline.css");?>
+
+    <!-- Custom CSS -->
+	<?php echo Phalcon\Tag::stylesheetLink("sbadmin/dist/css/sb-admin-2.css");?>
+
+    <!-- Morris Charts CSS -->
+	<?php echo Phalcon\Tag::stylesheetLink("sbadmin/bower_components/morrisjs/morris.css");?>
+
+    <!-- Custom Fonts -->
+	<?php echo Phalcon\Tag::stylesheetLink("sbadmin/bower_components/font-awesome/css/font-awesome.min.css");?>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">请登录</h3>
+                    </div>
+                    <div class="panel-body">
+						<?php if(isset($errmsg) && $errmsg){?>
+						<div class="alert alert-danger">
+							<?php echo 'ERROR:'.$errmsg ?>
+						</div>
+						<?php }?>
+                        <form role="form" action="/admin/login" method="post">
+                            <fieldset>
+								<div class="form-group">
+                                    <select class="form-control" name="admin_server" >
+										<?php if(QA):?>
+										<option value="http://<?=$_SERVER['HTTP_HOST']?>" selected="selected" id="qaServer"><?=$_SERVER['HTTP_HOST']?></option>
+										<?php endif?>
+										<?php foreach($serverList as $_l){
+                                            if(strpos($_l['gameServerHost'], $_SERVER['HTTP_HOST'])) {
+                                                $qaServerExists = true;
+                                            }
+                                            ?>
+										<option value="<?php echo $_l['gameServerHost']?>" <?php echo ('http://'.$_SERVER['HTTP_HOST']==$_l['gameServerHost']? 'selected="selected"':'')?>>[<?php echo $_l['id']?>]<?php echo $_l['name']?></option>
+										<?php }?>
+									</select>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Username" name="admin_name" type="Username" autofocus>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Password" name="admin_password" type="password" value="">
+                                </div>
+                                <!-- Change this to a button or input when using this as a form -->
+								<input name="admin_redirect" type="hidden" value="<?php echo @$_REQUEST['r']?>">
+                                <input type="submit" class="btn btn-lg btn-success btn-block" value="芝麻开门" />
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<!-- jQuery -->
+	<?php echo \Phalcon\Tag::javascriptInclude("sbadmin/bower_components/jquery/dist/jquery.min.js"); ?>
+
+    <!-- Bootstrap Core JavaScript -->
+	<?php echo \Phalcon\Tag::javascriptInclude("sbadmin/bower_components/bootstrap/dist/js/bootstrap.min.js"); ?>
+
+    <!-- Metis Menu Plugin JavaScript -->
+	<?php echo \Phalcon\Tag::javascriptInclude("sbadmin/bower_components/metisMenu/dist/metisMenu.min.js"); ?>
+
+    <!-- Morris Charts JavaScript -->
+	<?php echo \Phalcon\Tag::javascriptInclude("sbadmin/bower_components/raphael/raphael-min.js"); ?>
+	<?php echo \Phalcon\Tag::javascriptInclude("sbadmin/bower_components/morrisjs/morris.min.js"); ?>
+    <!--<script src="../js/morris-data.js"></script>-->
+
+    <!-- Custom Theme JavaScript -->
+	<?php echo \Phalcon\Tag::javascriptInclude("sbadmin/dist/js/sb-admin-2.js"); ?>
+
+</body>
+<?php if(isset($qaServerExists)):?>
+<script>
+    ~
+    function(){
+        $('#qaServer').remove();
+    }();
+</script>
+<?php endif;?>
+</html>

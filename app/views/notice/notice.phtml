@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="maximum-scale=1,user-scalable=no"> 
+<title>公告</title>
+<style type="text/css">
+*{ margin: 0; padding:0; }
+body{ background: rgb(0,0,0); -webkit-user-select:none;}
+a{color:blue;}
+#w {width: 926px; margin: 0 auto 0; height: <?=100*count($notice)?>px}
+.title{ width: 926px; height: 76px; display: block; background: url(/img/notice/bg.jpg) no-repeat; overflow: hidden; margin-top: 12px; color: #fff; position: relative; font-size:24px;}
+.title .ico_new{ display: block; width:  42px; height: 41px; background: url(/img/notice/new.png) no-repeat; overflow: hidden; position: absolute; left: 0; top: 0; z-index: 2;}
+.title .col{ display: block; float: left; margin-top: 22px;}
+.title .col1{ width: 450px; margin-left: 20px; }
+.title .col2{ width: 100px; margin-left: 320px; }
+.n{ width: 1018px; height: 1500px; background: url(/img/notice/bg_content.jpg) no-repeat; overflow: hidden; color: #fff; margin: 0 auto 0; }
+.n .btn{ margin-left: 25px; margin-top: 20px; position:fixed;}
+.n .t{ text-align: center; color: #fdd06e;  margin-top: 20px ; font-size:48px;}
+.n .m{ width: 950px; margin: 35px auto 0; overflow: hidden; font-size:24px;}
+</style>
+</head>
+<body>
+<!-- 标题 -->
+<div id="w">
+<?php foreach($notice as $k=>$v):?>
+    <div onclick="v(<?=$v['id']?>, '<?=$v['title']?>')" class="title"><?php if($v['is_new']==1):?><span class="ico_new"></span><?php endif;?><span class="col col1"><?=$v['title']?></span><span class="col col2"><?=date('Y.m.d', strtotime($v['begin_time']))?></span></div>
+<?php endforeach;?>
+</div>
+<!-- 内容 -->
+<div id="n" class="n" style="display:none;">
+    <img src="/img/notice/b2.png" width="80" alt="r" class="btn" id="btn">
+    <p id="t" class="t"></p>
+    <div id="m" class="m">
+    </div>
+</div>
+
+<script>
+var data = <?=json_encode(Set::combine($notice, '{n}.id', '{n}.content'))?>;
+function v(id, title) {
+    document.getElementById('w').style.display = 'none';
+
+    document.getElementById('t').innerHTML = title;
+    document.getElementById('m').innerHTML = data[id];
+    document.getElementById('n').style.display = 'block';
+}
+var btn=document.getElementById("btn");
+btn.ontouchstart = function(event){
+    if(event.targetTouches.length == 1){
+        this.src="/img/notice/b1.png";
+        btn.ontouchend = function(event){
+            this.src="/img/notice/b2.png";
+            document.getElementById('n').style.display = 'none';
+            document.getElementById('w').style.display = 'block';
+        }
+    }
+    return false;
+}
+function back(o){
+    o.src="/notice/b1.png";
+    document.getElementById('n').style.display = 'none';
+    document.getElementById('w').style.display = 'block';
+}
+
+// var clickFlag = false;
+//     btn.onclick=function(){
+//         console.log('clickFlag', clickFlag);
+//         if(clickFlag) {
+//             this.src="/img/notice/b1.png";
+//             this.src="/img/notice/b2.png";
+//             document.getElementById('n').style.display = 'none';
+//             document.getElementById('w').style.display = 'block';
+//         }
+//     }
+  
+</script>
+</body>
+</html>
+
+

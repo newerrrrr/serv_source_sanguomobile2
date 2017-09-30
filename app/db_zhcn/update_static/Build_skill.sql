@@ -1,0 +1,1 @@
+-- INSERT UPDATE sql for 'Build_skill';

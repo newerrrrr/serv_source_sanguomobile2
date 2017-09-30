@@ -1,0 +1,13 @@
+TRUNCATE `Alliance_flag`;
+INSERT INTO `Alliance_flag` (`id`,`type`,`res_flag`,`desc1`) VALUES ('1001','1','1019001','');
+INSERT INTO `Alliance_flag` (`id`,`type`,`res_flag`,`desc1`) VALUES ('1002','1','1019002','');
+INSERT INTO `Alliance_flag` (`id`,`type`,`res_flag`,`desc1`) VALUES ('1003','1','1019003','');
+INSERT INTO `Alliance_flag` (`id`,`type`,`res_flag`,`desc1`) VALUES ('1004','1','1019004','');
+INSERT INTO `Alliance_flag` (`id`,`type`,`res_flag`,`desc1`) VALUES ('1005','1','1019005','');
+INSERT INTO `Alliance_flag` (`id`,`type`,`res_flag`,`desc1`) VALUES ('1006','1','1019006','');
+INSERT INTO `Alliance_flag` (`id`,`type`,`res_flag`,`desc1`) VALUES ('1007','1','1019007','');
+INSERT INTO `Alliance_flag` (`id`,`type`,`res_flag`,`desc1`) VALUES ('1008','1','1019008','');
+INSERT INTO `Alliance_flag` (`id`,`type`,`res_flag`,`desc1`) VALUES ('1009','1','1019009','');
+INSERT INTO `Alliance_flag` (`id`,`type`,`res_flag`,`desc1`) VALUES ('1010','1','1019010','');
+INSERT INTO `Alliance_flag` (`id`,`type`,`res_flag`,`desc1`) VALUES ('1011','1','1019011','');
+INSERT INTO `Alliance_flag` (`id`,`type`,`res_flag`,`desc1`) VALUES ('1012','1','1019012','');

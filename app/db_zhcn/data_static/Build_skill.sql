@@ -1,0 +1,1 @@
+TRUNCATE `Build_skill`;

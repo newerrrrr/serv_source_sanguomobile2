@@ -1,0 +1,260 @@
+<style>
+.playerdoItemCartNum{
+	width:20px;
+	background:#777;
+	border:0;
+	text-align:center;
+}
+.playerdoItemCartNum:hover,
+.playerdoItemCartNum:focus{
+	background:#999;
+}
+.cartItem{
+	margin-right:10px;
+}
+</style>
+
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">玩家发送</h1>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+
+<div class="row">
+	<div class="col-lg-6">
+		<div class="panel panel-danger">
+			<div class="panel-heading"> 玩家选择 </div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label>发送对象</label>
+					<div class="btn-group" data-toggle="buttons" style="display:block">
+						<label class="btn btn-primary active">
+							<input type="radio" name="playerToType" id="playerToType1" autocomplete="off" value="1"> 全体玩家
+						</label>
+						<label class="btn btn-primary">
+							<input type="radio" name="playerToType" id="playerToType2" autocomplete="off" value="2" checked> 指定玩家
+						</label>
+					</div>
+					<div style="clear:both"></div>
+				</div>
+				<div class="form-group" id="block_usercode">
+					<label>玩家userCode</label>
+					<textarea class="form-control" rows="3" placeholder="输入玩家userCode，英文逗号分隔" id="playerToUserCode"></textarea>
+				</div>
+				<div class="col-lg-2">
+					<button class="btn btn-primary btn-lg" type="button" onclick="playerdoSubmit()">发送</button>
+				</div>
+				<div class="col-lg-2">
+					<button class="btn btn-warning btn-lg" type="button" onclick="resetCart()">清空</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-6">
+		<div class="panel panel-danger">
+			<div class="panel-heading"> 购物车 </div>
+			<div class="panel-body" id="playerdoItemCart">
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-lg-4">
+		<div class="panel panel-info">
+			<div class="panel-heading"> 背包道具 </div>
+			<div class="panel-body">
+				<table width="100%" class="table table-striped table-bordered table-hover" id="dataTable1">
+					<thead>
+					<tr>
+						<th>id</th>
+						<th>名称</th>
+						<th>操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					<?php foreach($item as $_item){
+						if($_item['item_type'] == 1) continue;
+						?>
+					<tr>
+						<td><?php echo $_item['id']?></td>
+						<td><?php echo $_item['desc1']?></td>
+						<td><button class="btn btn-success btn-xs" type="button" onclick="addtoCart(2, <?php echo $_item['id']?>, '<?php echo $_item['desc1']?>')">增加</button></td>
+					</tr>
+					<?php }?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-4">
+		<div class="panel panel-success">
+			<div class="panel-heading"> 主公道具 </div>
+			<div class="panel-body">
+				<table width="100%" class="table table-striped table-bordered table-hover" id="dataTable2">
+					<thead>
+					<tr>
+						<th>id</th>
+						<th>名称</th>
+						<th>操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					<?php foreach($equipMaster as $_equipMaster){?>
+					<tr>
+						<td><?php echo $_equipMaster['id']?></td>
+						<td><?php echo $_equipMaster['desc1']?></td>
+						<td><button class="btn btn-success btn-xs" type="button" onclick="addtoCart(7, <?php echo $_equipMaster['id']?>, '<?php echo $_equipMaster['desc1']?>')">增加</button></td>
+					</tr>
+					<?php }?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-4">
+		<div class="panel panel-warning">
+			<div class="panel-heading"> 武将道具 </div>
+			<div class="panel-body">
+				<table width="100%" class="table table-striped table-bordered table-hover" id="dataTable3">
+					<thead>
+					<tr>
+						<th>id</th>
+						<th>名称</th>
+						<th>操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					<?php foreach($equipment as $_equipment){
+						if(!in_array($_equipment['equip_type'], [0, 2, 3, 4])){
+							continue;
+						}
+						$name = $_equipment['desc1'] . 'Lv' . $_equipment['star_level'];
+						?>
+					<tr>
+						<td><?php echo $_equipment['id']?></td>
+						<td><?php echo $name?></td>
+						<td><button class="btn btn-success btn-xs" type="button" onclick="addtoCart(4, <?php echo $_equipment['id']?>, '<?php echo $name?>')">增加</button></td>
+					</tr>
+					<?php }?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+</div>
+<br>
+<script>
+$(document).ready(function(){
+    $('#dataTable1,#dataTable2,#dataTable3').DataTable({
+		//"pageLength": 50
+		"columnDefs": [
+			{ "orderable": false, "targets": 2 }
+		]
+	});
+	
+	$(".dataTables_info").parent().removeClass('col-sm-6').addClass('col-sm-4');
+	$(".dataTables_paginate").parent().removeClass('col-sm-6').addClass('col-sm-8');
+	$("#playerdoItemCart").on('blur keyup', '.playerdoItemCartNum', function(){
+		var v = $(this).val().replace(/\D/g,'')*1;
+		if(v < 1){
+			v = 1;
+		}
+		var len = v.toString().length;
+		$(this).css({'width': len*10+'px'});
+		$(this).val(v);
+	}).trigger('blur');
+	
+	$("input[name=playerToType]").change(function(){
+		selectToType($("input[name=playerToType]:checked").val());
+	}).click();
+});
+
+function selectToType(type){
+	if(type == '1'){
+		//$("#block_usercode").hide();
+		$("#block_usercode textarea").val('').attr('disabled', '');
+	}else{
+		//$("#block_usercode").show();
+		$("#block_usercode textarea").removeAttr('disabled');
+	}
+}
+
+var gClickFlag = true;
+function addtoCart(type, itemId, itemName){
+	if(!gClickFlag)
+		return;
+	gClickFlag = false;
+	var color = {2: 'info', 7: 'success', 4: 'warning'};
+	var d = $(".cartItem[cartItemId='"+type+','+itemId+"']");
+	if(d.length > 0){
+		d.find(".playerdoItemCartNum").val(d.find(".playerdoItemCartNum").val()*1+1);
+	}else{
+		$("#playerdoItemCart").append('<div role="alert" class="col-lg-2 cartItem alert alert-'+color[type]+' alert-dismissible fade in" cartItemId="'+type+','+itemId+'">\
+				<button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span></button>\
+				'+itemName+'('+itemId+')'+' \
+				<span class="badge"><input class="playerdoItemCartNum" type="text" value="1"/></span>\
+			</div>');
+	}
+	gClickFlag = true;
+}
+
+function resetCart(){
+	if(!gClickFlag)
+		return;
+	gClickFlag = false;
+	if(confirm('是否清空购物车')){
+		$("#playerdoItemCart *").remove();
+	}
+	gClickFlag = true;
+}
+
+function playerdoSubmit(){
+	var _playerdoSubmit = function(){
+		//组合道具
+		var item = [];
+		$(".cartItem").each(function(){
+			item.push($(this).attr('cartItemId')+','+$(this).find('.playerdoItemCartNum').val());
+		});
+		item = item.join(';');
+		if(item == ''){
+			alertErr('请选择道具');
+			return;
+		}
+		
+		showLoading();
+		send_request_json('/admin/ajaxPlayerdoItem', 
+		{
+			playerToType: $("input[name=playerToType]:checked").val(),
+			playerToUserCode: $("#playerToUserCode").val(),
+			item: item,
+		}, 
+		function(ret){
+			hideLoading();
+			if(ret.err == 'ok' && ret.failPlayer.length == 0){
+				alertOk('发送完成');
+			}else if(ret.err == 'ok'){
+				alertOk('发送完成，以下玩家未找到<br>'+ret.failPlayer.join(','));
+			}else{
+				alertErr(ret.err);
+			}
+		});
+	}
+	if($("input[name=playerToType]:checked").val() == 1){
+		if(confirm('危险操作警告！您真的要给全服发道具么？')){
+			if(confirm('没在逗你玩。。。Are you sure？')){
+				_playerdoSubmit();
+			}
+		}
+	}else{
+		_playerdoSubmit();
+	}
+}
+</script>

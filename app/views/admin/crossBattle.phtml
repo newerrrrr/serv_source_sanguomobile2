@@ -1,0 +1,143 @@
+<style>
+#dataTable1{
+	background:white;
+}
+#dataTable1 th{
+	width:150px;
+}
+#dataTable1 td{
+	/*word-wrap:break-word;
+	word-break:break-all;*/
+}
+#detailInfoModal .form-control{
+	word-wrap:break-word;
+	word-break:break-all;
+	height:auto;
+}
+
+.Wdate{
+	height:30px;
+	width:250px;
+}
+#dataTable1_filter{
+	display:none;
+}
+</style>
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">单届详情</h1>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+
+<div class="row" id="orderFilterForm">
+	<div class="col-lg-12">
+		<div class="panel panel-danger">
+			<div class="panel-heading"> 筛选 </div>
+			<div class="panel-body">
+				<form method="POST">
+					<div class="form-group">
+						<label>届数</label>
+						<input class="form-control" id="crossRoundId" style="width:250px;" value="<?php echo @$_REQUEST['roundId']?>" defaultVal="">
+					</div>
+					<div class="form-group">
+						<label>服</label>
+						<input class="form-control" id="crossServer" style="width:250px;" value="<?php echo @$_REQUEST['serverId']?>" defaultVal="">
+					</div>
+					<div class="form-group">
+						<label>公会Id</label>
+						<input class="form-control" id="crossGuild" style="width:250px;" value="<?php echo @$_REQUEST['guildId']?>" defaultVal="">
+					</div>
+					<div class="col-lg-2">
+						<button onclick="findSubmit()" type="button" class="btn btn-primary btn-lg">查找</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading"> 列表 </div>
+			<div class="panel-body">
+				<table width="100%" class="table table-striped table-bordered table-hover" id="dataTable1">
+					<thead>
+					<tr>
+						<th>编号</th>
+						<th>届数</th>
+						<th>公会1</th>
+						<th>公会2</th>
+						<th>状态</th>
+						<th>胜利方</th>
+						<th>地图类型</th>
+						<th>上半场开始</th>
+						<th>下半场开始</th>
+						<th>占领区域</th>
+						<th>大本营(上)</th>
+						<th>大本营(下)</th>
+						<th>时间(上)</th>
+						<th>时间(下)</th>
+						<th>公会1杀敌</th>
+						<th>公会2杀敌</th>
+						<th>创建时间</th>
+						<th>操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<?php echo \Phalcon\Tag::javascriptInclude("js/My97DatePicker/WdatePicker.js"); ?>
+<script>
+var gTable1;
+$(document).ready(function(){
+    gTable1 = $('#dataTable1').DataTable({
+		"autoWidth": false,
+		"processing": true,
+        "serverSide": true,
+        "ajax": {
+            "url": "/admin/ajaxCrossBattle",
+			"type": "POST",
+            "data": function ( d ) {
+				d.roundId = $("#crossRoundId").val();
+				d.serverId = $("#crossServer").val();
+				d.guildId = $("#crossGuild").val();
+            }
+        },
+		"columns": [
+            { "data": "id" },
+			{ "data": "round_id" },
+			{ "data": "guild1" },
+			{ "data": "guild2" },
+			{ "data": "status" },
+			{ "data": "win" },
+			{ "data": "map_type" },
+			{ "data": "real_start_time" },
+			{ "data": "change_time" },
+			{ "data": "attack_area" },
+			{ "data": "guild_1_beat" },
+			{ "data": "guild_2_beat" },
+			{ "data": "guild_1_time" },
+			{ "data": "guild_2_time" },
+			{ "data": "guild_1_kill" },
+			{ "data": "guild_2_kill" },
+			{ "data": "create_time" },
+			{ "data": "operation" },
+        ],
+		"pageLength": 25
+	});
+});
+
+
+function findSubmit(){
+	gTable1.draw();
+}
+</script>

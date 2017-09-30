@@ -1,0 +1,13 @@
+TRUNCATE `Vip`;
+INSERT INTO `Vip` (`id`,`vip_level`,`vip_exp`) VALUES ('1','1','0');
+INSERT INTO `Vip` (`id`,`vip_level`,`vip_exp`) VALUES ('2','2','100');
+INSERT INTO `Vip` (`id`,`vip_level`,`vip_exp`) VALUES ('3','3','300');
+INSERT INTO `Vip` (`id`,`vip_level`,`vip_exp`) VALUES ('4','4','500');
+INSERT INTO `Vip` (`id`,`vip_level`,`vip_exp`) VALUES ('5','5','500');
+INSERT INTO `Vip` (`id`,`vip_level`,`vip_exp`) VALUES ('6','6','1100');
+INSERT INTO `Vip` (`id`,`vip_level`,`vip_exp`) VALUES ('7','7','1200');
+INSERT INTO `Vip` (`id`,`vip_level`,`vip_exp`) VALUES ('8','8','2400');
+INSERT INTO `Vip` (`id`,`vip_level`,`vip_exp`) VALUES ('9','9','5000');
+INSERT INTO `Vip` (`id`,`vip_level`,`vip_exp`) VALUES ('10','10','10000');
+INSERT INTO `Vip` (`id`,`vip_level`,`vip_exp`) VALUES ('11','11','22500');
+INSERT INTO `Vip` (`id`,`vip_level`,`vip_exp`) VALUES ('12','12','36000');

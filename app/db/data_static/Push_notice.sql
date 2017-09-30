@@ -1,0 +1,14 @@
+TRUNCATE `Push_notice`;
+INSERT INTO `Push_notice` (`id`,`title`,`desc`) VALUES ('1','1','400001');
+INSERT INTO `Push_notice` (`id`,`title`,`desc`) VALUES ('2','1','400002');
+INSERT INTO `Push_notice` (`id`,`title`,`desc`) VALUES ('3','1','400003');
+INSERT INTO `Push_notice` (`id`,`title`,`desc`) VALUES ('4','1','400004');
+INSERT INTO `Push_notice` (`id`,`title`,`desc`) VALUES ('5','1','400005');
+INSERT INTO `Push_notice` (`id`,`title`,`desc`) VALUES ('6','2','400006');
+INSERT INTO `Push_notice` (`id`,`title`,`desc`) VALUES ('7','2','400007');
+INSERT INTO `Push_notice` (`id`,`title`,`desc`) VALUES ('8','3','400008');
+INSERT INTO `Push_notice` (`id`,`title`,`desc`) VALUES ('9','3','400009');
+INSERT INTO `Push_notice` (`id`,`title`,`desc`) VALUES ('10','4','400010');
+INSERT INTO `Push_notice` (`id`,`title`,`desc`) VALUES ('11','5','400011');
+INSERT INTO `Push_notice` (`id`,`title`,`desc`) VALUES ('12','5','400012');
+INSERT INTO `Push_notice` (`id`,`title`,`desc`) VALUES ('13','5','400013');

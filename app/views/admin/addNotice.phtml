@@ -1,0 +1,129 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">写公告</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+    <div class="form-group">
+        <label for="title">标题</label>
+        <input type="text" class="form-control" id="title" placeholder="标题" onblur="if(this.value=='') {$('#titleNotice').show();}" style="width:700px;">
+        <span style="color:red;display:none;" id="titleNotice">*标题未填</span>
+    </div>
+<?php
+$androidChannel = (new AndroidChannel)->dicGetAllByName();
+array_unshift($androidChannel, ['channel_name'=>'all_channel']);
+?>
+<div class="form-group">
+    <label for="title">渠道</label>
+    <select id="channel" style="margin-right:10px;">
+        <?php
+        foreach($androidChannel as $v):
+        ?>
+        <option><?=$v['channel_name']?></option>
+        <?php endforeach;?>
+    </select>
+    <button type="button" onclick="showSelectArea();" style="margin-left:10px;">需要频道多选</button>
+</div>
+<div class="well" id="selectArea" style="display:none;">
+    <label for="title">渠道多选区域</label>
+    <div class="form-group">
+    <span id="channel_names" style="display:inline-block;margin:10px;padding:10px;"></span>
+    <br>
+    <button type="button" onclick="addChannel();">增加频道</button>
+    <br><br>
+    <button type="button" onclick="removeAllChannel();">清空已选</button>
+    </div>
+</div>
+    <label for="editor_id">内容</label>
+    <textarea id="editor_id" name="content" style="width:700px;height:300px;"></textarea>
+    <span style="color:red;display:none;" id="contentNotice">*内容未填</span>
+    <br>
+    <div class="form-group">
+        <label for="beginTime">开始时间</label>
+        <input class="Wdate" type="text" id="beginTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+        <label for="endTime">结束时间</label>
+        <input class="Wdate" type="text" id="endTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+    </div>
+    <br>
+
+    <button type="button" class="btn btn-primary" onclick="doAddNotice();" style="margin:20px auto 0;">添加</button>
+
+
+    <?php echo \Phalcon\Tag::javascriptInclude("js/kindeditor/kindeditor-all-min.js"); ?>
+
+    <script>
+    $(function(){
+        KindEditor.options.filterMode = false;
+        KindEditor.ready(function(K) {
+                window.editor = K.create('#editor_id');
+        });
+    });
+    </script>
+
+
+
+    <script type="text/javascript">
+    var C = {};
+    C.names = [];
+    var showSelectArea = function (){
+        $('#selectArea').show();
+    };
+    var removeAllChannel = function(){
+        C.names = [];
+        $('#channel_names').text('');
+        $('#channel_names').hide();
+    };
+    var addChannel = function (){
+        $('#channel_names').css({"border":"1px solid #333;", "padding":"5px", "margin":"5px;"});
+        var channel = $('#channel').val();
+        if(channel=='all_channel') {
+            alert('已选择全选');
+            return false;
+        }
+        
+        var cnames = $.trim($('#channel_names').text());
+        if(C.names.indexOf(channel)!=-1) {
+            alert('已选中');
+            return false;
+        } 
+        C.names.push(channel);
+        if(!cnames) {
+            $('#channel_names').text(channel);
+        } else {
+            $('#channel_names').text(cnames+","+channel);
+        }
+        
+        $('#channel_names').show();
+    };
+
+
+        function doAddNotice(){
+            var title = $('#title').val();
+            if(!title) {
+                return $("#titleNotice").show();
+            }
+            var content = editor.html();
+            if(!content) {
+                return $('#contentNotice').show();
+            }
+            var beginTime = $("#beginTime").val();
+            var endTime = $("#endTime").val();
+            var channel = '';
+
+            channel = $('#channel').val();
+            if($('#channel_names').text()) {
+                channel = $('#channel_names').text();
+            }
+            
+            $.post('/admin/ajaxDoAddNotice', {"title":title,"content":content, "begin_time":beginTime, "end_time":endTime, 'channel':channel}, function(o){
+                if('ok'==o) {
+                    alert('添加成功');
+                    linkPage('admin/viewNotice');
+                } else {
+                    alert('添加失败');
+                }
+            });
+        }
+    </script>
+        
+        <?php echo \Phalcon\Tag::javascriptInclude("js/My97DatePicker/WdatePicker.js"); ?>

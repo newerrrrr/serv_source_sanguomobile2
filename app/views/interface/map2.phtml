@@ -1,0 +1,99 @@
+<?php
+$mapsize = 1236;
+$scale = 2;
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>demo</title>
+<style>
+body{padding:0;margin:0;}
+#map{width:<?php echo $mapsize * $scale?>px;height:<?php echo $mapsize * $scale?>px;position:absolute;}
+#window{width:<?php echo 36*$scale?>px;height:<?php echo 36*$scale?>px;background:rgba(200, 200, 50, 0.5);z-index:10;display:none;}
+#canvas, #canvas_all{position:absolute;z-index:3;top:0;left:0;}
+#canvas_all{z-index:2;}
+</style>
+<?php echo \Phalcon\Tag::javascriptInclude("js/jquery/jquery-2.1.4.min.js"); ?>
+<?php echo \Phalcon\Tag::javascriptInclude("js/jquery/jquery-ui.js"); ?>
+<script>
+var gCanvas;
+$(document).ready(function(){
+	$( "#window" ).draggable({ 
+		containment: "#map", 
+		scroll: false, 
+		grid: [ <?php echo $scale*12 ?>, <?php echo $scale*12 ?> ],
+		stop: function() {
+			var offset = $( "#window" ).offset();
+			sendBlock((offset.left / <?php echo $scale?>+12)/12+103*(offset.top / <?php echo $scale?>+12)/12);
+			//sendXY(Math.floor(offset.left / <?php echo $scale?>), Math.floor(offset.top / <?php echo $scale?>), Math.floor((offset.left+$( "#window" ).width()) / <?php echo $scale?>), Math.floor((offset.top+$( "#window" ).height()) / <?php echo $scale?>));
+		}
+	});
+	var c=document.getElementById("canvas_all");
+	gCanvas=c.getContext("2d");
+	gCanvas.strokeStyle="#ff0000";
+	sendXY(0, 0, <?php echo $mapsize?>, <?php echo $mapsize?>, function(){
+		c=document.getElementById("canvas");
+		gCanvas=c.getContext("2d");
+		gCanvas.strokeStyle="#0000ff";
+		$("#window").show();
+	});
+});
+
+function drawLine(from_x, from_y, to_x, to_y){
+	gCanvas.beginPath();
+	gCanvas.moveTo(from_x,from_y);
+	gCanvas.lineTo(to_x,to_y);
+	gCanvas.stroke();
+}
+
+function drawLines(d){
+	gCanvas.clearRect(0,0,$("#canvas").width(),$("#canvas").height());
+	for(i in d){
+		drawLine(d[i].from_x*<?php echo $scale?>, d[i].from_y*<?php echo $scale?>, d[i].to_x*<?php echo $scale?>, d[i].to_y*<?php echo $scale?>);
+	}
+	console.log('线段数：'+d.length);
+}
+
+function sendXY(x0, y0, x1, y1, cb){
+	$.ajax({
+		type: "GET",
+		url: "/interface/ajaxMap/"+x0+'/'+y0+'/'+x1+'/'+y1,
+		dataType: "json",
+		success: function(d){
+			if(d.err == 'ok'){
+				drawLines(d.data);
+				if(typeof(cb) == 'function')
+					cb();
+			}
+		}
+	});
+}
+function sendBlock(block, cb){
+	var d = JSON.stringify([block]);
+	console.log(d);
+	$.ajax({
+		type: "GET",
+		url: "/interface/ajaxMap2/?block="+d,
+		dataType: "json",
+		success: function(d){
+			if(d.err == 'ok'){
+				drawLines(d.data);
+				if(typeof(cb) == 'function')
+					cb();
+			}
+		}
+	});
+}
+</script>
+</head>
+<body>
+<div id="map">
+	<canvas id="canvas" width="<?php echo $mapsize * $scale?>" height="<?php echo $mapsize * $scale?>"></canvas>
+	<canvas id="canvas_all" width="<?php echo $mapsize * $scale?>" height="<?php echo $mapsize * $scale?>"></canvas>
+	<div id="window">
+	
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<div class="well">
+	<label onclick="SERVERLIST.change();">
+		<input type="radio" name="selectServerAll" value="1"> 全选
+		</label>
+	<label onclick="SERVERLIST.change();">
+		<input type="radio" name="selectServerAll" value="2"> 反选
+	</label>
+	<br>
+	<?php
+	global $config;
+	foreach($serverList as $v):
+	
+	?>
+	<label>
+		<input type="checkbox" value="<?=$v['id']?>" name="serverChoose" <?php echo ($config->server_id==$v['id']?'checked':'')?>> <?=$v['areaName'].'|'.$v['name']?>
+	</label>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<?php
+	endforeach;
+	?>
+</div>
+<script>
+	var SERVERLIST = {};
+	SERVERLIST.server = [];
+	SERVERLIST.index = [];
+	SERVERLIST.change = function(){
+		var val = $("input:radio[name=selectServerAll]:checked").val();
+		if(val==1) {
+			$('input[name=serverChoose]').each(function (k, v) {
+				v.checked = 'checked';
+			});
+		}
+		else if(val==2) {
+			$('input[name=serverChoose]').each(function (k, v) {
+				if(v.checked) {
+					v.checked = '';
+				} else {
+					v.checked = 'checked';
+				}
+			});
+		}
+	};
+	SERVERLIST.getServer = function(){
+		var s = [];
+		$('input[name=serverChoose]').each(function (k, v) {
+			if(v.checked) {
+				s.push(v.value);
+			}
+		});
+		return s;
+	}
+</script>

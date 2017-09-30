@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+<meta charset="utf-8">
+<?php echo \Phalcon\Tag::javascriptInclude("js/jquery/jquery-2.1.4.min.js"); ?>
+<link rel="stylesheet" href="/css/dev.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>战斗测试后台</title>
+<head>
+<style>
+/*ul li {margin-bottom: 5px;}*/
+</style>
+<!-- view -->
+<form action="/dev/battleTest/" method="post">
+  <p>attacker: <input type="text" name="aStr" /></p>
+  <p>defender: <input type="text" name="dStr" /></p>
+  <p>battleType: <input type="text" name="battleType" /></p>
+  <input type="submit" value="开始战斗" />
+</form>

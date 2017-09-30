@@ -1,0 +1,16 @@
+TRUNCATE `Alliance_Match_chest_drop`;
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('1','1','52106','3');
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('2','1','52107','3');
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('3','1','52108','3');
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('4','2','52106','2');
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('5','2','52107','3');
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('6','2','52108','4');
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('7','3','52106','1');
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('8','3','52107','4');
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('9','3','52108','4');
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('10','4','52106','1');
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('11','4','52107','3');
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('12','4','52108','3');
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('13','5','52106','1');
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('14','5','52107','2');
+INSERT INTO `Alliance_Match_chest_drop` (`id`,`rank`,`item_id`,`max_count`) VALUES ('15','5','52108','2');

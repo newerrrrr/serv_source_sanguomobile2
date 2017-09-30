@@ -1,0 +1,128 @@
+# 每天执行一次，更新新的一天的每日任务
+0 0 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php daily_mission >> /tmp/task/daily_mission.log 2>&1
+# 每天一次，更新联盟战力
+10 0 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php guild_power > /tmp/task/guild_power.log 2>&1
+# 每小时执行一次，更新排行榜
+10 */1 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php rank > /tmp/task/rank.log 2>&1
+# 每天执行一次，清理邮件
+15 0 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php clear mail >> /tmp/task/clear-mail.log 2>&1
+# 每天执行一次，清理queue 
+20 0 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php clear queue >> /tmp/task/clear-queue.log 2>&1
+# 每天执行一次，清理buff
+25 0 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php clear buff >> /tmp/task/clear-buff.log 2>&1
+# 每天执行一次，清理commonlog
+0 2 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php clear commonlog >> /tmp/task/clear-commonlog.log 2>&1
+# 生成资源田
+*/30 * * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php map_element main 1 > /tmp/task/map_element-main-1.log 2>&1
+# 生成npc
+*/15 * * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php map_element main 2 > /tmp/task/map_element-main-2.log 2>&1
+# 生成BOSS
+*/30 * * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php map_element main 3 > /tmp/task/map_element-main-3.log 2>&1
+# 清理玩家城堡
+*/30 * * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php map_element main 4 > /tmp/task/map_element-main-4.log 2>&1
+# 生成和氏璧
+*/5 * * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php map_element main 5 > /tmp/task/map_element-main-5.log 2>&1
+# 生成据点
+1 8 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php map_element main 6 >> /tmp/task/map_element-main-6.log 2>&1
+# 清除据点
+1 22 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php map_element main 7 >> /tmp/task/map_element-main-7.log 2>&1
+# 生成机器人
+*/12 * * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php map_element main 8 >> /tmp/task/map_element-main-8.log 2>&1
+# 联盟任务-黄巾起义激活
+0 20 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php Huangjin start >> /tmp/task/Huangjin-start.log 2>&1
+# 联盟比赛计算积分 
+*/10 * * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php guild_mission main > /tmp/task/guild_mission-main.log 2>&1
+# 联盟限时比赛发奖
+5 0 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php guild_mission rankReward > /tmp/task/guild_mission-rankReward 2>&1
+# 充值礼包
+0 0 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php gift refresh >> /tmp/task/gift-refresh.log 2>&1
+# 清除redis.log
+#0 */2 * * * /opt/source/clearRedisLog.sh 
+# 限时比赛 每14天执行一次 
+0 0 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php time_limit_match_list start >> /tmp/task/time_limit_match_list-start.log 2>&1
+5 0 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php time_limit_match_list rankReward >> /tmp/task/time_limit_match_list-rankReward.log 2>&1
+# 王战
+0 0 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php king init >> /tmp/task/king-init.log 2>&1
+0 20 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php king start >> /tmp/task/king-start.log 2>&1
+5-59/5 20 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php king npcStart >> /tmp/task/king-npcStart.log 2>&1
+*/5 21 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php king npcStart >> /tmp/task/king-npcStart.log 2>&1
+0 22 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php king finishBattle >> /tmp/task/king-finishBattle.log 2>&1
+5 22 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php king battleReward >> /tmp/task/king-battleReward.log 2>&1
+0 23 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php king checkKing >> /tmp/task/king-checkKing.log 2>&1
+
+# 玩家召回推送
+30 18 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php push createUnloginPush > /dev/null 2>&1
+
+# 记录当日活跃人数
+50 23 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php activity_player main >> /tmp/task/activity_player.log 2>&1
+
+# 联盟任务和限时比赛提前通知邮件
+0 16 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php activity mailAllPlayer >> /tmp/task/activity-mailAllPlayer.log 2>&1
+
+# 武斗相关==================
+# pk 所有服服务器运行，pk赛季末结算奖励脚本
+0 6 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php pk pkRoundAward >> /tmp/task/pk-pkRoundAward.log 2>&1
+
+# pk 某一台服务器运行即可，每日奖励结算 暂定为每日22点执行，本脚本内没有判断时间 && 排行榜脚本
+0 22 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php pk pkDailyAward >> /tmp/task/pk-pkDailyAward.log 2>&1
+# pk 某一台服务器运行即可，每天8点重置脚本（每日免费匹配次数、每日购买次数、每日匹配次数）
+0 8 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php pk pkDailyReset >> /tmp/task/pk-pkDailyReset.log 2>&1
+# pk 某一台服务器运行即可，删除pk旧老数据
+0 1 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php pk deleteOldPk >> /tmp/task/pk-deleteOldPk.log 2>&1
+# pk 某一台服服务器运行，pk开启新赛季脚本
+40 7 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php pk pkRoundStartNew >> /tmp/task/pk-pkRoundStartNew.log 2>&1
+
+#跨服战，请不要部署到所有服务器，在某一台部署crontab即可！！！
+# 开启一轮跨服战
+0 8 * * 6 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php cross startRound >> /tmp/task/cross-startRound.log 2>&1
+# 匹配脚本
+0 19 * * 6 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php cross match >> /tmp/task/cross-match.log 2>&1
+0 20 * * 6 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php cross hammerAttack >> /tmp/task/cross-hammerAttack.log 2>&1
+0 20 * * 6 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php cross crossbowAttack >> /tmp/task/cross-crossbowAttack.log 2>&1
+0 20 * * 6 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php cross match1 >> /tmp/task/cross-match1.log 2>&1
+3 20 * * 6 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php cross match2 >> /tmp/task/cross-match2.log 2>&1
+18 20 * * 6 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php cross match3 >> /tmp/task/cross-match3.log 2>&1
+3 20 * * 6 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php cross match4 >> /tmp/task/cross-match4.log 2>&1
+3 20 * * 6 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php cross match5 >> /tmp/task/cross-match5.log 2>&1
+3 20 * * 6 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php cross match6 >> /tmp/task/cross-match6.log 2>&1
+0 20 * * 6 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php cross match7 >> /tmp/task/cross-match7.log 2>&1
+# 发放奖励
+10 21 * * 6 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php cross reward >> /tmp/task/cross-reward.log 2>&1
+
+
+
+#城战，请不要部署到所有服务器，在某一台部署crontab即可！！！
+#科技
+0 */1 * * * /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php city_battle scienceIncreace >> /tmp/task/citybattle-scienceIncreace.log 2>&1
+#创建城战
+0 7 * * 6,2 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php city_battle newRound >> /tmp/task/citybattle-newRound.log 2>&1
+#诸侯报名
+0 8 * * 6,2 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php city_battle changeRoundStatus 0 >> /tmp/task/citybattle-changeRoundStatus.log 2>&1
+#普通报名
+0 8 * * 0,3 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php city_battle changeRoundStatus 1 >> /tmp/task/citybattle-changeRoundStatus.log 2>&1
+#选人脚本
+0 19 * * 0,3 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php city_battle elect >> /tmp/task/citybattle-elect.log 2>&1
+#比赛脚本
+0 20 * * 0,3 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php city_battle refreshScore >> /tmp/task/citybattle-refreshScore.log 2>&1
+0 20 * * 0,3 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php city_battle hammerAttack >> /tmp/task/citybattle-hammerAttack.log 2>&1
+0 20 * * 0,3 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php city_battle crossbowAttack >> /tmp/task/citybattle-crossbowAttack.log 2>&1
+0 20 * * 0,3 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php city_battle match1 >> /tmp/task/citybattle-match1.log 2>&1
+0 20 * * 0,3 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php city_battle match2 >> /tmp/task/citybattle-match2.log 2>&1
+0 20 * * 0,3 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php city_battle match3 >> /tmp/task/citybattle-match3.log 2>&1
+0 20 * * 0,3 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php city_battle match4 >> /tmp/task/citybattle-match4.log 2>&1
+0 20 * * 0,3 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php city_battle match5 >> /tmp/task/citybattle-match5.log 2>&1
+0 20 * * 0,3 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php city_battle match6 >> /tmp/task/citybattle-match6.log 2>&1
+0 20 * * 0,3 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php city_battle match7 >> /tmp/task/citybattle-match7.log 2>&1
+#发奖
+10 21 * * 0,3 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php city_battle roundAward >> /tmp/task/citybattle-roundAward.log 2>&1
+#城战联盟任务发奖/每周日城战结束
+30 21 * * 0 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php city_battle_guild_mission awardGuildMission >> /tmp/task/cb-awardGuildMission.log 2>&1
+#城战联盟任务刷任务/每周日城联盟任务发奖结束
+0 22 * * 0 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php city_battle_guild_mission main >> /tmp/task/cb-main.log 2>&1
+
+
+#城战聊天，部署到每一台游戏服上
+0 20 * * 0,3 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php main fetchCityBattleChatMsg >> /tmp/task/fetchCityBattleChatMsg.log 2>&1
+
+#发送诸侯令，部署到每一台游戏服上
+0 7 * * 6,2 /usr/local/php/bin/php /opt/htdocs/sanguo_mobile_two_server/app/cli.php city_battle sendTokenMail >> /tmp/task/citybattle-sendTokenMail.log 2>&1

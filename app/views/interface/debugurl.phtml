@@ -1,0 +1,115 @@
+<style>
+html *{margin:0;padding:0;font-family:微软雅黑;}
+body{
+	
+	word-break: break-all;
+    word-wrap: break-word;
+}
+</style>
+<?php
+$url = $_REQUEST['url'];
+$bgts =  microtime(true)*1000;
+/*
+$_url = explode('?', $url, 2);
+if(@$_url[1]){
+	parse_str($_url[1], $_url[1]);
+	$_url[1] = array_map('urlencode', $_url[1]);
+	$_url[1] = http_build_query($_url[1]);
+}
+echo $url = join('?', [$_url[0], $_url[1]]);
+*/
+if(ENCODE_FLAG){
+	$url = explode('?', $url);
+	$url[1] = encodePostData(urldecode($url[1]));
+	echo $url = join('?adminQA=1&', $url);
+}else{
+	echo $url;
+}
+
+//$ret = file_get_contents($url);
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+if(@$_COOKIE){
+	$ck = [];
+	foreach($_COOKIE as $_k=>$_v){
+		$ck[] = $_k.'='.$_v;
+	}
+	$ck = join(';', $ck);
+}
+curl_setopt($ch, CURLOPT_HEADER, 0);
+curl_setopt($ch, CURLOPT_HTTPHEADER, ['Cookie:'.$ck]);
+//curl_setopt($ch, CURLOPT_POST, 1);
+//curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+$ret = curl_exec($ch);
+
+curl_close($ch);
+
+$_ret = $ret;
+$ret = @decodeResponseData($ret);
+if(!$ret){//报错信息
+	$ret = $_ret;
+}
+
+$endts =  microtime(true)*1000;
+echo floor($endts-$bgts).'ms';
+echo "<hr>";
+?>
+<div style="overflow:auto;height:100px;"><?php echo $ret;?></div>
+<?php
+echo "<hr>";
+dump(json_decode($ret, true));
+?>
+<script>
+parent.document.getElementById("rightiframe").style.height = document.body.offsetHeight+'px';
+</script>
+<?php
+function unescape($source){
+$decodedStr = "";
+$pos = 0;
+$len = strlen ($source);
+while ($pos < $len){
+   $charAt = substr ($source, $pos, 1);
+         if ($charAt == '%'){
+    $pos++;
+    $charAt = substr ($source, $pos, 1);
+             if ($charAt == 'u'){
+     // we got a unicode character
+     $pos++;
+     $unicodeHexVal = substr ($source, $pos, 4);
+     $unicode = hexdec ($unicodeHexVal);
+     $decodedStr .= u2utf82gb($unicode);
+     $pos += 4;
+             }else{
+     // we have an escaped ascii character
+     $hexVal = substr ($source, $pos, 2);
+     $decodedStr .= chr (hexdec ($hexVal));
+     $pos += 2;
+    }
+   }else{
+    $decodedStr .= $charAt;
+    $pos++;
+   }
+}
+return $decodedStr;
+}
+function u2utf82gb($c){
+$strphp = "";
+if($c < 0x80){
+   $strphp .= $c;
+}elseif($c < 0x800){
+   $strphp .= chr(0xC0 | $c>>6);
+   $strphp .= chr(0x80 | $c & 0x3F);
+}elseif($c < 0x10000){
+   $strphp .= chr(0xE0 | $c>>12);
+   $strphp .= chr(0x80 | $c>>6 & 0x3F);
+   $strphp .= chr(0x80 | $c & 0x3F);
+}elseif($c < 0x200000){
+   $strphp .= chr(0xF0 | $c>>18);
+   $strphp .= chr(0x80 | $c>>12 & 0x3F);
+   $strphp .= chr(0x80 | $c>>6 & 0x3F);
+   $strphp .= chr(0x80 | $c & 0x3F);
+}
+return $strphp;
+}
+?>

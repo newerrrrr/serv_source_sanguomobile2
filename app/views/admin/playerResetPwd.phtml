@@ -1,0 +1,58 @@
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">修改密码</h1>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+
+<div class="row">
+	<div class="col-lg-6">
+		<div class="panel panel-danger">
+			<div class="panel-heading"> 修改密码 </div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label>玩家账号</label>
+					<input class="form-control" placeholder="" id="userAccount"/>
+				</div>
+				<div class="form-group">
+					<label>国家区号</label>
+					<select class="form-control" placeholder="" id="countryCode" name="countryCode">
+						<option value="">当前账号是邮箱时无需选择</option>
+						<option value="852">香港:852</option>
+						<option value="853">澳门:853</option>
+						<option value="886">台湾:886</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label>新密码</label>
+					<input class="form-control" placeholder="" id="newPwd" type="password"/>
+				</div>
+				<div class="col-lg-2">
+					<button class="btn btn-primary btn-lg" type="button" onclick="playerSubmit()">提交</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+$(document).ready(function(){
+});
+
+
+function playerSubmit(){	
+	send_request_json('/admin/ajaxPlayerResetPwd', 
+	{
+		userAccount: $("#userAccount").val(),
+		countryCode: $("#countryCode").val(),
+		newPwd: $("#newPwd").val(),
+	}, 
+	function(ret){
+		if(ret.err == 'ok'){
+			alertOk('修改成功');
+		}else{
+			alertErr(ret.err);
+		}
+	});
+}
+</script>

@@ -1,0 +1,166 @@
+<style>
+.authdiv label{font-weight:normal;}
+</style>
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">权限编辑</h1>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+
+<div class="row" id="orderFilterForm">
+	<div class="col-lg-12">
+		<div class="panel panel-danger">
+			<div class="panel-heading"> 新增权限 </div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label>权限名字</label>
+					<input id="adminName" placeholder="" class="form-control"/>
+				</div>
+				<div class="form-group">
+					<label>权限</label>
+					<button onclick="chooseAll()" type="button" class="btn btn-primary btn-xs">全选/反全选</button>
+					<div class="authdiv">
+					<?php foreach($authType as $_key => $_authType){?>
+						<div class="col-lg-2">
+							<input type="checkbox" name="addAdminAuth" id="addAdminAuth_<?php echo $_key?>" value="<?php echo $_key?>"><label for="addAdminAuth_<?php echo $_key?>"><?php echo $_authType?></label>
+						</div>
+					<?php }?>
+					<div style="clear:both"></div>
+					</div>
+				</div>
+				<div class="col-lg-2">
+					<button onclick="addSubmit()" type="button" class="btn btn-primary btn-lg">新增</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading"> 现有管理员 </div>
+			<div class="panel-body">
+				<table width="100%" class="table table-striped table-bordered table-hover" id="adminManagerTable">
+					<thead>
+					<tr>
+						<th>管理员名称</th>
+						<th>管理员权限</th>
+						<th>操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					<?php foreach($auths as $_auth){
+						?>
+					<tr>
+						<td><?php echo $_auth['name']?></td>
+						<td><?php echo (is_array($_auth['auth']) ? join(',', $_auth['auth']) : '')?></td>
+						<td>
+						<?php if($_auth['id'] != 1){?>
+						<button class="btn btn-danger btn-xs" type="button" onclick="deleteAdminauth('<?php echo $_auth['id']?>')">删除</button>
+						<button class="btn btn-warning btn-xs" type="button" onclick="modifyAuth('<?php echo $_auth['id']?>', '<?php echo (is_array($_auth['auth']) ? join(',', array_keys($_auth['auth'])) : '')?>', '<?php echo $_auth['name']?>')">修改权限</button>
+						<?php }?>
+						</td>
+					</tr>
+					<?php }?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+
+
+<div class="modal fade" id="modifyAdminAuthModal" tabindex="-1" role="dialog" aria-labelledby="modifyAdminAuthModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">编辑权限</h4>
+			</div>
+			<div class="modal-body">
+				<div class="alert alert-danger" style="display:none">
+					
+				</div>
+				<form>
+					<div class="form-group">
+						<label>权限名字</label>
+						<input id="authName" placeholder="" class="form-control"/>
+					</div>
+					<div class="form-group">
+						<label for="adminChangeAuth" class="control-label">权限:</label>
+						<div class="authdiv">
+						<?php foreach($authType as $_key => $_authType){?>
+							<div class="col-lg-4">
+								<input type="checkbox" name="modifyAdminAuth" id="modifyAdminAuth_<?php echo $_key?>" value="<?php echo $_key?>"><label for="modifyAdminAuth_<?php echo $_key?>"><?php echo $_authType?></label>
+							</div>
+						<?php }?>
+						<div style="clear:both"></div>
+						<input type="hidden" class="form-control" id="modifyAuthId">
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-primary" onclick="_modifyAdminAuth()">修改</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+$(document).ready(function(){
+    $('#adminManagerTable').DataTable({
+		//"pageLength": 50
+	});
+});
+
+function addSubmit(){
+	var auth = [];
+	$("input[name=addAdminAuth]:checked").each(function(){
+		auth.push($(this).val());
+	});
+	commonSend('adminauthAdd', {name: $("#adminName").val(), auth: auth}, '新增成功', true);
+}
+
+function deleteAdminauth(authId){
+	if(confirm('确定要删除该权限吗？')){
+		commonSend('adminauthDelete', {authId: authId}, '删除成功', true);
+	}
+}
+
+function modifyAuth(adminId, auth, name){
+	$("#modifyAuthId").val(adminId);
+	auth = auth.split(',');
+	$("input[name=modifyAdminAuth]").prop('checked', false);
+	for(i in auth){
+		$("#modifyAdminAuth_"+auth[i]).prop('checked', true);
+	}
+	$("#authName").val(name);
+	$("#modifyAdminAuthModal").modal();
+}
+
+function _modifyAdminAuth(){
+	$("#modifyAdminAuthModal").modal('hide');
+	var auth = [];
+	$("input[name=modifyAdminAuth]:checked").each(function(){
+		auth.push($(this).val());
+	});
+	commonSend('modifyAuth', {authId: $("#modifyAuthId").val(), auth: auth, name: $("#authName").val()}, '修改成功', true);
+}
+
+function chooseAll(){
+	var selectAll = true;
+	if($("input[name=addAdminAuth]:checked").length == $("input[name=addAdminAuth]").length){
+		selectAll = false;
+	}
+	if(selectAll){
+		$("input[name=addAdminAuth]").prop("checked",true);
+	}else{
+		$("input[name=addAdminAuth]").prop("checked", false);
+	}
+}
+</script>

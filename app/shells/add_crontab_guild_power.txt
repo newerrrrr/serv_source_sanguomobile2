@@ -1,0 +1,2 @@
+# 每天执行一次，更新联盟战力
+0 0 * * * /usr/local/php/bin/php /opt/htdocs/sanguomobile2/app/cli.php guild_power

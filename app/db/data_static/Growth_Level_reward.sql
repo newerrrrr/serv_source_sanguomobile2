@@ -1,0 +1,13 @@
+TRUNCATE `Growth_Level_reward`;
+INSERT INTO `Growth_Level_reward` (`id`,`level`,`drop`) VALUES ('1','3','1410001');
+INSERT INTO `Growth_Level_reward` (`id`,`level`,`drop`) VALUES ('2','5','1410002');
+INSERT INTO `Growth_Level_reward` (`id`,`level`,`drop`) VALUES ('3','8','1410003');
+INSERT INTO `Growth_Level_reward` (`id`,`level`,`drop`) VALUES ('4','10','1410004');
+INSERT INTO `Growth_Level_reward` (`id`,`level`,`drop`) VALUES ('5','12','1410005');
+INSERT INTO `Growth_Level_reward` (`id`,`level`,`drop`) VALUES ('6','14','1410006');
+INSERT INTO `Growth_Level_reward` (`id`,`level`,`drop`) VALUES ('7','16','1410007');
+INSERT INTO `Growth_Level_reward` (`id`,`level`,`drop`) VALUES ('8','18','1410008');
+INSERT INTO `Growth_Level_reward` (`id`,`level`,`drop`) VALUES ('9','20','1410009');
+INSERT INTO `Growth_Level_reward` (`id`,`level`,`drop`) VALUES ('10','25','1410010');
+INSERT INTO `Growth_Level_reward` (`id`,`level`,`drop`) VALUES ('11','30','1410011');
+INSERT INTO `Growth_Level_reward` (`id`,`level`,`drop`) VALUES ('12','35','1410012');

@@ -1,0 +1,464 @@
+<style>
+.row .col-lg-4{height:22px;}
+.Wdate{
+	height:30px;
+	width:250px;
+}
+</style>
+
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">查看玩家信息</h1>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<table class="table table-condensed">
+			<tr><th>账号状态</th>
+			<td>
+				<div class="col-lg-3">当前状态：
+					<?php if($banTime):?>
+					<span style="text-decoration:underline;" onclick="linkPage('admin/banAccount')" class="text-danger">封号</span>
+					<?php else:?>
+					<span style="text-decoration:underline;" onclick="linkPage('admin/banAccount')" class="text-success">正常</span>
+					<?php endif;?>
+					<!--<button class="btn btn-danger btn-xs" type="button">冻结</button>-->
+				</div>
+			</td></tr>
+			
+			<tr><th>注册信息</th>
+			<td>
+				<div class="col-lg-6">用户名：
+					<span class="text-warning"><?php echo @$dsucUsername?></span>
+				</div>
+			</td></tr>
+			
+			<tr><th>基础信息</th>
+			<td>
+				<div class="row">
+					<div class="col-lg-3">playerId：<span class="text-warning"><?php echo $player['id']?></span></div>
+					<div class="col-lg-3">userCode：<span class="text-warning"><?php echo $player['user_code']?></span></div>
+					<div class="col-lg-3">昵称：<span class="text-warning"><?php echo $player['nick']?></span> <button class="btn btn-danger btn-xs" type="button" onclick="linkPage('admin/logCommon', {'logType':'更改昵称'}, true)">历史昵称</button></div>
+					<div class="col-lg-3">阵营：<span class="text-warning"><?php echo $player['camp_name']?></span></div>
+				</div>
+				<div class="row">
+					<div class="col-lg-3">所属联盟：<span class="text-warning"><?php echo ($guild ? $guild['name'] : '')?></span></div>
+					<div class="col-lg-3">主公等级：<span class="text-warning"><?php echo $player['level']?></span></div>
+					<div class="col-lg-3">职位：<span class="text-warning"><?php echo $jobName?></span></div>
+				</div>
+				<div class="row">
+					<div class="col-lg-3">VIP等级：<span class="text-warning"><?php echo $player['vip_level']?></span><?php if(@$vipReset){?><button class="btn btn-danger btn-xs" type="button" onclick="vipReset(<?php echo $player['id']?>)">修正</button><?php }?></div>
+					<div class="col-lg-3">VIP状态：
+						<?php if($vipStatus){?>
+						<span class="text-success">已激活</span>
+						<?php }else{?>
+						<span class="text-danger">未激活</span>
+						<?php }?>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-3">行动力：<span class="text-warning"><?php echo $player['move']?>/<?php echo $player['move_max']?></span></div>
+					<div class="col-lg-3">天赋点：<span class="text-warning"><?php echo $player['talent_num_remain']?>/<?php echo $player['talent_num_total']?></span></div>
+					<div class="col-lg-3">怪物等级：<span class="text-warning"><?php echo $player['monster_lv']?></span></div>
+				</div>
+				<div class="row">
+					<div class="col-lg-3">保护状态：<span class="text-warning"><?php echo (($player['avoid_battle'] || $player['avoid_battle_time'] > time())? '有': '无')?></span></div>
+				</div>
+			</td></tr>
+			<tr><th>资源</th>
+			<td>
+				<div class="row">
+					<div class="col-lg-4">黄金：<span class="text-warning"><?php echo number_format($player['gold'])?></span></div>
+					<div class="col-lg-4">粮食：<span class="text-warning"><?php echo number_format($player['food'])?></span></div>
+					<div class="col-lg-4">木材：<span class="text-warning"><?php echo number_format($player['wood'])?></span></div>
+					<div class="col-lg-4">石料：<span class="text-warning"><?php echo number_format($player['stone'])?></span></div>
+					<div class="col-lg-4">铁矿：<span class="text-warning"><?php echo number_format($player['iron'])?></span></div>
+				</div>
+			</td></tr>
+			<tr><th>货币</th>
+			<td>
+				<div class="row">
+					<div class="col-lg-4">白银：<span class="text-warning"><?php echo number_format($player['silver'])?></span></div>
+					<div class="col-lg-4">个人荣誉：<span class="text-warning"><?php echo number_format($player['guild_coin'])?></span></div>
+					<div class="col-lg-4">和氏璧：<span class="text-warning"><?php echo number_format($player['hsb'])?></span></div>
+					<div class="col-lg-4">锦囊：<span class="text-warning"><?php echo number_format($player['point'])?></span> <button class="btn btn-danger btn-xs" type="button" onclick="showModAttr('锦囊', 'point', 0)">增加/减少</button></div>
+					<div class="col-lg-4">功勋：<span class="text-warning"><?php echo number_format($player['feats'])?></span> <button class="btn btn-danger btn-xs" type="button" onclick="showModAttr('功勋', 'feats', 0)">增加/减少</button></div>
+					<div class="col-lg-4">将印：<span class="text-warning"><?php echo number_format($player['jiangyin'])?></span> <button class="btn btn-danger btn-xs" type="button" onclick="showModAttr('将印', 'jiangyin', 0)">增加/减少</button></div>
+					<div class="col-lg-4">玄铁：<span class="text-warning"><?php echo number_format($player['xuantie'])?></span> <button class="btn btn-danger btn-xs" type="button" onclick="showModAttr('玄铁', 'xuantie', 0)">增加/减少</button></div>
+					<div class="col-lg-4">军资：<span class="text-warning"><?php echo number_format($player['junzi'])?></span> <button class="btn btn-danger btn-xs" type="button" onclick="showModAttr('军资', 'junzi', 0)">增加/减少</button></div>
+				</div>
+			</td></tr>
+			<tr><th>元宝</th>
+			<td>
+				<div class="row">
+					<div class="col-lg-4">免费元宝：<span class="text-warning"><?php echo number_format($player['gift_gem'])?></span> <button class="btn btn-danger btn-xs" type="button" onclick="showFreeAddGem()">增加</button></div>
+					<div class="col-lg-4">收费元宝：<span class="text-warning"><?php echo number_format($player['rmb_gem'])?></span> <button class="btn btn-danger btn-xs" type="button" onclick="showRmbAddGem()">增加</button></div>
+				</div>
+			</td></tr>
+			<tr><th>城堡</th>
+			<td>
+				<div class="row">
+					<div class="col-lg-4">等级：<span class="text-warning"><?php echo $castleLv?></span></div>
+					<div class="col-lg-4">城墙状态：<span class="text-warning"><?php echo (($player['fire_end_time'] && $player['fire_end_time'] > time())? '着火' : ($player['wall_durability'] < $player['wall_durability_max'] ? '破损' : '完整'))?></span> <button class="btn btn-danger btn-xs" type="button" onclick="doRebuildCastle(<?php echo $player['id']?>)">重建城池</button></div>
+					<div class="col-lg-4">城墙耐久：<span class="text-warning"><?php echo $player['wall_durability'] .'/'. $player['wall_durability_max']?></span></div>
+					<div class="col-lg-4">坐标：<span class="text-warning"><?php echo $player['x'] .':'. $player['y']?></span></div>
+					<div class="col-lg-4">是否需要重建：<span class="text-warning"><?php echo ($player['is_in_map'] ? '否':'是')?></span></div>
+				</div>
+			</td></tr>
+			<tr><th>登陆</th>
+			<td>
+				<div class="row">
+					<div class="col-lg-4">登陆时间：<span class="text-warning"><?php echo date('Y-m-d H:i:s', $player['login_time'])?></span></div>
+				</div>
+			</td></tr>
+			<tr><th>战斗力</th>
+			<td>
+				<div class="row">
+					<div class="col-lg-4">总战斗力：<span class="text-warning"><?php echo $player['power']?></span></div>
+					<div class="col-lg-4">主公战斗力：<span class="text-warning"><?php echo $player['master_power']?></span></div>
+					<div class="col-lg-4">武将战斗力：<span class="text-warning"><?php echo $player['general_power']?></span></div>
+					<div class="col-lg-4">军团战斗力：<span class="text-warning"><?php echo $player['army_power']?></span></div>
+					<div class="col-lg-4">建筑战斗力：<span class="text-warning"><?php echo $player['build_power']?></span></div>
+					<div class="col-lg-4">科技战斗力：<span class="text-warning"><?php echo $player['science_power']?></span></div>
+					<div class="col-lg-4">陷阱战斗力：<span class="text-warning"><?php echo $player['trap_power']?></span></div>
+				</div>
+			</td></tr>
+			<tr><th>签到</th>
+			<td>
+				<div class="row">
+					<div class="col-lg-4">最后签到日期：<span class="text-warning"><?php echo date('Y-m-d', $player['sign_date'])?></span></div>
+					<div class="col-lg-4">天数：<span class="text-warning"><?php echo $player['sign_times']?></span></div>
+				</div>
+			</td></tr>
+			<tr><th>至尊卡</th>
+			<td>
+				<div class="row">
+				<?php if(isset($player['id']) && (new PlayerInfo)->haveLongCard($player['id'])): ?>
+					<div class="col-lg-4">当前玩家含有至尊卡</span></div>
+					<div class="col-lg-4">最后领奖日期：<span class="text-warning"><?php echo $playerInfo['long_card_date']>0?date('Y-m-d H:i:s', $playerInfo['long_card_date']):0?></span></div>
+				<?php else:?>
+					<div class="col-lg-4">当前无至尊卡<span class="text-warning"></span> <button class="btn btn-danger btn-xs" type="button" onclick="addLongCard()">发送至尊卡</button></div>
+				<?php endif;?>
+				</div>
+			</td></tr>
+			<tr><th>月卡</th>
+			<td>
+				<div class="row">
+				<?php if(isset($player['id']) && (new PlayerInfo)->haveMonthCard($player['id'])): ?>
+					<div class="col-lg-4">月卡截至日期：<span class="text-warning"><?php echo $playerInfo['month_card_deadline']>0?date('Y-m-d H:i:s', $playerInfo['month_card_deadline']):0?></span> <button class="btn btn-danger btn-xs" type="button" onclick="addMonthCard()">发送月卡</button></div>
+					<div class="col-lg-4">最后领奖日期：<span class="text-warning"><?php echo $playerInfo['month_card_date']>0?date('Y-m-d H:i:s', $playerInfo['month_card_date']):0?></span></div>
+				<?php else:?>
+					<div class="col-lg-4">当前无月卡<span class="text-warning"></span> <button class="btn btn-danger btn-xs" type="button" onclick="addMonthCard()">发送月卡</button></div>
+				<?php endif;?>
+				</div>
+			</td></tr>
+			<tr><th>最后登录时间</th>
+			<td>
+				<div class="row">
+					<div class="col-lg-4"><?=date('Y-m-d H:i:s', $player['login_time'])?><span class="text-warning"></span></div>
+				</div>
+			</td></tr>
+			<tr><th>新手</th>
+			<td>
+				<div class="row">
+					<div class="col-lg-4"><span class="text-warning"><?php echo [0=>'正常', 1=>'关闭'][$playerInfo['skip_newbie']]?></span><?php echo ($playerInfo['skip_newbie'] ? '' : ' <button class="btn btn-danger btn-xs" type="button" onclick="doSkipNewbie('.$player['id'].')">关闭</button>')?></div>
+				</div>
+			</td></tr>
+			<tr><th>功能</th>
+			<td>
+				<div class="row">
+					<div class="col-lg-4"><button class="btn btn-danger btn-xs" type="button" onclick="fixShowDefendSoldier()">防守死兵统计</button></div>
+				</div>
+			</td></tr>
+		</table>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+
+
+
+<!-- 增加元宝 -->
+<div class="modal fade" id="addgemModal" tabindex="-1" role="dialog" aria-labelledby="addgemModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="addgemModalLabel">增加元宝</h4>
+			</div>
+			<div class="modal-body">
+				<div class="alert alert-danger" id="addgemModalErr" style="display:none">
+						
+				</div>
+				<form>
+					<div class="form-group">
+						<input type="hidden" id="addgem_playerId" value="<?php echo $player['id']?>" />
+						<label class="control-label">发送类型:</label>
+						<div class="btn-group" data-toggle="buttons" style="display:block">
+							<label class="btn btn-primary active">
+								<input type="radio" name="addgem_addtype" id="addgem_addtype1" autocomplete="off" value="1" checked> 免费元宝
+							</label>
+							<label class="btn btn-primary">
+								<input type="radio" name="addgem_addtype" id="addgem_addtype2" autocomplete="off" value="2"> 收费元宝
+							</label>
+						</div>
+						<div style="clear:both"></div>
+					</div>
+					<div class="form-group">
+						<label for="addgem_addGem" class="control-label">元宝数量:</label>
+						<input type="text" class="form-control" id="addgem_addGem">
+					</div>
+					<div class="form-group">
+						<label for="addgem_memo" class="control-label">原因:</label>
+						<textarea class="form-control" id="addgem_memo"></textarea>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button type="button" class="btn btn-primary" onclick="sendAddGem()">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 修改属性 -->
+<div class="modal fade" id="modPlayerAttrModal" tabindex="-1" role="dialog" aria-labelledby="modPlayerAttrModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="modPlayerAttrLabel">修改属性</h4>
+			</div>
+			<div class="modal-body">
+				<div class="alert alert-danger" id="modPlayerAttrModalErr" style="display:none">
+						
+				</div>
+				<form>
+					<div class="form-group">
+						<input type="hidden" id="modPlayerAttr_playerId" value="<?php echo $player['id']?>" />
+						<label class="control-label">发送类型:<span id="modPlayerAttr_addtypename" style="color:#C9302C"></span></label>
+						<input type="hidden" id="modPlayerAttr_addtype" value="" /> 
+						<div style="clear:both"></div>
+					</div>
+					<div class="form-group">
+						<label for="modPlayerAttr_addvalue" class="control-label">增加/减少:</label>
+						<input type="text" class="form-control" id="modPlayerAttr_addvalue" value=0>
+					</div>
+					<div class="form-group">
+						<label for="modPlayerAttr_memo" class="control-label">原因:</label>
+						<textarea class="form-control" id="modPlayerAttr_memo"></textarea>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button type="button" class="btn btn-primary" onclick="sendModAttr()">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 显示防守死兵统计 -->
+<div class="modal fade" id="modPlayerFixSoldier" tabindex="-1" role="dialog" aria-labelledby="modPlayerFixSoldierLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="modPlayerFixSoldierLabel">防守死兵统计</h4>
+			</div>
+			<div class="modal-body">
+				<div class="alert alert-danger" id="modPlayerFixSoldierModalErr" style="display:none">
+						
+				</div>
+				<form>
+					<div class="form-group">
+						<input type="hidden" id="modPlayerFixSoldier_playerId" value="<?php echo $player['id']?>" />
+						<div style="clear:both"></div>
+					</div>
+					<div class="form-group">
+						<label for="modPlayerFixSoldier_beginTime" class="control-label">开始时间:</label>
+						<input id="modPlayerFixSoldier_beginTime" placeholder="" class="form-control Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" defaultVal=""/>
+					</div>
+					<div class="form-group">
+						<label for="modPlayerFixSoldier_endTime" class="control-label">结束时间:</label>
+						<input id="modPlayerFixSoldier_endTime" placeholder="" class="form-control Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" defaultVal=""/>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button type="button" class="btn btn-primary" onclick="sendModFixSoldier()">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
+<?php echo \Phalcon\Tag::javascriptInclude("js/My97DatePicker/WdatePicker.js"); ?>
+
+<script>
+function fixShowDefendSoldier(){
+	$("#modPlayerFixSoldierModalErr").hide().html('');
+	$("#modPlayerFixSoldier").modal();
+}
+function showFreeAddGem(){
+	$("#addgemModalErr").hide().html('');
+	$("#addgem_addtype1").click();
+	$("#addgemModal").modal();
+}
+
+function showRmbAddGem(){
+	$("#addgemModalErr").hide().html('');
+	$("#addgem_addtype2").click();
+	$("#addgemModal").modal();
+}
+
+function sendAddGem(){
+	var playerId = $("#addgem_playerId").val();
+	var addType = $("input[name=addgem_addtype]:checked").val();
+	var addGem = $("#addgem_addGem").val();
+	var memo = $("#addgem_memo").val();
+	send_request_json('/admin/ajaxAddGem', 
+		{playerId: playerId, addType: addType, addGem: addGem, memo: memo}, 
+		function(ret){
+		if(ret.err == 'ok'){
+			$("#addgemModal").modal('hide');
+			alertOk('发送成功', function(){
+				location.reload();
+			});
+		}else{
+			$("#addgemModalErr").show().html(ret.err);
+		}
+	});
+}
+
+function showModAttr(name, type, defaultvalue){
+	$("#modPlayerAttrModalErr").hide().html('');
+	$("#modPlayerAttr_addtypename").html(name);
+	$("#modPlayerAttr_addtype").val(type);
+	if(!isnull(defaultvalue)){
+		$("#modPlayerAttr_addvalue").val(defaultvalue);
+	}else{
+		$("#modPlayerAttr_addvalue").val('');
+	}
+	$("#modPlayerAttrModal").modal();
+}
+
+function sendModAttr(){
+	var playerId = $("#modPlayerAttr_playerId").val();
+	var addType = $("#modPlayerAttr_addtype").val();
+	var addValue = $("#modPlayerAttr_addvalue").val();
+	var memo = $("#modPlayerAttr_memo").val();
+	send_request_json('/admin/ajaxModPlayerAttr', 
+		{playerId: playerId, addType: addType, addValue: addValue, memo: memo}, 
+		function(ret){
+		if(ret.err == 'ok'){
+			$("#modPlayerAttrModal").modal('hide');
+			alertOk('处理成功', function(){
+				location.reload();
+			});
+		}else{
+			$("#modPlayerAttrModalErr").show().html(ret.err);
+		}
+	});
+}
+
+function sendModFixSoldier(){
+	var playerId = $("#modPlayerFixSoldier_playerId").val();
+	var beginTime = $("#modPlayerFixSoldier_beginTime").val();
+	var endTime = $("#modPlayerFixSoldier_endTime").val();
+	send_request_json('/admin/ajaxPlayerFixSoldier', 
+		{playerId: playerId, beginTime: beginTime, endTime: endTime}, 
+		function(ret){
+		if(ret.err == 'ok'){
+			$("#modPlayerFixSoldierModal").modal('hide');
+			alertOk('数量：'+ret.num);
+		}else{
+			$("#modPlayerFixSoldierModalErr").show().html(ret.err);
+		}
+	});
+}
+
+function doSkipNewbie(playerId){
+	if(confirm('是否关闭新手引导')){
+		send_request_json('/admin/ajaxPlayerSkipNewbie', 
+			{playerId: playerId}, 
+			function(ret){
+			if(ret.err == 'ok'){
+				alertOk('发送成功', function(){
+					location.reload();
+				});
+			}else{
+				alertErr(ret.err);
+			}
+		});
+	}
+}
+
+function doRebuildCastle(playerId){
+	if(confirm('是否重建城池？')){
+		send_request_json('/admin/ajaxRebuildCastle', 
+			{playerId: playerId}, 
+			function(ret){
+			if(ret.err == 'ok'){
+				alertOk('操作成功', function(){
+					location.reload();
+				});
+			}else{
+				alertErr(ret.err);
+			}
+		});
+	}
+}
+
+function vipReset(playerId){
+	if(confirm('是否修正vip等级')){
+		send_request_json('/admin/ajaxVipReset', 
+			{playerId: playerId}, 
+			function(ret){
+			if(ret.err == 'ok'){
+				alertOk('修正成功', function(){
+					location.reload();
+				});
+			}else{
+				alertErr(ret.err);
+			}
+		});
+	}
+}
+
+function addLongCard(){
+	var playerId = <?php echo $player['id']?>;
+	if(confirm('是否发送至尊卡？')){
+		send_request_json('/admin/ajaxAddLongCard', 
+			{playerId: playerId}, 
+			function(ret){
+			if(ret.err == 'ok'){
+				alertOk('发送成功', function(){
+					location.reload();
+				});
+			}else{
+				alertErr(ret.err);
+			}
+		});
+	}
+}
+
+function addMonthCard(){
+	var playerId = <?php echo $player['id']?>;
+	var num = prompt("请输入增加月份数量", 1);
+	if(num != null && num != ""){
+		send_request_json('/admin/ajaxAddMonthCard', 
+			{playerId: playerId, num: num}, 
+			function(ret){
+			if(ret.err == 'ok'){
+				alertOk('发送成功', function(){
+					location.reload();
+				});
+			}else{
+				alertErr(ret.err);
+			}
+		});
+	}
+}
+</script>

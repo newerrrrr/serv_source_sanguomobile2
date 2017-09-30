@@ -1,0 +1,2 @@
+# 每天执行一次，更新新的一天的每日任务
+0 0 * * * /usr/local/php/bin/php /opt/htdocs/sanguomobile2/app/cli.php daily_mission

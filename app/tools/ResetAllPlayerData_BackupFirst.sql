@@ -1,0 +1,84 @@
+-- 开服清空脚本
+truncate `activity_commodity_extra`;
+truncate `activity_configure`;
+truncate `activity_extra`;
+truncate `alliance_match_list`;
+truncate `chat_black_list`;
+truncate `configure`;
+truncate `guild`;
+truncate `guild_battle_log`;
+truncate `guild_board`;
+truncate `guild_buff`;
+truncate `guild_king_point`;
+truncate `guild_mission_rank`;
+truncate `guild_rank_name`;
+truncate `guild_science`;
+truncate `guild_shop`;
+truncate `guild_warehouse`;
+truncate `king`;
+truncate `king_player_reward`;
+truncate `king_town`;
+truncate `map`;
+truncate `player`;
+truncate `player_army`;
+truncate `player_army_unit`;
+truncate `player_buff`;
+truncate `player_buff_temp`;
+truncate `player_build`;
+truncate `player_common_log`;
+truncate `player_consume_log`;
+truncate `player_coordinate`;
+truncate `player_draw_card`;
+truncate `player_equip_master`;
+truncate `player_equip_master_skill`;
+truncate `player_equipment`;
+truncate `player_fail_save_reward`;
+truncate `player_gem_log`;
+truncate `player_general`;
+truncate `player_growth`;
+truncate `player_guild`;
+truncate `player_guild_donate`;
+truncate `player_guild_donate_button`;
+truncate `player_guild_donate_stat`;
+truncate `player_guild_request`;
+truncate `player_help`;
+truncate `player_info`;
+truncate `player_item`;
+truncate `player_lottery_info`;
+truncate `player_mail`;
+truncate `player_mail_group`;
+truncate `player_mail_info`;
+truncate `player_market`;
+truncate `player_master_skill`;
+truncate `player_mill`;
+truncate `player_mission`;
+truncate `player_online_award`;
+truncate `player_order`;
+truncate `player_project_queue`;
+truncate `player_pub`;
+truncate `player_push`;
+truncate `player_question`;
+truncate `player_quick_money`;
+truncate `player_science`;
+truncate `player_shop`;
+truncate `player_sign_award`;
+truncate `player_soldier`;
+truncate `player_soldier_injured`;
+truncate `player_study`;
+truncate `player_talent`;
+truncate `player_target`;
+truncate `player_time_limit_match`;
+truncate `player_time_limit_match_total`;
+truncate `player_trap`;
+truncate `rank`;
+truncate `round_message`;
+truncate `time_limit_match_config`;
+truncate `time_limit_match_list`;
+
+DROP table `player_buff`;
+CREATE TABLE `player_buff` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `player_id` int(11) NOT NULL COMMENT '玩家id',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `playerId` (`player_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

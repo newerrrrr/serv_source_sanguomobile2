@@ -1,0 +1,45 @@
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">创建机器人</h1>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+
+<div class="row">
+	<div class="col-lg-6">
+		<div class="panel panel-danger">
+			<div class="panel-heading"> 创建机器人 </div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label>数量</label>
+					<input class="form-control" placeholder="" id="robotNum" style="width:200px;" value="5"/>
+				</div>
+				<div class="col-lg-2">
+					<button class="btn btn-primary btn-lg" type="button" onclick="playerSubmit()">创建</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+$(document).ready(function(){
+});
+
+
+function playerSubmit(){
+	showLoading();
+	send_request_json('/admin/ajaxCreateRobot', 
+	{
+		robotNum: $("#robotNum").val(),
+	}, 
+	function(ret){
+		hideLoading();
+		if(ret.err == 'ok'){
+			alertOk('创建成功');
+		}else{
+			alertErr(ret.err);
+		}
+	});
+}
+</script>

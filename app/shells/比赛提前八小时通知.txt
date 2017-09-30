@@ -1,0 +1,2 @@
+#
+0 16 * * * /usr/local/php/bin/php /opt/htdocs/sanguomobile2/app/cli.php activity mailAllPlayer

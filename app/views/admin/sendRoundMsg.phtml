@@ -1,0 +1,97 @@
+<style>
+.playerdoItemCartNum{
+	width:20px;
+	background:#777;
+	border:0;
+	text-align:center;
+}
+.playerdoItemCartNum:hover,
+.playerdoItemCartNum:focus{
+	background:#999;
+}
+.cartItem{
+	margin-right:10px;
+}
+.alert-green{
+	background-color: #5cb85c;
+    border-color: #5cb85c;
+    color: #fff;
+}
+.alert-red{
+    background-color: #d9534f;
+    border-color: #d9534f;
+    color: #fff;
+}
+#playerdoItemCart .popover-content{
+	color:#121212;
+}
+</style>
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">走马灯公告</h1>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading"> 发送走马灯公告 </div>
+			<div class="panel-body">
+				<form action="/admin/ajaxSendRoundMsg" method="POST">
+					<div class="form-group">
+						<label>公告内容</label>
+						<textarea class="form-control" rows="3" placeholder="输入公告内容" id="sendRoundMsg"></textarea>
+					</div>
+				  <button type="button" class="btn btn-primary" onclick="sendRoundMsgSubmit()">发送</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+
+
+<script>
+$(document).ready(function(){
+	$('#dataTable1,#dataTable2,#dataTable3,#dataTable4,#dataTable5').DataTable({
+		//"pageLength": 50
+		"columnDefs": [
+			{ "orderable": false, "targets": 2 }
+		]
+	});
+	
+	$(".dataTables_info").parent().removeClass('col-sm-6').addClass('col-sm-4');
+	$(".dataTables_paginate").parent().removeClass('col-sm-6').addClass('col-sm-8');
+	$("#playerdoItemCart").on('blur keyup', '.playerdoItemCartNum', function(){
+		var v = $(this).val().replace(/\D/g,'')*1;
+		if(v < 1){
+			v = 1;
+		}
+		var len = v.toString().length;
+		$(this).css({'width': len*10+'px'});
+		$(this).val(v);
+	}).trigger('blur');
+	
+	$("input[name=sendAllMailToType]").change(function(){
+		selectToType($("input[name=sendAllMailToType]:checked").val());
+	}).click();
+	
+});
+
+
+function sendRoundMsgSubmit(){
+	send_request_json('/admin/ajaxSendRoundMsg', 
+	{
+		msg: $("#sendRoundMsg").val(),
+	}, 
+	function(ret){
+		if(ret.err == 'ok'){
+			alertOk('发送完成');
+		}else{
+			alertErr(ret.err);
+		}
+	});
+}
+
+</script>

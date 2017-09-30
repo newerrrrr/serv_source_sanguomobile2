@@ -1,0 +1,3 @@
+TRUNCATE `Duel_robot`;
+INSERT INTO `Duel_robot` (`id`,`count`,`duel_rank_id`,`nick`,`level`,`avatar_id`,`score`,`general_1`,`general_2`,`general_3`,`lv`,`star_lv`,`weapon_id`,`armor_id`,`horse_id`,`zuoji_id`,`skill_lv`) VALUES ('1','1','1','500001','10','1','1','100500','101050','101060','1','0','0','0','0','0','0');
+INSERT INTO `Duel_robot` (`id`,`count`,`duel_rank_id`,`nick`,`level`,`avatar_id`,`score`,`general_1`,`general_2`,`general_3`,`lv`,`star_lv`,`weapon_id`,`armor_id`,`horse_id`,`zuoji_id`,`skill_lv`) VALUES ('2','2','1','500002','10','1','10','100930','100540','100970','1','0','0','0','0','0','0');

@@ -1,0 +1,352 @@
+<style>
+.Wdate{
+	height:30px;
+	width:250px;
+}
+.dayblock{
+	border:1px dotted red;
+	padding:10px 10px 30px 10px;
+}
+.roundBlock{
+	border-bottom:1px dotted red;
+}
+.dayblockleft{
+	float:left;
+}
+.dayblockright{
+	float:left;
+	margin-left:10px;
+	border-left:1px dotted red;
+}
+#itemDropCreater{
+	display:none
+}
+.itemBlock input{
+	width:200px;
+	float:left;
+}
+</style>
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">编辑抢购活动</h1>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading"> <?php echo ($add ? '新增':'编辑')?> </div>
+			<div class="panel-body">
+				<?php if($add){?>
+				<?php $this->partial("shared/serverList"); ?>
+				<?php }?>
+				<form method="POST">
+					<div class="form-group">
+						<label>活动名称</label>
+						<input class="form-control" rows="3" placeholder="" id="actName" value="<?php echo @$act['activity_para']['name']?>"/>
+					</div>
+					<div id="block_begintime" class="form-group">
+						<label>开始时间</label>
+						<input id="beginTime" placeholder="" class="form-control Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" defaultVal="" value="<?php echo @$act['start_time']?>"/>
+					</div>
+					<div id="block_endtime" class="form-group">
+						<label>结束时间</label>
+						<input id="endTime" placeholder="" class="form-control Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" defaultVal="" value="<?php echo @$act['end_time']?>"/>
+					</div>
+					<div class="dayblocks">
+					</div>
+					<div class="form-group">
+						<button type="button" class="btn btn-success btn-xs" onclick="addDay()" style="float:left;margin-bottom:30px;">增加一天抢购</button>
+						<div style="clear:both"></div>
+					</div>
+					<button type="button" class="btn btn-primary" onclick="actSubmit()">提交</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+
+<div class="dayblockExample" style="display:none">
+	<div class="dayblockleft col-lg-4">
+		<div class="form-group">
+			<label>抢购第<span class="panicDay"></span>天</label>
+		</div>
+		<div class="form-group">
+			<label>资格有效期</label>
+			<input placeholder="" class="form-control Wdate panicPayDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" value=""/>
+		</div>
+	</div>
+	<div class="dayblockright col-lg-7">
+		<div class="roundBlocks">
+		
+		</div>
+		<div class="form-group">
+			<div style="clear:both"></div>
+			<button type="button" class="btn btn-success btn-xs addRoundBtn" onclick="addRound(this)" style="float:left;margin-bottom:30px;">增加一轮抢购</button>
+			<div style="clear:both"></div>
+		</div>
+	</div>
+	<div style="clear:both"></div>
+	<button type="button" class="btn btn-danger btn-xs" onclick="deleteDay(this)" style="float:left;">删除天</button>
+</div>
+
+<div class="roundblockExample" style="display:none">
+	<div class="form-group">
+		<label>第<span class="panicRound"></span>轮抢购</label>
+		<button type="button" class="btn btn-danger btn-xs" onclick="deleteRound(this)" >删除轮</button>
+	</div>
+	<div class="form-group">
+		<label>抢购开始时间</label>
+		<input placeholder="" class="form-control Wdate panicBeginTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" value=""/>
+	</div>
+	<div class="form-group">
+		<label>抢购结束时间</label>
+		<input placeholder="" class="form-control Wdate panicEndTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" value=""/>
+	</div>
+	<div class="form-group">
+		<label>配置商品</label>
+		<div class="itemBlocks"></div>
+		<div class="form-group">
+			<div style="clear:both"></div>
+			<button type="button" class="btn btn-success btn-xs addItemBtn" onclick="addItem(this)" style="float:left;margin-bottom:30px;">增加道具</button>
+			<div style="clear:both"></div>
+		</div>
+	</div>
+	<div style="clear:both"></div>
+</div>
+
+<div class="itemblockExample" style="display:none">
+	<input placeholder="输入道具代码" class="form-control drop" value=""/>
+	<input placeholder="" class="form-control memo" value="" disabled="true"/>
+	<input placeholder="售价" class="form-control price" value="" style="width:80px;"/>
+	<input placeholder="限购次数" class="form-control limit" value="" style="width:80px;"/>
+	<button type="button" class="btn btn-danger btn-xs" onclick="deleteItem(this)" style="float:left;">x</button>
+	<div style="clear:both"></div>
+</div>
+
+<?php $this->partial("shared/dropCreate", array('dropInputId' => 'actDrop', 'memoInputId'=>'actDropMemo', 'callback'=>'addtoDropCb')); ?>
+
+<?php echo \Phalcon\Tag::javascriptInclude("js/My97DatePicker/WdatePicker.js"); ?>
+<script>
+var gCtrlFlag = true;
+var gAddMode = <?php echo ($add ? 1 : 0)?>;
+$(document).ready(function(){
+	$(".dayblocks").on('click', '.drop', function(){
+		$("#actDrop,#actDropMemo").removeAttr('id');
+		$(this).attr('id', 'actDrop');
+		$(this).next('.memo').attr('id', 'actDropMemo');
+		generateBeautyFromStr($(this).val());
+		$("#itemDropCreater").show();
+		location.href = '#itemDropCreateTitle';
+		$(this).select();
+	}).on('blur', '.drop', function(){
+		var obj = $(this);
+		getItemTranslate(obj.val(), function(data){
+			var str = [];
+			$.each(data, function(i, v){
+				str.push(v.name+'('+v.id+')x'+v.num);
+			});
+			str = str.join("\r\n");
+			obj.siblings('.memo').val(str);
+		});
+	});
+	
+	//编辑显示
+	<?php 
+	if(@$act['activity_para']['reward']){
+		foreach($act['activity_para']['reward'] as $_k => $_r){?>
+			addDay();
+			$(".dayblocks .panicPayDate:last").val('<?php echo $_r['time']?>');
+			<?php foreach($_r['ar'] as $_ar){?>
+				addRound($(".dayblocks .addRoundBtn:last")[0]);
+				$(".dayblocks .panicBeginTime:last").val('<?php echo $_ar['beginTime']?>');
+				$(".dayblocks .panicEndTime:last").val('<?php echo $_ar['endTime']?>');
+				<?php foreach($_ar['items'] as $_item){?>
+					addItem($(".dayblocks .addItemBtn:last")[0]);
+					$(".dayblocks .drop:last").val('<?php echo $_item['drop']?>').blur();
+					$(".dayblocks .price:last").val('<?php echo $_item['price']?>');
+					$(".dayblocks .limit:last").val('<?php echo $_item['limit']?>');
+				<?php }?>
+			<?php }?>
+		<?php 
+		}
+	}?>
+});
+function actSubmit(){
+	if(!gCtrlFlag)
+		gCtrlFlag = false;
+	var reward = [];
+	$(".dayblock").each(function(i, d){
+		var r = {};
+		r.time = $.trim($(d).find('.panicPayDate').val());
+		var ar = [];
+		$(d).find(".roundBlock").each(function(i2, d2){
+			var _ar = {};
+			_ar.beginTime = $(d2).find('.panicBeginTime').val();
+			_ar.endTime = $(d2).find('.panicEndTime').val();
+			var items = [];
+			$(d2).find(".itemBlock").each(function(i3, d3){
+				console.log(d3);
+				var _item = {};
+				_item.drop = $(d3).find('.drop').val();
+				_item.price = $(d3).find('.price').val();
+				_item.limit = $(d3).find('.limit').val();
+				items.push(_item);
+			});
+			_ar.items = items;
+			ar.push(_ar);
+		});
+		r.ar = ar;
+		reward.push(r);
+	});
+	var data = {
+		actName: $("#actName").val(),
+		beginTime: $("#beginTime").val(),
+		endTime: $("#endTime").val(),
+		addMode: gAddMode,
+		reward: reward,
+		actConfigId: <?php echo @$act['id']*1?>
+	};
+	if(gAddMode){
+		/*send_request_json('/admin/ajaxAddActivityPanicBuy', 
+		data, 
+		function(ret){
+			if(ret.err == 'ok'){
+				alertOk('完成', function(){
+					location.href = '/admin/addActivityPanicBuy/'+ret.actConfigId;
+				});
+			}else{
+				alertErr(ret.err);
+			}
+			gCtrlFlag = true;
+		});
+		return;*/
+		var server = SERVERLIST.getServer();
+		if(!server.length){
+			alertErr('请选择服务器');
+			return;
+		}
+		send_request_json('/admin/ajaxMultiServerHandle', {
+			action: 'ajaxAddActivityPanicBuy',
+			server: server,
+			data: data
+		}, function(ret){
+			var str = [];
+			var allright = true;
+			for(i in ret){
+				if(ret[i].err == 'ok'){
+					$('input[name=serverChoose][value='+i+']').removeAttr('checked');
+				}else{
+					allright = false;
+				}
+				str.push(i+'服：'+ret[i].err);
+			}
+			if(allright){
+				alertOk('完成', function(){
+					location.href = '/admin/activityShow/';
+				});
+			}else{
+				alertErr(str.join('<br>'));
+			}
+			gCtrlFlag = true;
+		});
+	}else{
+		send_request_json('/admin/ajaxAddActivityPanicBuy', 
+		data, 
+		function(ret){
+			if(ret.err == 'ok'){
+				alertOk('完成', function(){
+					location.href = '/admin/addActivityPanicBuy/'+ret.actConfigId;
+				});
+			}else{
+				alertErr(ret.err);
+			}
+			gCtrlFlag = true;
+		});
+	}
+}
+
+function daySenquence(){
+	var i = 1;
+	$(".panicDay").each(function(){
+		$(this).html(i);
+		i++;
+	});
+}
+
+function roundSenquence(){
+	$(".dayblock").each(function(){
+		var i = 1;
+		$(this).find(".panicRound").each(function(){
+			$(this).html(i);
+			i++;
+		});
+	});
+}
+
+function addDay(){
+	if(!gCtrlFlag)
+		gCtrlFlag = false;
+	
+	$(".dayblocks").append('<div class="dayblock"></div>');
+	$(".dayblocks .dayblock:last").html($(".dayblockExample").html());
+	daySenquence();
+	gCtrlFlag = true;
+}
+
+function deleteDay(obj){
+	if(!gCtrlFlag)
+		gCtrlFlag = false;
+	if(confirm('是否删除该天配置？')){
+		$(obj).closest('.dayblock').remove();
+		daySenquence();
+	}
+	gCtrlFlag = true;
+}
+
+function addRound(obj){
+	if(!gCtrlFlag)
+		gCtrlFlag = false;
+	
+	$(obj).closest(".dayblock").find(".roundBlocks").append('<div class="roundBlock"></div>');
+	$(obj).closest(".dayblock").find(".roundBlocks .roundBlock:last").html($(".roundblockExample").html());
+	roundSenquence();
+	
+	gCtrlFlag = true;
+}
+
+function deleteRound(obj){
+	if(!gCtrlFlag)
+		gCtrlFlag = false;
+	if(confirm('是否删除该轮配置？')){
+		$(obj).closest('.roundBlock').remove();
+		roundSenquence();
+	}
+	gCtrlFlag = true;
+}
+
+function addItem(obj){
+	if(!gCtrlFlag)
+		gCtrlFlag = false;
+	
+	$(obj).closest(".roundBlock").find(".itemBlocks").append('<div class="itemBlock"></div>');
+	$(obj).closest(".roundBlock").find(".itemBlocks .itemBlock:last").html($(".itemblockExample").html());
+	
+	gCtrlFlag = true;
+}
+
+function deleteItem(obj){
+	if(!gCtrlFlag)
+		gCtrlFlag = false;
+	if(confirm('是否删除该道具？')){
+		$(obj).closest('.itemBlock').remove();
+	}
+	gCtrlFlag = true;
+}
+
+function addtoDropCb(){
+	$("#itemDropCreater").hide();
+}
+</script>
